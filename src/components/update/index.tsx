@@ -1,8 +1,8 @@
+import Modal from '@/components/update/Modal'
+import Progress from '@/components/update/Progress'
 import { ipcRenderer } from 'electron'
 import type { ProgressInfo } from 'electron-updater'
 import { useCallback, useEffect, useState } from 'react'
-import Modal from '@/components/update/Modal'
-import Progress from '@/components/update/Progress'
 import styles from './update.module.scss'
 
 const Update = () => {
