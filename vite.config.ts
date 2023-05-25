@@ -2,9 +2,11 @@ import { rmSync } from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import svgr from "vite-plugin-svgr";
 import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import pkg from './package.json'
+
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -22,6 +24,7 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       react(),
+      svgr(),
       electron([
         {
           // Main-Process entry file of the Electron App.
