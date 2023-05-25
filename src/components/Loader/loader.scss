@@ -2,8 +2,9 @@ $anim-length: 2s;
 $anim-delay: 0.26s;
 $anim-curve: cubic-bezier(0.4, 0, 0.2, 1);
 
-$xTransforms: 0, 50px, 0, -50px;
-$yTransforms: -50px, 0, 50px, 0;
+$loader-width: 100px;
+$xTransforms: 0, calc(#{$loader-width}/2), 0, calc(-#{$loader-width}/2);
+$yTransforms: calc(-#{$loader-width}/2), 0, calc(#{$loader-width}/2), 0;
 
 .loader-message {
   color: #fff;
@@ -15,14 +16,14 @@ $yTransforms: -50px, 0, 50px, 0;
 }
 
 .loader {
-  width: 100px;
+  width: $loader-width;
   transform: rotate(-45deg);
 
   .cube {
     height: 20px;
     width: 20px;
     margin: 15px;
-    background-color: #c4becb;
+    background-color: #fff;
     float: right;
     opacity: 0;
     outline: 1px solid transparent;
