@@ -45,6 +45,8 @@ async function createWindow() {
   win = new BrowserWindow({
     title: "Main window",
     frame: false,
+    width: 450,
+    height: 650,
     icon: join(process.env.PUBLIC, "favicon.ico"),
     webPreferences: {
       preload,
