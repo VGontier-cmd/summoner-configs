@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Loader from '@/components/Loader'
 import './App.scss'
 
+const { exec } = require('child_process');
+
 function App() {
   const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
-  const { exec } = require('child_process');
   const time = 5000;
   const execApp = 'LeagueClientUx.exe';
 
   useEffect(() => {
-
     // On met à jour l'état d'ouverture de l'application 'League of Legends'
     const checkLeagueOfLegendsStatus = () => {
       return new Promise<void>((resolve, reject) => {
@@ -43,7 +43,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <>
       {isLeagueOfLegendsOpen ? (
         <div>
           <p>Bienvenue !</p>
@@ -56,7 +56,7 @@ function App() {
           </div>
         </>
       )}
-    </div>
+    </>
   )
 }
 

@@ -44,6 +44,7 @@ const indexHtml = join(process.env.DIST, "index.html");
 async function createWindow() {
   win = new BrowserWindow({
     title: "Main window",
+    frame: false,
     icon: join(process.env.PUBLIC, "favicon.ico"),
     webPreferences: {
       preload,
@@ -101,6 +102,18 @@ app.on("activate", () => {
     allWindows[0].focus();
   } else {
     createWindow();
+  }
+});
+
+// On écoute l'événement 'app-close' depuis la fenêtre de rendu
+ipcMain.on('close-win', () => {
+  app.quit();
+});
+
+
+ipcMain.on('minimize-win', () => {
+  if (win) {
+    win.minimize();
   }
 });
 
