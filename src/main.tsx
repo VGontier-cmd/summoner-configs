@@ -14,7 +14,7 @@ const handleCloseButtonClick = () => {
   ipcRenderer.send('close-win');
 };
 
-// On envoie un message à la fenêtre principale pour demander la fermeture de l'application
+// On envoie un message à la fenêtre principale pour minifier l'application
 const handleMinimizeButtonClick = () => {
   ipcRenderer.send('minimize-win');
 };

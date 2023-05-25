@@ -1,10 +1,14 @@
+$loader-color: #6441a4;
+
 $anim-length: 2s;
-$anim-delay: 0.26s;
+$anim-delay: .5s;
 $anim-curve: cubic-bezier(0.4, 0, 0.2, 1);
 
-$loader-width: 100px;
-$xTransforms: 0, calc(#{$loader-width}/2), 0, calc(-#{$loader-width}/2);
-$yTransforms: calc(-#{$loader-width}/2), 0, calc(#{$loader-width}/2), 0;
+$loader-width: 40px;
+$loader-half-width: calc(#{$loader-width}/2);
+$loader-cube-width: calc(#{$loader-width}/3);
+$xTransforms: 0, #{$loader-half-width}, 0, - #{$loader-half-width};
+$yTransforms: - #{$loader-half-width}, 0, #{$loader-half-width}, 0;
 
 .loader-message {
   color: #fff;
@@ -12,58 +16,62 @@ $yTransforms: calc(-#{$loader-width}/2), 0, calc(#{$loader-width}/2), 0;
   bottom: 1rem;
   font-size: 0.9rem;
   margin-top: 2rem;
-  animation: fadeOpacity 2s infinite;
+  animation: fadeOpacity $anim-length infinite;
 }
 
 .loader {
+  position: relative;
   width: $loader-width;
+  height: $loader-width;
   transform: rotate(-45deg);
 
   .cube {
-    height: 20px;
-    width: 20px;
-    margin: 15px;
+    height: $loader-cube-width;
+    width: $loader-cube-width;
     background-color: #fff;
-    float: right;
     opacity: 0;
     outline: 1px solid transparent;
+    position: absolute;
 
     &:nth-child(1) {
-      background-color: #6441a4;
-      animation: purpleAnim $anim-length infinite 0.55s;
-      position: fixed;
+      background-color: $loader-color;
+      animation: purpleAnim $anim-length infinite $anim-length;
+      top: 0;
+      left: 0;
     }
 
     &:nth-child(2) {
-      animation: cubeAnim1 $anim-length infinite $anim-curve $anim-delay;
+      bottom: 0;
+      right: 0;
+      animation: cubeAnim $anim-length infinite $anim-curve ($anim-delay * 2);
     }
     &:nth-child(3) {
-      animation: cubeAnim4 $anim-length infinite $anim-curve ($anim-delay * 6.75);
+      bottom: 0;
+      left: 0;
+      animation: cubeAnim $anim-length infinite $anim-curve ($anim-delay * 3);
     }
     &:nth-child(4) {
-      animation: cubeAnim2 $anim-length infinite $anim-curve ($anim-delay * 2.85);
+      top: 0;
+      left: 0;
+      animation: cubeAnim $anim-length infinite $anim-curve ($anim-delay * 4);
     }
     &:nth-child(5) {
-      animation: cubeAnim3 $anim-length infinite $anim-curve ($anim-delay * 4.75);
+      top: 0;
+      right: 0;
+      animation: cubeAnim $anim-length infinite $anim-curve $anim-delay;
     }
+  }
+}
 
-    @for $i from 0 to 4 {
-      @at-root {
-        @keyframes cubeAnim#{$i+1} {
-          0% {
-            opacity: 0;
-            transform: translate(nth($xTransforms, $i + 1), nth($yTransforms, $i + 1));
-          }
-          40% {
-            opacity: 1;
-            transform: translate(0, 0);
-          }
-          100% {
-            opacity: 0;
-          }
-        }
-      }
-    }
+@keyframes cubeAnim {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -81,20 +89,20 @@ $yTransforms: calc(-#{$loader-width}/2), 0, calc(#{$loader-width}/2), 0;
 
 @keyframes purpleAnim {
   0% {
-    transform: translate(50px, 0px);
+    transform: translate(calc(#{$loader-width} - 100%), 0px);
     opacity: 1;
   }
   25% {
-    transform: translate(50px, 50px);
+    transform: translate(calc(#{$loader-width} - 100%), calc(#{$loader-width} - 100%));
   }
   50% {
-    transform: translate(0px, 50px);
+    transform: translate(0px, calc(#{$loader-width} - 100%));
   }
   75% {
     transform: translate(0px, 0px);
   }
   100% {
-    transform: translate(50px, 0px);
+    transform: translate(calc(#{$loader-width} - 100%), 0px);
     opacity: 1;
   }
 }
