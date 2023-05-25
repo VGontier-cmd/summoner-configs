@@ -105,12 +105,12 @@ app.on("activate", () => {
   }
 });
 
-// On écoute l'événement 'app-close' depuis la fenêtre de rendu
+// On écoute l'événement 'close-win' depuis la fenêtre de rendu
 ipcMain.on('close-win', () => {
   app.quit();
 });
 
-
+// On écoute l'événement 'minimize-win' depuis la fenêtre de rendu
 ipcMain.on('minimize-win', () => {
   if (win) {
     win.minimize();
