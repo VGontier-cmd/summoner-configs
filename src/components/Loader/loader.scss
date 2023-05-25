@@ -10,15 +10,6 @@ $loader-cube-width: calc(#{$loader-width}/3);
 $xTransforms: 0, #{$loader-half-width}, 0, - #{$loader-half-width};
 $yTransforms: - #{$loader-half-width}, 0, #{$loader-half-width}, 0;
 
-.loader-message {
-  color: #fff;
-  padding: 0.5rem;
-  bottom: 1rem;
-  font-size: 0.9rem;
-  margin-top: 2rem;
-  animation: fadeOpacity $anim-length infinite;
-}
-
 .loader {
   position: relative;
   width: $loader-width;

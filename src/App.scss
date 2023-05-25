@@ -1,5 +1,3 @@
-$bg-color: #17141F;
-
 html, body {
   padding: 0;
   margin: 0;
@@ -11,35 +9,9 @@ body {
   -webkit-app-region: drag;
 }
 
-body {
-  position: relative;
-  background-color: $bg-color;
-  background-image: url(./assets/images/yasuo-bg.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-
-  &:before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    background: rgba(0,0,0,.6);
-    backdrop-filter: blur(15px);
-  }
-}
-
-
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .logo-box {

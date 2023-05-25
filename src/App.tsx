@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Loader from '@/components/Loader'
+import Starter from '@/pages/Starter'
+
 import './App.scss'
 
 const { exec } = require('child_process');
@@ -49,12 +50,7 @@ function App() {
           <p>Bienvenue !</p>
         </div>
       ) : (
-        <>
-          <Loader />
-          <div className='loader-message'>
-            <span>En attente de l'ouverture de League of Legends...</span>
-          </div>
-        </>
+        <Starter />
       )}
     </>
   )
