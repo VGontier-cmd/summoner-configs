@@ -1,3 +1,15 @@
+$bg-color: #17141F;
+
+html, body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $bg-color; 
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
