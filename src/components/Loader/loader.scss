@@ -1,0 +1,99 @@
+$anim-length: 2s;
+$anim-delay: 0.26s;
+$anim-curve: cubic-bezier(0.4, 0, 0.2, 1);
+
+$xTransforms: 0, 50px, 0, -50px;
+$yTransforms: -50px, 0, 50px, 0;
+
+.loader-message {
+  color: #fff;
+  padding: 0.5rem;
+  bottom: 1rem;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+  animation: fadeOpacity 2s infinite;
+}
+
+.loader {
+  width: 100px;
+  transform: rotate(-45deg);
+
+  .cube {
+    height: 20px;
+    width: 20px;
+    margin: 15px;
+    background-color: #c4becb;
+    float: right;
+    opacity: 0;
+    outline: 1px solid transparent;
+
+    &:nth-child(1) {
+      background-color: #6441a4;
+      animation: purpleAnim $anim-length infinite 0.55s;
+      position: fixed;
+    }
+
+    &:nth-child(2) {
+      animation: cubeAnim1 $anim-length infinite $anim-curve $anim-delay;
+    }
+    &:nth-child(3) {
+      animation: cubeAnim4 $anim-length infinite $anim-curve ($anim-delay * 6.75);
+    }
+    &:nth-child(4) {
+      animation: cubeAnim2 $anim-length infinite $anim-curve ($anim-delay * 2.85);
+    }
+    &:nth-child(5) {
+      animation: cubeAnim3 $anim-length infinite $anim-curve ($anim-delay * 4.75);
+    }
+
+    @for $i from 0 to 4 {
+      @at-root {
+        @keyframes cubeAnim#{$i+1} {
+          0% {
+            opacity: 0;
+            transform: translate(nth($xTransforms, $i + 1), nth($yTransforms, $i + 1));
+          }
+          40% {
+            opacity: 1;
+            transform: translate(0, 0);
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeOpacity {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes purpleAnim {
+  0% {
+    transform: translate(50px, 0px);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(50px, 50px);
+  }
+  50% {
+    transform: translate(0px, 50px);
+  }
+  75% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    transform: translate(50px, 0px);
+    opacity: 1;
+  }
+}
