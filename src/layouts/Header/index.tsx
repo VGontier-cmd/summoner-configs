@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron';
 
 import { ReactComponent as CloseIcon } from '@/assets/icons/close.svg';
 import { ReactComponent as MinimizeIcon } from '@/assets/icons/minimize.svg';
-import './header.scss'
 
 const Header = () => {
   // On envoie un message à la fenêtre principale pour demander la fermeture de l'application
