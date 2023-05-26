@@ -1,0 +1,55 @@
+/*
+|--------------------------------------------------------------------------
+| mixins.scss
+|--------------------------------------------------------------------------
+|
+| This file contains all application-wide Sass mixins.
+*/
+
+
+// event
+@mixin on-event($self: false) {
+  @if $self {
+    &,
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-within {
+      @content;
+    }
+  } @else {
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-within {
+      @content;
+    }
+  }
+}
+
+// show element
+@mixin show {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+// hide element
+@mixin hide {
+  display: none;
+  visibility: hidden;
+  opacity: 1;
+}
+
+// center an element with flex
+@mixin flex_center($justify) {
+  display: flex;
+  justify-content: $justify;
+  align-items: center;
+}
+
+// square
+@mixin square($dim) {
+  width: $dim;
+  height: $dim;
+}

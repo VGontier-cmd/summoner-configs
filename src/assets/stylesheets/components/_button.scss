@@ -1,0 +1,22 @@
+/*
+|--------------------------------------------------------------------------
+| button.scss
+|--------------------------------------------------------------------------
+|
+| Style pour les boutons
+*/
+
+.button {
+  border-radius: .5rem;
+
+  &.-rounded {
+    border-radius: 100vmax;
+  }
+
+  &.-square {
+    min-width: inherit;
+    min-height: inherit;
+    padding: 0;
+    @include square(2rem);
+  }
+}

@@ -1,0 +1,41 @@
+/*
+|--------------------------------------------------------------------------
+| index.scss
+|--------------------------------------------------------------------------
+|
+| Style principal de l'application
+*/
+
+// Configuration and helpers
+@import
+  'helpers/variables',
+  'helpers/functions',
+  'helpers/mixins';
+
+// Base stuff
+@import
+  'base/base',
+  'base/typography';
+
+// Components 
+@import
+  'components/button',
+  'components/loader';
+
+// Layouts
+@import
+  'layouts/header';
+
+// Pages
+@import
+  'pages/home',
+  'pages/starter';
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.wrapper {
+  padding: 2rem $page-space-x;
+}

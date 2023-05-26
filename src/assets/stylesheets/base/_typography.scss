@@ -1,0 +1,105 @@
+/*
+|--------------------------------------------------------------------------
+| typography.scss
+|--------------------------------------------------------------------------
+|
+| This file contains all basic typography style for copy text
+*/
+
+@for $i from 1 through 6 {
+  .heading-#{$i} {
+    margin: 0;
+  }
+}
+
+.heading-3 {
+  font-size: 1.75rem;
+  letter-spacing: 0;
+  line-height: 2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.heading-4 {
+  font-size: 1.3rem;
+  letter-spacing: 0;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+.heading-5 {
+    font-size: 1.1rem;
+    letter-spacing: 0;
+    line-height: 1.5rem;
+    font-weight: 600;
+}
+
+.heading-6 {
+  font-size: 1rem;
+  letter-spacing: 0;
+  line-height: 1.5rem;
+  font-weight: bold;
+}
+
+.list-label {
+    display: block;
+    font-size: $text-xs !important;
+    line-height: 1rem;
+    font-weight: 400;
+    margin-top: .5rem;
+}
+
+.list-label-m {
+  font-size: .79rem;
+  letter-spacing: .025rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+.list-label-l {
+  font-size: .9rem;
+  letter-spacing: .025rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+.list-label-xl {
+    font-size: .95rem;
+    letter-spacing: .025rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+}
+
+.-text-is-light {
+    font-weight: 300;
+}
+
+.-text-is-medium {
+    font-weight: bold;
+}
+
+.-text-is-uppercase {
+  text-transform: uppercase;
+}
+
+.-text-is-underline {
+  text-decoration: underline;
+}
+
+.line-clamp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+
+  @for $i from 1 through 4 {
+    &.-lc-#{$i} {
+      -webkit-line-clamp: $i;
+    }
+  }
+}
+
+.desc-text {
+  white-space: pre-wrap;
+}

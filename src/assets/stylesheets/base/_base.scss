@@ -1,0 +1,87 @@
+/*
+|--------------------------------------------------------------------------
+| base.scss
+|--------------------------------------------------------------------------
+|
+| This file contains very basic styles.
+*/
+
+:root {
+  font-family: $text-font;
+  color: $ft-color;
+  background: $bg-color;
+  letter-spacing: .025rem;
+
+  line-height: 1.5;
+  font-weight: 400;
+  backdrop-filter: blur(15px);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/**
+ * Set up a decent box model on the root element
+ */
+ html {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+/**
+ * Set up default body properties
+ */
+body {
+  min-height: 100vh;
+}
+
+/**
+ * Make all elements from the DOM inherit from the parent box-sizing
+ * Since `*` has a specificity of 0, it does not override the `html` value
+ * making all elements inheriting from the root box-sizing value
+ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/**
+ * Basic styles for links
+ */
+a {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+/**
+ * Basic styles for lists
+ */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Basic styles for buttons
+ */
+button {
+  cursor: pointer;
+  background: transparent;
+  text-align: inherit;
+  border: none;
+  outline: none !important;
+  box-shadow: none;
+
+  @include on-event {
+    background: none;
+  }
+}

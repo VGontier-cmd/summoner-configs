@@ -1,0 +1,72 @@
+/*
+|--------------------------------------------------------------------------
+| variables.scss
+|--------------------------------------------------------------------------
+|
+| This file contains all application-wide Sass variables.
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Font Family
+|--------------------------------------------------------------------------
+*/
+/// Regular font family
+/// @type List
+$text-font: Century Gothic, sans-serif !default;
+
+/*
+|--------------------------------------------------------------------------
+| Typography 
+|--------------------------------------------------------------------------
+*/
+/// Extra-small text size
+/// @type Length
+$text-xs: .7rem;
+
+/// Small text size
+/// @type Length
+$text-sm: .75rem;
+
+/// Medium text size
+/// @type Length
+$text-md: .8rem;
+
+/// Default text size
+/// @type Length
+$text-df: .9rem;
+
+
+/*
+|--------------------------------------------------------------------------
+| Colors
+|--------------------------------------------------------------------------
+*/
+/// Primary color
+/// @type Color
+$primary-color: #614AD3;
+
+/// Secondary color
+/// @type Color
+$secondary-color: #7ee7ee;
+
+/// Pink color
+/// @type Color
+$pink-color: #e0bcf3;
+
+/// Background gradient color
+/// @type Color
+$bg-color: linear-gradient(90deg, #{$pink-color} 0%, #{$primary-color} 100%);
+
+/// Font color
+/// @type Color
+$ft-color: rgba(255, 255, 255, 0.87);
+
+/*
+|--------------------------------------------------------------------------
+| Layouts
+|--------------------------------------------------------------------------
+*/
+/// Horizontal page spacing
+/// @type Length
+$page-space-x: 6vw;
