@@ -1,5 +1,3 @@
-import './loader.scss'
-
 const Loader = () => {
     const numCubes = 5;
 
