@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Starter from '@/pages/Starter'
-
-import './App.scss'
+import Home from '@/pages/Home'
 
 const { exec } = require('child_process');
 
@@ -46,9 +45,7 @@ function App() {
   return (
     <>
       {isLeagueOfLegendsOpen ? (
-        <div>
-          <p>Bienvenue !</p>
-        </div>
+        <Home />
       ) : (
         <Starter />
       )}
