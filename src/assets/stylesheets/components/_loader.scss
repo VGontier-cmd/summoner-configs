@@ -11,21 +11,23 @@ $yTransforms: - #{$loader-half-width}, 0, #{$loader-half-width}, 0;
 
 .loader {
   position: relative;
-  width: $loader-width;
-  height: $loader-width;
   transform: rotate(-45deg);
+  @include square($loader-width);
 
   .cube {
-    height: $loader-cube-width;
-    width: $loader-cube-width;
-    background-color: #fff;
-    opacity: 0;
-    outline: 1px solid transparent;
     position: absolute;
+    background-color: #fff;
+    outline: 1px solid transparent;
+    @include square($loader-cube-width);
+    
+    &:not(:first-child) {
+      opacity: 0;
+    }
 
-    &:nth-child(1) {
+    &:first-child {
       background-color: $secondary-color;
-      animation: purpleAnim $anim-length infinite $anim-length;
+      animation: purpleAnim $anim-length infinite;
+      opacity: 1;
       top: 0;
       left: 0;
       z-index: 1;
@@ -46,7 +48,7 @@ $yTransforms: - #{$loader-half-width}, 0, #{$loader-half-width}, 0;
       left: 0;
       animation: cubeAnim $anim-length infinite $anim-curve ($anim-delay * 4);
     }
-    &:nth-child(5) {
+    &:last-child {
       top: 0;
       right: 0;
       animation: cubeAnim $anim-length infinite $anim-curve $anim-delay;
@@ -81,7 +83,6 @@ $yTransforms: - #{$loader-half-width}, 0, #{$loader-half-width}, 0;
 @keyframes purpleAnim {
   0% {
     transform: translate(calc(#{$loader-width} - 100%), 0px);
-    opacity: 1;
   }
   25% {
     transform: translate(calc(#{$loader-width} - 100%), calc(#{$loader-width} - 100%));
@@ -94,6 +95,5 @@ $yTransforms: - #{$loader-half-width}, 0, #{$loader-half-width}, 0;
   }
   100% {
     transform: translate(calc(#{$loader-width} - 100%), 0px);
-    opacity: 1;
   }
 }

@@ -6,17 +6,43 @@
 | Style pour les boutons
 */
 
+.buttons-wrapper {
+  display: flex;
+  align-items: center;
+
+  &.-center {
+    justify-content: center;
+  }
+
+  &.-to-right {
+    justify-content: flex-end;
+  }
+}
+
 .button {
   border-radius: .5rem;
+  color: $primary-color;
+  transition: all .2s ease-in-out;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
 
   &.-rounded {
     border-radius: 100vmax;
   }
 
   &.-square {
-    min-width: inherit;
-    min-height: inherit;
     padding: 0;
     @include square(2rem);
+    @include flex_center(center);
+  }
+
+  svg {
+    @include square(1.2rem);
+    fill: currentColor;
+  }
+
+  &:hover {
+    background-color: rgba(255,255,255,.3);
+    box-shadow: none;
   }
 }
+

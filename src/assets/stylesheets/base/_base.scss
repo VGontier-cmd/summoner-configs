@@ -14,29 +14,31 @@
 
   line-height: 1.5;
   font-weight: 400;
-  backdrop-filter: blur(15px);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  @include background-image('yasuo-bg.jpg');
 }
 
 /**
- * Set up a decent box model on the root element
- */
- html {
-  box-sizing: border-box;
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
-}
-
-/**
- * Set up default body properties
- */
+* Set up default body properties
+*/
 body {
   min-height: 100vh;
+  backdrop-filter: blur(15px);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.wrapper {
+  padding: 2rem $page-space-x;
 }
 
 /**

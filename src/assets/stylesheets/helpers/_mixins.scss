@@ -53,3 +53,10 @@
   width: $dim;
   height: $dim;
 }
+
+@mixin background-image($image) {
+  background-image: url(@/assets/images/#{$image});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

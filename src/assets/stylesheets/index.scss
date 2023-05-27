@@ -20,22 +20,15 @@
 // Components 
 @import
   'components/button',
-  'components/loader';
+  'components/loader',
+  'components/settings';
 
 // Layouts
 @import
+  'layouts/layout',
   'layouts/header';
 
 // Pages
 @import
   'pages/home',
   'pages/starter';
-
-#root {
-  width: 100%;
-  min-height: 100vh;
-}
-
-.wrapper {
-  padding: 2rem $page-space-x;
-}

@@ -1,9 +1,6 @@
 .starter-container {
   position: relative;
-  background-image: url(@/assets/images/yasuo-bg.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  @include background-image('yasuo-bg.jpg');
   height: 100vh;
   display: flex;
   flex-direction: column;

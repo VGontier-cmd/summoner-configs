@@ -6,6 +6,14 @@
 | This file contains all application-wide Sass variables.
 */
 
+/// Background opacity
+/// @type Number
+$bg-opacity: 1;
+
+/// Frame radius
+/// @type Length
+$frame-radius: 1rem;
+
 /*
 |--------------------------------------------------------------------------
 | Font Family
@@ -36,7 +44,6 @@ $text-md: .8rem;
 /// @type Length
 $text-df: .9rem;
 
-
 /*
 |--------------------------------------------------------------------------
 | Colors
@@ -48,15 +55,19 @@ $primary-color: #614AD3;
 
 /// Secondary color
 /// @type Color
-$secondary-color: #7ee7ee;
+$secondary-color: rgba(126, 231, 238, $bg-opacity);
+
+/// Dark color
+/// @type Color
+$dark-color: #292929;
 
 /// Pink color
 /// @type Color
-$pink-color: #e0bcf3;
+$pink-color: rgba(224, 188, 243, $bg-opacity);
 
 /// Background gradient color
 /// @type Color
-$bg-color: linear-gradient(90deg, #{$pink-color} 0%, #{$primary-color} 100%);
+$bg-color: linear-gradient(90deg, #{$secondary-color} 0%, #{$pink-color} 100%);
 
 /// Font color
 /// @type Color
