@@ -53,7 +53,7 @@ async function createWindow() {
     frame: false,
     width: 450,
     height: 650,
-    resizable: false,
+    resizable: process.env.NODE_ENV === 'development' ? true : false,
     icon: join(process.env.PUBLIC, 'favicon.ico'),
     webPreferences: {
       preload: '../preload/preload.ts',
