@@ -58,10 +58,12 @@ export class ProfileManager {
     const profileIndex = this.profileList.findIndex(
       (profile) => profile.id === id,
     );
+
     if (profileIndex === -1) {
       throw new ProfileNotFoundException(`Profile not found with ID: ${id}`);
     }
 
+    this.folderManager.deleteProfileFolder(this.profileList[profileIndex]);
     this.profileList.splice(profileIndex, 1);
   }
 

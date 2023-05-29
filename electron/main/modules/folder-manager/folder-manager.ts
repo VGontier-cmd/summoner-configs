@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as fsExtra from 'fs-extra';
 import * as path from 'path';
 import folder from '../../../utils/configs';
 import { Profile } from '../profile-manager/profile.interface';
@@ -107,5 +108,16 @@ export class FolderManager {
     });
 
     return profilesList;
+  }
+
+  deleteProfileFolder(profile: Profile) {
+    const folderName = `${profile.name}_${profile.id}`;
+    fsExtra.remove(folderName, (err) => {
+      if (err) {
+        console.error('Error deleting folder:', err);
+      } else {
+        console.log('Folder deleted:', folderName);
+      }
+    });
   }
 }
