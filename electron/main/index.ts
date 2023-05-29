@@ -56,7 +56,7 @@ async function createWindow() {
     resizable: false,
     icon: join(process.env.PUBLIC, 'favicon.ico'),
     webPreferences: {
-      preload,
+      preload: '../preload/preload.ts',
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // Consider using contextBridge.exposeInMainWorld
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
