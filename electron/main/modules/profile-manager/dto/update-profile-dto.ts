@@ -1,7 +1,8 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class UpdateProfileDto {
   @IsString()
+  @IsUUID()
   id!: string;
 
   @IsOptional()

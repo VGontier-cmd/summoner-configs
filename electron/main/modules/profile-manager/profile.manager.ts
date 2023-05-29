@@ -1,10 +1,10 @@
 import { validate } from 'class-validator';
+import { v4 as uuidv4 } from 'uuid';
 import { FolderManager } from '../folder-manager/folder-manager';
 import { CreateProfileDto } from './dto/create-profile-dto';
 import { UpdateProfileDto } from './dto/update-profile-dto';
 import { ProfileNotFoundException } from './profile.exceptions';
 import { Profile } from './profile.interface';
-
 // TODO : Add folder implementation to save file on creation / update and on delete
 
 export class ProfileManager {
@@ -23,7 +23,7 @@ export class ProfileManager {
           console.log('Validation errors:', errors);
         } else {
           const newProfile: Profile = {
-            id: createProfile.id,
+            id: uuidv4(),
             name: createProfile.name,
             gameSettingsFilePath: createProfile.gameSettingsFilePath,
             keybindsFilePath: createProfile.keybindsFilePath,
