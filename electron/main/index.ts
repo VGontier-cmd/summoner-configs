@@ -22,7 +22,7 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null = null;
 // Here, you can also use other preload
-const preload = join(__dirname, '../preload/index.js');
+const preload = join(__dirname, '../preload/preload.js');
 const userProfile = process.env.USERPROFILE;
 const documentsFolderPath =
   process.platform === 'win32'
@@ -56,7 +56,7 @@ async function createWindow() {
     resizable: process.env.NODE_ENV === 'development' ? true : false,
     icon: join(process.env.PUBLIC, 'favicon.ico'),
     webPreferences: {
-      preload: '../preload/preload.ts',
+      preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
       // Consider using contextBridge.exposeInMainWorld
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
