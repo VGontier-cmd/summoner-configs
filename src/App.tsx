@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Starter from '@/pages/Starter'
-import Home from '@/pages/Home'
+import Starter from '@/pages/Starter';
+import { useEffect, useState } from 'react';
+
+import './App.scss';
 
 const { exec } = require('child_process');
 
