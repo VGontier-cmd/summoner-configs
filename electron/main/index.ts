@@ -26,8 +26,8 @@ const preload = join(__dirname, '../preload/preload.js');
 const userProfile = process.env.USERPROFILE;
 const documentsFolderPath =
   process.platform === 'win32'
-    ? process.env.USERPROFILE
-      ? process.env.USERPROFILE
+    ? userProfile
+      ? userProfile
       : app.getPath('documents')
     : path.join(app.getPath('home'), 'Documents');
 const url = process.env.VITE_DEV_SERVER_URL;
