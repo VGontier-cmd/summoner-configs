@@ -121,32 +121,35 @@ export class FolderManager {
     });
   }
 
-  //TODO
   importFromClient(profile: Profile) {
+    // Check if the lolconfigpath has been set
     if (config.LolConfigPath == null) {
       throw new Error(
         'The default League of Legends installation path as not been set already or the folder doesnt exist!',
       );
     }
-
+    // Check if the folder at the given path exist
     if (!this.ensureFolderExists(config.LolConfigPath)) {
       throw new Error(
         'The folder given does not exist, please check your League of Legends installation path',
       );
     }
-
+    // Get the folder name list of the path given
     const foldersNameList = this.getFoldersNameInDirectory(
       config.LolConfigPath,
     );
 
+    // Check if the config folder exist
     if (!foldersNameList.includes('Config'))
       throw new Error(
         'The Config folder does not exist, please check your League of Legends installation path',
       );
 
+    // Set the var for the clientConfigFolder and get the files of it
     const clientConfigFolder = path.join(config.LolConfigPath, 'Config');
     const files = fs.readdirSync(clientConfigFolder);
 
+    // Check if the folder has the right amount of files
     if (files.length !== expectedFiles.clientConfigFolder.length) {
       console.error(
         `Some files are missing or extra in the folder '${clientConfigFolder}'`,
@@ -154,6 +157,7 @@ export class FolderManager {
       return;
     }
 
+    // Check if the folder has the right files
     const missingFiles: string[] = [];
     expectedFiles.clientConfigFolder.forEach((expectedFile) => {
       if (!files.includes(expectedFile)) {
@@ -172,12 +176,16 @@ export class FolderManager {
 
     // Export lol configs from the config client folder to the manager folder
     expectedFiles.clientConfigFolder.forEach((fileName) => {
+      // Source --> lol config folder
       const sourceFilePath = path.join(clientConfigFolder, fileName);
+
+      // Destination --> {rootFolderPath} / {profile folder} / {filename}
       const destinationFilePath = path.join(
         path.join(this.rootFolderPath, `${profile.name}_${profile.id}`),
         fileName,
       );
 
+      // Copy the different files into the destination folder
       try {
         fs.copyFileSync(sourceFilePath, destinationFilePath);
         console.log(`Copied file: ${fileName}`);
@@ -187,7 +195,7 @@ export class FolderManager {
       }
     });
 
-    // Create the settings file for the profiles
+    // Create the settings file for the actual profile
     const jsonContent = JSON.stringify(profile, null, 2);
     fs.writeFile(
       path.join(
