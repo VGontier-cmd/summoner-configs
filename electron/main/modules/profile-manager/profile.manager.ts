@@ -29,8 +29,8 @@ export class ProfileManager {
             isFav: createProfile.isFav ?? false,
           };
 
-          this.folderManager.importFromClient(newProfile);
-          this.profileList.push(newProfile);
+          this.folderManager.importFromClient(newProfile); // Import settings files from the league of legends client
+          this.profileList.push(newProfile); // Push the new profile if no error occured during the files import
         }
       })
       .catch((error) => {
@@ -65,7 +65,7 @@ export class ProfileManager {
     this.profileList.splice(profileIndex, 1);
   }
 
-  update(id: string, updateProfileDto: UpdateProfileDto): Profile {
+  update(id: string, updateProfileDto: UpdateProfileDto) {
     const profileIndex = this.profileList.findIndex(
       (profile) => profile.id === id,
     );
@@ -79,7 +79,10 @@ export class ProfileManager {
       ...updateProfileDto,
     };
 
-    this.profileList[profileIndex] = updatedProfile;
-    return updatedProfile;
+    this.folderManager.updateProfileFolder(
+      this.profileList[profileIndex],
+      updatedProfile,
+    ); // Update the folder and the config file
+    this.profileList[profileIndex] = updatedProfile; // update the profile list too
   }
 }
