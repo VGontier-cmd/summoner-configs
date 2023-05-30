@@ -115,6 +115,19 @@ export class FolderManager {
     });
   }
 
+  updateProfileFolder(oldProfile: Profile, profile: Profile) {
+    const oldFolderName = `${oldProfile.name}_${oldProfile.id}`;
+    const newFolderName = `${profile.name}_${profile.id}`;
+
+    fs.rename(oldFolderName, newFolderName, (err) => {
+      if (err) {
+        console.error('Error updating folder:', err);
+      } else {
+        console.log('Folder updating:', oldFolderName, newFolderName);
+      }
+    });
+  }
+
   //TODO
   importFromClient(createProfileDto: CreateProfileDto) {}
   exportProfileToClient(profile: Profile) {}
