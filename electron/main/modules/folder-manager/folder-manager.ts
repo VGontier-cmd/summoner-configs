@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import * as fsExtra from 'fs-extra';
 import * as path from 'path';
 import folder from '../../../utils/configs';
+import { CreateProfileDto } from '../profile-manager/dto/create-profile-dto';
 import { Profile } from '../profile-manager/profile.interface';
 
 export class FolderManager {
@@ -95,12 +95,6 @@ export class FolderManager {
         profilesList.push({
           id: id,
           name: name,
-          gameSettingsFilePath: path.join(this.rootFolderPath, 'game.cfg'),
-          keybindsFilePath: path.join(this.rootFolderPath, 'input.ini'),
-          persistedSettingsFilePath: path.join(
-            this.rootFolderPath,
-            'PersistedSettings.json',
-          ),
           color: color,
           isFav: isFav,
         });
@@ -112,7 +106,7 @@ export class FolderManager {
 
   deleteProfileFolder(profile: Profile) {
     const folderName = `${profile.name}_${profile.id}`;
-    fsExtra.remove(folderName, (err) => {
+    fs.rmdir(folderName, { recursive: true }, (err) => {
       if (err) {
         console.error('Error deleting folder:', err);
       } else {
@@ -120,4 +114,8 @@ export class FolderManager {
       }
     });
   }
+
+  //TODO
+  importFromClient(createProfileDto: CreateProfileDto) {}
+  exportProfileToClient(profile: Profile) {}
 }

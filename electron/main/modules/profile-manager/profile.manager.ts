@@ -25,14 +25,13 @@ export class ProfileManager {
           const newProfile: Profile = {
             id: uuidv4(),
             name: createProfile.name,
-            gameSettingsFilePath: createProfile.gameSettingsFilePath,
-            keybindsFilePath: createProfile.keybindsFilePath,
-            persistedSettingsFilePath: createProfile.persistedSettingsFilePath,
             color: createProfile.color,
             isFav: createProfile.isFav ?? false,
           };
 
           this.profileList.push(newProfile);
+
+          this.folderManager.importFromClient(createProfile);
         }
       })
       .catch((error) => {
@@ -82,7 +81,6 @@ export class ProfileManager {
     };
 
     this.profileList[profileIndex] = updatedProfile;
-
     return updatedProfile;
   }
 }

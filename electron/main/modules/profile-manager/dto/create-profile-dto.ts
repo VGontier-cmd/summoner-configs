@@ -6,18 +6,6 @@ export class CreateProfileDto {
   name!: string;
 
   @IsNotEmpty()
-  @IsString()
-  gameSettingsFilePath!: string;
-
-  @IsNotEmpty()
-  @IsString()
-  keybindsFilePath!: string;
-
-  @IsNotEmpty()
-  @IsString()
-  persistedSettingsFilePath!: string;
-
-  @IsNotEmpty()
   @IsHexColor()
   color!: string;
 

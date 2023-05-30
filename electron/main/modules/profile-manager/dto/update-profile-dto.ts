@@ -11,18 +11,6 @@ export class UpdateProfileDto {
 
   @IsOptional()
   @IsString()
-  gameSettingsFilePath!: string;
-
-  @IsOptional()
-  @IsString()
-  keybindsFilePath!: string;
-
-  @IsOptional()
-  @IsString()
-  persistedSettingsFilePath!: string;
-
-  @IsOptional()
-  @IsString()
   color!: string;
 
   @IsOptional()
