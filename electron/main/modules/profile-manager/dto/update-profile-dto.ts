@@ -1,19 +1,29 @@
-import { IsBoolean, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  Length,
+} from 'class-validator';
 
 export class UpdateProfileDto {
+  @IsNotEmpty()
+  @Length(36)
   @IsString()
   @IsUUID()
   id!: string;
 
-  @IsOptional()
+  @Length(1, 20)
+  @IsNotEmpty()
   @IsString()
   name!: string;
 
-  @IsOptional()
+  @Length(7)
+  @IsNotEmpty()
   @IsString()
   color!: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsBoolean()
   isFav?: boolean;
 }
