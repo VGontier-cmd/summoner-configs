@@ -125,27 +125,30 @@ export class FolderManager {
     // Check if the lolconfigpath has been set
     if (config.LolConfigPath == null) {
       throw new Error(
-        'The default League of Legends installation path as not been set already or the folder doesnt exist!',
+        'The default League of Legends installation path has not been set or the folder does not exist!',
       );
     }
-    // Check if the folder at the given path exist
+
+    // Check if the folder at the given path exists
     if (!this.ensureFolderExists(config.LolConfigPath)) {
       throw new Error(
-        'The folder given does not exist, please check your League of Legends installation path',
+        'The folder given does not exist. Please check your League of Legends installation path.',
       );
     }
+
     // Get the folder name list of the path given
     const foldersNameList = this.getFoldersNameInDirectory(
       config.LolConfigPath,
     );
 
-    // Check if the config folder exist
-    if (!foldersNameList.includes('Config'))
+    // Check if the config folder exists
+    if (!foldersNameList.includes('Config')) {
       throw new Error(
-        'The Config folder does not exist, please check your League of Legends installation path',
+        'The Config folder does not exist. Please check your League of Legends installation path.',
       );
+    }
 
-    // Set the var for the clientConfigFolder and get the files of it
+    // Set the variable for the clientConfigFolder and get the files in it
     const clientConfigFolder = path.join(config.LolConfigPath, 'Config');
     const files = fs.readdirSync(clientConfigFolder);
 
@@ -167,16 +170,16 @@ export class FolderManager {
 
     if (missingFiles.length > 0) {
       console.error(
-        `The folder '${clientConfigFolder}' does not contain the file(s) : ${missingFiles.join(
+        `The folder '${clientConfigFolder}' does not contain the file(s): ${missingFiles.join(
           ', ',
         )}`,
       );
       return;
     }
 
-    // Export lol configs from the config client folder to the manager folder
+    // Export LOL configs from the config client folder to the manager folder
     expectedFiles.clientConfigFolder.forEach((fileName) => {
-      // Source --> lol config folder
+      // Source --> LOL config folder
       const sourceFilePath = path.join(clientConfigFolder, fileName);
 
       // Destination --> {rootFolderPath} / {profile folder} / {filename}
@@ -223,14 +226,14 @@ export class FolderManager {
     // Check if the lolconfigpath has been set
     if (config.LolConfigPath == null) {
       throw new Error(
-        'The default League of Legends installation path as not been set already or the folder doesnt exist!',
+        'The default League of Legends installation path has not been set or the folder does not exist!',
       );
     }
 
-    // Check if the folder at the given path exist
+    // Check if the folder at the given path exists
     if (!this.ensureFolderExists(config.LolConfigPath)) {
       throw new Error(
-        'The folder given does not exist, please check your League of Legends installation path',
+        'The folder given does not exist. Please check your League of Legends installation path.',
       );
     }
 
@@ -239,20 +242,22 @@ export class FolderManager {
       config.LolConfigPath,
     );
 
-    // Check if the config folder exist
-    if (!foldersNameList.includes('Config'))
+    // Check if the config folder exists
+    if (!foldersNameList.includes('Config')) {
       throw new Error(
-        'The Config folder does not exist, please check your League of Legends installation path',
+        'The Config folder does not exist. Please check your League of Legends installation path.',
       );
+    }
 
-    // Set the var for the clientConfigFolder
+    // Set the variable for the clientConfigFolder
     const clientConfigFolder = path.join(config.LolConfigPath, 'Config');
 
-    // Check if the profile folder exist
-    if (!this.ensureFolderExists(profileFolderPath))
+    // Check if the profile folder exists
+    if (!this.ensureFolderExists(profileFolderPath)) {
       throw new Error('The profile folder does not exist');
+    }
 
-    // get the files of the profile folder
+    // Get the files of the profile folder
     const files = fs.readdirSync(profileFolderPath);
 
     // Check if the profile folder has the right amount of files
@@ -273,17 +278,17 @@ export class FolderManager {
 
     if (missingFiles.length > 0) {
       console.error(
-        `The folder '${profileFolderPath}' does not contain the file(s) : ${missingFiles.join(
+        `The folder '${profileFolderPath}' does not contain the file(s): ${missingFiles.join(
           ', ',
         )}`,
       );
       return;
     }
 
-    // Export lol configs from the profile folder to the league config folder
+    // Export LOL configs from the profile folder to the league config folder
     expectedFiles.clientConfigFolder.forEach((fileName) => {
       // Copy the different files into the destination folder
-      if (fileName !== 'profileDetails.json')
+      if (fileName !== 'profileDetails.json') {
         try {
           fs.copyFileSync(profileFolderPath, clientConfigFolder);
           console.log(`Copied file: ${fileName}`);
@@ -291,6 +296,7 @@ export class FolderManager {
           console.error(`Error copying file: ${fileName}`);
           console.error(error);
         }
+      }
     });
   }
 }
