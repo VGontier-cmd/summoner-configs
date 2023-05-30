@@ -29,9 +29,8 @@ export class ProfileManager {
             isFav: createProfile.isFav ?? false,
           };
 
+          this.folderManager.importFromClient(newProfile);
           this.profileList.push(newProfile);
-
-          this.folderManager.importFromClient(createProfile);
         }
       })
       .catch((error) => {
