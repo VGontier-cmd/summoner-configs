@@ -125,7 +125,7 @@ export class FolderManager {
   importFromClient(profile: Profile) {
     if (config.LolConfigPath == null) {
       throw new Error(
-        'The default League of Legends installation path as not been set already or the folder dos!',
+        'The default League of Legends installation path as not been set already or the folder doesnt exist!',
       );
     }
 
