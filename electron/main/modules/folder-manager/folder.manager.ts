@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import config from '../../../utils/configs';
 import { Profile } from '../profile-manager/profile.interface';
-import * as expectedFiles from '../types/expected.files';
+import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
 
 export class FolderManager {
