@@ -1,3 +1,5 @@
+import { FileHelper } from 'electron/utils/file-helper';
+import { FolderHelper } from 'electron/utils/folder-helper';
 import * as fs from 'fs';
 import * as path from 'path';
 import config from '../../../utils/configs';
@@ -6,41 +8,44 @@ import * as expectedFiles from '../types/expected.files';
 
 export class FolderManager {
   private readonly rootFolderPath: string;
+  private folderHelper: FolderHelper;
+  private fileHelper: FileHelper;
 
   constructor(rootFolderPath: string) {
     this.rootFolderPath = path.join(
       rootFolderPath,
       config.DefaultFolderName ?? 'LolSettingsManager',
     );
-    if (!this.ensureFolderExists(this.rootFolderPath))
-      this.createFolder(this.rootFolderPath); // Create project root folder if not existing
+
+    // Initialize file / folder helpers
+    this.folderHelper = new FolderHelper();
+    this.fileHelper = new FileHelper();
+
+    // Create project root folder if not existing
+    if (!this.folderHelper.ensureFolderExists(this.rootFolderPath))
+      this.folderHelper.createFolder(this.rootFolderPath);
   }
 
-  ensureFolderExists(path: string): boolean {
-    return fs.existsSync(path);
+  getProfileFolderPath(profile: Profile) {
+    return path.join(this.rootFolderPath, `${profile.name}_${profile.id}`);
   }
 
-  createFolder(path: string) {
-    fs.mkdirSync(path);
+  deleteProfileFolder(profile: Profile) {
+    const folderName = `${profile.name}_${profile.id}`;
+    this.folderHelper.deleteFolder(folderName);
   }
 
-  getFoldersNameInDirectory(folderPath: string): string[] {
-    const folderNames: string[] = [];
-    fs.readdirSync(folderPath).forEach((element) => {
-      const elementPath = path.join(folderPath, element);
-      const stat = fs.statSync(elementPath);
-
-      if (stat.isDirectory()) {
-        folderNames.push(element);
-      }
-    });
-
-    return folderNames;
+  updateProfileFolder(oldProfile: Profile, profile: Profile) {
+    const oldFolderName = `${oldProfile.name}_${oldProfile.id}`;
+    const newFolderName = `${profile.name}_${profile.id}`;
+    this.folderHelper.renameFolder(oldFolderName, newFolderName);
   }
 
   retrieveProfiles(): Profile[] {
     const profilesList: Profile[] = [];
-    const foldersName = this.getFoldersNameInDirectory(this.rootFolderPath);
+    const foldersName = this.folderHelper.getFoldersNameInDirectory(
+      this.rootFolderPath,
+    );
 
     foldersName.forEach((folderName) => {
       const folderPath = path.join(this.rootFolderPath, folderName);
@@ -97,40 +102,16 @@ export class FolderManager {
     return profilesList;
   }
 
-  deleteProfileFolder(profile: Profile) {
-    const folderName = `${profile.name}_${profile.id}`;
-    fs.rmdir(folderName, { recursive: true }, (err) => {
-      if (err) {
-        console.error('Error deleting folder:', err);
-      } else {
-        console.log('Folder deleted:', folderName);
-      }
-    });
-  }
-
-  updateProfileFolder(oldProfile: Profile, profile: Profile) {
-    const oldFolderName = `${oldProfile.name}_${oldProfile.id}`;
-    const newFolderName = `${profile.name}_${profile.id}`;
-
-    fs.rename(oldFolderName, newFolderName, (err) => {
-      if (err) {
-        console.error('Error updating folder:', err);
-      } else {
-        console.log('Folder updating:', oldFolderName, newFolderName);
-      }
-    });
-  }
-
   importFromClient(profile: Profile) {
     this.validateLolConfigPath();
 
     const clientConfigFolder = path.join(config.LolConfigPath ?? '', 'Config');
-    const files = this.getFilesInFolder(
+    const files = this.fileHelper.getFilesInFolder(
       clientConfigFolder,
       expectedFiles.clientConfigFolder,
     );
 
-    this.checkFolderFiles(
+    this.folderHelper.checkFolderFiles(
       clientConfigFolder,
       files,
       expectedFiles.clientConfigFolder,
@@ -155,23 +136,19 @@ export class FolderManager {
     this.createProfileSettingsFile(profile);
   }
 
-  getProfileFolderPath(profile: Profile) {
-    return path.join(this.rootFolderPath, `${profile.name}_${profile.id}`);
-  }
-
   exportProfileToClient(profile: Profile) {
     const lolConfigPath = this.validateLolConfigPath();
 
     const clientConfigFolder = path.join(lolConfigPath, 'Config');
     const profileFolderPath = this.getProfileFolderPath(profile);
 
-    this.ensureFolderExists(profileFolderPath);
-    const files = this.getFilesInFolder(
+    this.folderHelper.ensureFolderExists(profileFolderPath);
+    const files = this.fileHelper.getFilesInFolder(
       profileFolderPath,
       expectedFiles.managerFolder,
     );
 
-    this.checkFolderFiles(
+    this.folderHelper.checkFolderFiles(
       profileFolderPath,
       files,
       expectedFiles.managerFolder,
@@ -202,13 +179,13 @@ export class FolderManager {
       );
     }
 
-    if (!this.ensureFolderExists(config.LolConfigPath)) {
+    if (!this.folderHelper.ensureFolderExists(config.LolConfigPath)) {
       throw new Error(
         'The folder given does not exist. Please check your League of Legends installation path.',
       );
     }
 
-    const foldersNameList = this.getFoldersNameInDirectory(
+    const foldersNameList = this.folderHelper.getFoldersNameInDirectory(
       config.LolConfigPath,
     );
     if (!foldersNameList.includes('Config')) {
@@ -220,40 +197,6 @@ export class FolderManager {
     return config.LolConfigPath;
   }
 
-  getFilesInFolder(folderPath: string, expectedFiles: string[]): string[] {
-    const files = fs.readdirSync(folderPath);
-    return files.filter((file) => expectedFiles.includes(file));
-  }
-
-  checkFolderFiles(
-    folderPath: string,
-    files: string[],
-    expectedFiles: string[],
-  ) {
-    if (files.length !== expectedFiles.length) {
-      console.error(
-        `Some files are missing or extra in the folder '${folderPath}'`,
-      );
-      return;
-    }
-
-    const missingFiles: string[] = [];
-    expectedFiles.forEach((expectedFile) => {
-      if (!files.includes(expectedFile)) {
-        missingFiles.push(expectedFile);
-      }
-    });
-
-    if (missingFiles.length > 0) {
-      console.error(
-        `The folder '${folderPath}' does not contain the file(s): ${missingFiles.join(
-          ', ',
-        )}`,
-      );
-      return;
-    }
-  }
-
   getDestinationFilePath(profile: Profile, fileName: string): string {
     return path.join(
       path.join(this.rootFolderPath, `${profile.name}_${profile.id}`),
@@ -263,20 +206,10 @@ export class FolderManager {
 
   createProfileSettingsFile(profile: Profile) {
     const jsonContent = JSON.stringify(profile, null, 2);
-    fs.writeFile(
-      path.join(
-        path.join(this.rootFolderPath, `${profile.name}_${profile.id}`),
-        'profileDetails.json',
-      ),
+    this.fileHelper.createJsonFile(
+      path.join(this.rootFolderPath, `${profile.name}_${profile.id}`),
+      'profileDetails.json',
       jsonContent,
-      'utf8',
-      (error) => {
-        if (error) {
-          console.error('Error writing JSON file:', error);
-        } else {
-          console.log('JSON config file created successfully!');
-        }
-      },
     );
   }
 }
