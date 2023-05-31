@@ -1,10 +1,11 @@
-import { FileHelper } from 'electron/utils/file-helper';
-import { FolderHelper } from 'electron/utils/folder-helper';
+import { FileHelper } from 'electron/utils/file.helper';
+import { FolderHelper } from 'electron/utils/folder.helper';
 import * as fs from 'fs';
 import * as path from 'path';
 import config from '../../../utils/configs';
 import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected.files';
+import { FolderNotFoundException } from './folder.exceptions';
 
 export class FolderManager {
   private readonly rootFolderPath: string;
@@ -31,8 +32,9 @@ export class FolderManager {
       this.rootFolderPath,
       `${profile.name}_${profile.id}`,
     );
+
     if (!this.folderHelper.ensureFolderExists(folderPath))
-      throw new Error(
+      throw new FolderNotFoundException(
         `No folder has been found for the given profile : ${profile.name} `,
       );
     return folderPath;
@@ -167,8 +169,7 @@ export class FolderManager {
           fs.copyFileSync(sourceFilePath, destinationFilePath);
           console.log(`Copied file: ${fileName}`);
         } catch (error) {
-          console.error(`Error copying file: ${fileName}`);
-          console.error(error);
+          console.error(`Error copying file : ${fileName}`, error);
         }
       }
     });

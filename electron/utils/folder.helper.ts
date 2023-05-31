@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import config from '../utils/configs';
+import config from './configs';
 
 export class FolderHelper {
   ensureFolderExists(path: string): boolean {
