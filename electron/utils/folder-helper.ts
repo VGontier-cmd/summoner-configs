@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import config from '../utils/configs';
 
 export class FolderHelper {
   ensureFolderExists(path: string): boolean {
@@ -71,5 +72,31 @@ export class FolderHelper {
       );
       return;
     }
+  }
+
+  validateLolConfigPath(): string {
+    if (config.LolConfigPath == null) {
+      throw new Error(
+        'The default League of Legends installation path has not been set or the folder does not exist!',
+      );
+    }
+
+    if (!this.ensureFolderExists(config.LolConfigPath)) {
+      throw new Error(
+        'The folder given does not exist. Please check your League of Legends installation path.',
+      );
+    }
+
+    const foldersNameList = this.getFoldersNameInDirectory(
+      config.LolConfigPath,
+    );
+
+    if (!foldersNameList.includes('Config')) {
+      throw new Error(
+        'The Config folder does not exist. Please check your League of Legends installation path.',
+      );
+    }
+
+    return path.join(config.LolConfigPath, 'Config');
   }
 }

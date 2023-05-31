@@ -27,7 +27,15 @@ export class FolderManager {
   }
 
   getProfileFolderPath(profile: Profile) {
-    return path.join(this.rootFolderPath, `${profile.name}_${profile.id}`);
+    const folderPath = path.join(
+      this.rootFolderPath,
+      `${profile.name}_${profile.id}`,
+    );
+    if (!this.folderHelper.ensureFolderExists(folderPath))
+      throw new Error(
+        `No folder has been found for the given profile : ${profile.name} `,
+      );
+    return folderPath;
   }
 
   deleteProfileFolder(profile: Profile) {
@@ -103,22 +111,21 @@ export class FolderManager {
   }
 
   importFromClient(profile: Profile) {
-    this.validateLolConfigPath();
+    const lolConfigPath = this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 
-    const clientConfigFolder = path.join(config.LolConfigPath ?? '', 'Config');
     const files = this.fileHelper.getFilesInFolder(
-      clientConfigFolder,
+      lolConfigPath,
       expectedFiles.clientConfigFolder,
     );
 
     this.folderHelper.checkFolderFiles(
-      clientConfigFolder,
+      lolConfigPath,
       files,
       expectedFiles.clientConfigFolder,
     );
 
     expectedFiles.clientConfigFolder.forEach((fileName) => {
-      const sourceFilePath = path.join(clientConfigFolder, fileName);
+      const sourceFilePath = path.join(lolConfigPath, fileName);
       const destinationFilePath = this.getDestinationFilePath(
         profile,
         fileName,
@@ -137,12 +144,9 @@ export class FolderManager {
   }
 
   exportProfileToClient(profile: Profile) {
-    const lolConfigPath = this.validateLolConfigPath();
-
-    const clientConfigFolder = path.join(lolConfigPath, 'Config');
+    const lolConfigPath = this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
     const profileFolderPath = this.getProfileFolderPath(profile);
 
-    this.folderHelper.ensureFolderExists(profileFolderPath);
     const files = this.fileHelper.getFilesInFolder(
       profileFolderPath,
       expectedFiles.managerFolder,
@@ -157,7 +161,7 @@ export class FolderManager {
     expectedFiles.clientConfigFolder.forEach((fileName) => {
       if (fileName !== 'profileDetails.json') {
         const sourceFilePath = path.join(profileFolderPath, fileName);
-        const destinationFilePath = path.join(clientConfigFolder, fileName);
+        const destinationFilePath = path.join(lolConfigPath, fileName);
 
         try {
           fs.copyFileSync(sourceFilePath, destinationFilePath);
@@ -168,33 +172,6 @@ export class FolderManager {
         }
       }
     });
-  }
-
-  // Helper functions
-
-  validateLolConfigPath(): string {
-    if (config.LolConfigPath == null) {
-      throw new Error(
-        'The default League of Legends installation path has not been set or the folder does not exist!',
-      );
-    }
-
-    if (!this.folderHelper.ensureFolderExists(config.LolConfigPath)) {
-      throw new Error(
-        'The folder given does not exist. Please check your League of Legends installation path.',
-      );
-    }
-
-    const foldersNameList = this.folderHelper.getFoldersNameInDirectory(
-      config.LolConfigPath,
-    );
-    if (!foldersNameList.includes('Config')) {
-      throw new Error(
-        'The Config folder does not exist. Please check your League of Legends installation path.',
-      );
-    }
-
-    return config.LolConfigPath;
   }
 
   getDestinationFilePath(profile: Profile, fileName: string): string {
