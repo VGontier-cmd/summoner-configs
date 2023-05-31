@@ -5,11 +5,10 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileNotFoundException } from './profile.exceptions';
 import { Profile } from './profile.interface';
-// TODO : Add folder implementation to save file on creation / update and on delete
 
 export class ProfileManager {
   private profileList: Profile[];
-  private folderManager: FolderManager; // Allow to manage the creation of folders / files on the disk
+  private folderManager: FolderManager; // Manage the creation of folders / files on the disk
 
   constructor(rootFolderPath: string) {
     this.folderManager = new FolderManager(rootFolderPath);
@@ -83,6 +82,6 @@ export class ProfileManager {
       this.profileList[profileIndex],
       updatedProfile,
     ); // Update the folder and the config file
-    this.profileList[profileIndex] = updatedProfile; // update the profile list too
+    this.profileList[profileIndex] = updatedProfile; // Update the profile list accordingly with the updated profile
   }
 }
