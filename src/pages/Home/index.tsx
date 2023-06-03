@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-
-import { ReactComponent as PlusIcon } from '@/assets/icons/plus-circle.svg';
-import { ReactComponent as DotsIcon } from '@/assets/icons/dots-vertical.svg';
-import { ReactComponent as StarIcon } from '@/assets/icons/star.svg';
-import { ReactComponent as StarFillIcon } from '@/assets/icons/star-fill.svg';
-import { ReactComponent as RefreshIcon } from '@/assets/icons/refresh.svg';
+import DotsIcon from '@/assets/icons/dots-vertical.svg';
+import PlusIcon from '@/assets/icons/plus-circle.svg';
+import RefreshIcon from '@/assets/icons/refresh.svg';
+import StarFillIcon from '@/assets/icons/star-fill.svg';
+import StarIcon from '@/assets/icons/star.svg';
 
 function Home() {
   const nbSettings = 5;

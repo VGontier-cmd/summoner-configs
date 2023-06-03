@@ -1,4 +1,3 @@
-import React from 'react';
 import { ipcRenderer } from 'electron';
 
 import { ReactComponent as CloseIcon } from '@/assets/icons/close.svg';
