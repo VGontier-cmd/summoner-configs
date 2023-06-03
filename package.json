@@ -18,28 +18,39 @@
     "pree2e": "vite build --mode=test"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
     "@types/node": "^20.2.5",
     "child_process": "^1.0.2",
     "class-validator": "^0.14.0",
-    "dotenv": "^16.0.3",
+    "class-variance-authority": "^0.6.0",
+    "clsx": "^1.2.1",
+    "dotenv": "^16.1.0",
     "electron-updater": "^5.3.0",
     "fs-extra": "^11.1.1",
+    "lucide-react": "^0.230.0",
+    "tailwind-merge": "^1.12.0",
+    "tailwindcss-animate": "^1.0.5",
+    "uuid": "^9.0.0",
     "vite-plugin-svgr": "^3.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.2.4",
     "@types/uuid": "^9.0.1",
     "@vitejs/plugin-react": "^3.1.0",
-    "electron": "^23.2.0",
+    "autoprefixer": "^10.4.14",
+    "electron": "^23.3.4",
     "electron-builder": "^23.6.0",
+    "postcss": "^8.4.24",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.60.0",
+    "sass": "^1.62.1",
+    "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
-    "vite": "^4.1.4",
+    "vite": "^4.3.9",
     "vite-plugin-electron": "^0.11.2",
-    "vite-plugin-electron-renderer": "^0.14.1"
+    "vite-plugin-electron-renderer": "^0.14.5"
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"

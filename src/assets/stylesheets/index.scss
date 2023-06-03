@@ -6,6 +6,12 @@
 | Style principal de l'application
 */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
 // Configuration and helpers
 @import
   'helpers/variables',
@@ -14,6 +20,7 @@
 
 // Base stuff
 @import
+  'base/layers',
   'base/base',
   'base/typography';
 
