@@ -13,5 +13,5 @@ export class CreateProfileDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  isFav?: boolean;
+  isFav!: boolean;
 }

@@ -25,5 +25,5 @@ export class UpdateProfileDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  isFav?: boolean;
+  isFav!: boolean;
 }
