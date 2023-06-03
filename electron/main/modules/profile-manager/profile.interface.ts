@@ -1,6 +1,6 @@
 export interface Profile {
-  id: string;
-  name: string;
-  color: string;
-  isFav: boolean;
+	id: string;
+	name: string;
+	color: string;
+	isFav: boolean;
 }
