@@ -71,19 +71,3 @@ a {
   margin: 0;
   padding: 0;
 }
-
-/**
- * Basic styles for buttons
- */
-button {
-  cursor: pointer;
-  background: transparent;
-  text-align: inherit;
-  border: none;
-  outline: none !important;
-  box-shadow: none;
-
-  @include on-event {
-    background: none;
-  }
-}
