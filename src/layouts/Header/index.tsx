@@ -1,8 +1,8 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
 
-import { ReactComponent as CloseIcon } from '@/assets/icons/close.svg';
-import { ReactComponent as MinimizeIcon } from '@/assets/icons/minimize.svg';
+import CloseIcon from '@/assets/icons/close.svg';
+import MinimizeIcon from '@/assets/icons/minimize.svg';
 
 const Header = () => {
   // On envoie un message à la fenêtre principale pour demander la fermeture de l'application
