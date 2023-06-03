@@ -9,6 +9,7 @@
 .buttons-wrapper {
   display: flex;
   align-items: center;
+  gap: .5rem;
 
   &.-center {
     justify-content: center;
@@ -24,6 +25,7 @@
   color: $primary-color;
   transition: all .2s ease-in-out;
   box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  border-radius: .375rem;
 
   &.-rounded {
     border-radius: 100vmax;
@@ -44,5 +46,14 @@
     background-color: rgba(255,255,255,.3);
     box-shadow: none;
   }
-}
 
+  &.btn--upload {
+    @include square(4.6rem);
+    background-color: $primary-color;
+    transform: translateY(-10px);
+    z-index: 1;
+    color: #fff;
+    font-size: .8rem;
+    text-align: center;
+  }
+}
