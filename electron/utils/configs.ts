@@ -1,8 +1,17 @@
 import * as dotenv from 'dotenv';
 
-dotenv.config(); // Load env var from the .env file
+/**
+ * Loads environment variables from the .env file.
+ */
+dotenv.config();
 
-export default {
-	DefaultFolderName: process.env.DEFAULT_FOLDER_NAME,
-	LolConfigPath: null,
-};
+/**
+ * The default folder name retrieved from the environment variables.
+ */
+export const DefaultFolderName: string | undefined = process.env.DEFAULT_FOLDER_NAME;
+
+/**
+ * The path to the League of Legends configuration file.
+ * This property is currently set to null.
+ */
+export const LolConfigPath: null = null;

@@ -2,12 +2,15 @@ import { BrowserWindow, app, ipcMain } from 'electron';
 import { ProfileNotFoundException } from '../profile-manager/profile.exceptions';
 import { ProfileManager } from '../profile-manager/profile.manager';
 
+/**
+ * Sets up the IPC event handlers for communication between the main process and the renderer process.
+ * @param {BrowserWindow} win - The Electron BrowserWindow instance.
+ * @param {string} rootFolderPath - The path of the root folder.
+ */
 export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 	/**
 	 * Creates an instance of the ProfileManager class with the specified root folder path.
-	 *
 	 * @param {string} rootFolderPath - The path of the root folder.
-	 * @returns {ProfileManager} The ProfileManager instance.
 	 */
 	const profileManager = new ProfileManager(rootFolderPath);
 
@@ -28,20 +31,10 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 	});
 
 	/**
-	 * Listens to the 'minimize-win' event from the render window and minimizes the window if available.
-	 */
-	ipcMain.on('minimize-win', () => {
-		if (win) {
-			win.minimize();
-		}
-	});
-
-	/**
 	 * Event: ipcmain-profile-update
-	 * Args:
-	 *   - _event: Event - The IPC event object (unused in the function).
-	 *   - id: string - The ID of the profile to update.
-	 *   - updateProfileDto: UpdateProfileDto - The updated profile data.
+	 * @param {Event} _event - The IPC event object (unused in the function).
+	 * @param {string} id - The ID of the profile to update.
+	 * @param {UpdateProfileDto} updateProfileDto - The updated profile data.
 	 * @returns {Promise<string>} A promise that resolves to a success message with the updated profile ID.
 	 * @throws {Error} If an error occurs during the profile update process.
 	 */
@@ -56,9 +49,8 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 
 	/**
 	 * Event: ipcmain-profile-create
-	 * Args:
-	 *   - event: Event - The IPC event object.
-	 *   - createProfile: CreateProfileDto - The data for creating a new profile.
+	 * @param {Event} event - The IPC event object.
+	 * @param {CreateProfileDto} createProfile - The data for creating a new profile.
 	 * @returns {Promise<string>} A promise that resolves to 'Success' on successful profile creation.
 	 * @throws {Error} If an error occurs during the profile creation process.
 	 */
@@ -73,9 +65,8 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 
 	/**
 	 * Event: ipcmain-profile-delete
-	 * Args:
-	 *   - event: Event - The IPC event object.
-	 *   - id: string - The ID of the profile to delete.
+	 * @param {Event} event - The IPC event object.
+	 * @param {string} id - The ID of the profile to delete.
 	 * @returns {Promise<string>} A promise that resolves to 'Success' on successful profile deletion.
 	 * @throws {Error} If an error occurs during the profile deletion process.
 	 */
@@ -90,8 +81,8 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 
 	/**
 	 * Event: ipcmain-profile-get
-	 * Args:
-	 *   - id: string - The ID of the profile to retrieve.
+	 * @param {Event} _event - The IPC event object.
+	 * @param {string} id - The ID of the profile to retrieve.
 	 * @returns {Profile} The profile object with the specified ID.
 	 * @throws {ProfileNotFoundException} If the profile with the specified ID is not found.
 	 */

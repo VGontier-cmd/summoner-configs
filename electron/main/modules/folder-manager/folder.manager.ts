@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import config from '../../../utils/configs';
+import { DefaultFolderName } from '../../../utils/configs';
 import { FileHelper } from '../../../utils/file.helper';
 import { FolderHelper } from '../../../utils/folder.helper';
 import { Profile } from '../profile-manager/profile.interface';
@@ -13,7 +13,7 @@ export class FolderManager {
 	private fileHelper: FileHelper;
 
 	constructor(rootFolderPath: string) {
-		this.rootFolderPath = path.join(rootFolderPath, config.DefaultFolderName ?? 'LolSettingsManager');
+		this.rootFolderPath = path.join(rootFolderPath, DefaultFolderName ?? 'LolSettingsManager');
 
 		// Initialize file / folder helpers
 		this.folderHelper = new FolderHelper();
@@ -23,7 +23,7 @@ export class FolderManager {
 		if (!this.folderHelper.ensureFolderExists(this.rootFolderPath)) this.folderHelper.createFolder(this.rootFolderPath);
 	}
 
-	getProfileFolderPath(profile: Profile) {
+	async getProfileFolderPath(profile: Profile) {
 		const folderPath = path.join(this.rootFolderPath, `${profile.name}_${profile.id}`);
 
 		if (!this.folderHelper.ensureFolderExists(folderPath))
@@ -31,20 +31,20 @@ export class FolderManager {
 		return folderPath;
 	}
 
-	deleteProfileFolder(profile: Profile) {
+	async deleteProfileFolder(profile: Profile) {
 		const folderName = `${profile.name}_${profile.id}`;
-		this.folderHelper.deleteFolder(folderName);
+		await this.folderHelper.deleteFolder(folderName);
 	}
 
-	updateProfileFolder(oldProfile: Profile, profile: Profile) {
+	async updateProfileFolder(oldProfile: Profile, profile: Profile) {
 		const oldFolderName = `${oldProfile.name}_${oldProfile.id}`;
 		const newFolderName = `${profile.name}_${profile.id}`;
-		this.folderHelper.renameFolder(oldFolderName, newFolderName);
+		await this.folderHelper.renameFolder(oldFolderName, newFolderName);
 	}
 
-	retrieveProfiles(): Profile[] {
+	async retrieveProfiles(): Promise<Profile[]> {
 		const profilesList: Profile[] = [];
-		const foldersName = this.folderHelper.getFoldersNameInDirectory(this.rootFolderPath);
+		const foldersName = await this.folderHelper.getFoldersNameInDirectory(this.rootFolderPath);
 
 		foldersName.forEach((folderName) => {
 			const folderPath = path.join(this.rootFolderPath, folderName);
@@ -70,8 +70,11 @@ export class FolderManager {
 			// Load profile details file
 			let profileDetails;
 			fs.readFile(path.join(this.rootFolderPath, 'profileDetails.json'), 'utf8', (err, data) => {
-				if (err) console.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`);
-				profileDetails = JSON.parse(data);
+				if (err) {
+					console.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`);
+				} else {
+					profileDetails = JSON.parse(data);
+				}
 			});
 
 			if (profileDetails) {
@@ -88,38 +91,37 @@ export class FolderManager {
 		return profilesList;
 	}
 
-	importFromClient(profile: Profile) {
-		const lolConfigPath = this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
+	async importFromClient(profile: Profile) {
+		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 
-		const files = this.fileHelper.getFilesInFolder(lolConfigPath, expectedFiles.clientConfigFolder);
+		const files = await this.fileHelper.getFilesInFolder(lolConfigPath, expectedFiles.clientConfigFolder);
 
-		this.folderHelper.checkFolderFiles(lolConfigPath, files, expectedFiles.clientConfigFolder);
+		await this.folderHelper.checkFolderFiles(lolConfigPath, files, expectedFiles.clientConfigFolder);
 
 		expectedFiles.clientConfigFolder.forEach((fileName) => {
 			const sourceFilePath = path.join(lolConfigPath, fileName);
 			const destinationFilePath = this.getDestinationFilePath(profile, fileName);
-
-			try {
-				fs.copyFileSync(sourceFilePath, destinationFilePath);
-				console.log(`Copied file: ${fileName}`);
-			} catch (error) {
-				console.error(`Error copying file: ${fileName}`);
-				console.error(error);
-			}
+			fs.copyFile(sourceFilePath, destinationFilePath, (error) => {
+				if (error) {
+					new Error(`Error copying files from folder: ${sourceFilePath}, to folder : ${destinationFilePath}`);
+				} else {
+					console.log(`Copied file: ${fileName}`);
+				}
+			});
 		});
 
 		this.createProfileSettingsFile(profile);
 	}
 
-	exportProfileToClient(profile: Profile) {
-		const lolConfigPath = this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
-		const profileFolderPath = this.getProfileFolderPath(profile);
+	async exportProfileToClient(profile: Profile) {
+		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
+		const profileFolderPath = await this.getProfileFolderPath(profile);
 
-		const files = this.fileHelper.getFilesInFolder(profileFolderPath, expectedFiles.managerFolder);
+		const files = await this.fileHelper.getFilesInFolder(profileFolderPath, expectedFiles.managerFolder);
 
-		this.folderHelper.checkFolderFiles(profileFolderPath, files, expectedFiles.managerFolder);
+		await this.folderHelper.checkFolderFiles(profileFolderPath, files, expectedFiles.managerFolder);
 
-		expectedFiles.clientConfigFolder.forEach((fileName) => {
+		expectedFiles.clientConfigFolder.forEach(async (fileName) => {
 			if (fileName !== 'profileDetails.json') {
 				const sourceFilePath = path.join(profileFolderPath, fileName);
 				const destinationFilePath = path.join(lolConfigPath, fileName);

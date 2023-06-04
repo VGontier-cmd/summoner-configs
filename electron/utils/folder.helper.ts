@@ -1,17 +1,40 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import config from './configs';
+import { LolConfigPath } from './configs';
 
+/**
+ * Helper class for folder-related operations.
+ */
 export class FolderHelper {
-	ensureFolderExists(path: string): boolean {
-		return fs.existsSync(path);
+	/**
+	 * Ensures that a folder exists at the specified path.
+	 * @param folderPath - The path of the folder to check.
+	 * @returns True if the folder exists, false otherwise.
+	 */
+	ensureFolderExists(folderPath: string): boolean {
+		return fs.existsSync(folderPath);
 	}
 
-	createFolder(path: string) {
-		fs.mkdirSync(path);
+	/**
+	 * Creates a folder at the specified path asynchronously.
+	 * @param folderPath - The path where the folder should be created.
+	 * @returns A promise that resolves when the folder creation is complete.
+	 */
+	createFolder(folderPath: string): void {
+		fs.mkdir(folderPath, { recursive: true }, (err) => {
+			if (err) {
+				console.error('Error creating folder:', err);
+			} else {
+				console.log('Folder created:', folderPath);
+			}
+		});
 	}
 
-	deleteFolder(folderPath: string) {
+	/**
+	 * Deletes a folder at the specified path asynchronously.
+	 * @param folderPath - The path of the folder to delete.
+	 */
+	async deleteFolder(folderPath: string): Promise<void> {
 		fs.rmdir(folderPath, { recursive: true }, (err) => {
 			if (err) {
 				console.error('Error deleting folder:', err);
@@ -21,17 +44,27 @@ export class FolderHelper {
 		});
 	}
 
-	renameFolder(oldPath: string, newPath: string) {
+	/**
+	 * Renames a folder from the old path to the new path asynchronously.
+	 * @param oldPath - The old path of the folder.
+	 * @param newPath - The new path of the folder.
+	 */
+	async renameFolder(oldPath: string, newPath: string): Promise<void> {
 		fs.rename(oldPath, newPath, (err) => {
 			if (err) {
 				console.error('Error updating folder:', err);
 			} else {
-				console.log('Folder updating:', oldPath, newPath);
+				console.log('Folder updated:', oldPath, newPath);
 			}
 		});
 	}
 
-	getFoldersNameInDirectory(folderPath: string): string[] {
+	/**
+	 * Gets the names of all folders in the specified directory asynchronously.
+	 * @param folderPath - The path of the directory.
+	 * @returns An array of folder names.
+	 */
+	async getFoldersNameInDirectory(folderPath: string): Promise<string[]> {
 		const folderNames: string[] = [];
 		fs.readdirSync(folderPath).forEach((element) => {
 			const elementPath = path.join(folderPath, element);
@@ -45,7 +78,13 @@ export class FolderHelper {
 		return folderNames;
 	}
 
-	checkFolderFiles(folderPath: string, files: string[], expectedFiles: string[]) {
+	/**
+	 * Checks if the folder contains the expected files asynchronously.
+	 * @param folderPath - The path of the folder to check.
+	 * @param files - The files in the folder.
+	 * @param expectedFiles - The expected files in the folder.
+	 */
+	async checkFolderFiles(folderPath: string, files: string[], expectedFiles: string[]): Promise<void> {
 		if (files.length !== expectedFiles.length) {
 			console.error(`Some files are missing or extra in the folder '${folderPath}'`);
 			return;
@@ -64,21 +103,26 @@ export class FolderHelper {
 		}
 	}
 
-	validateLolConfigPath(): string {
-		if (config.LolConfigPath == null) {
+	/**
+	 * Validates the League of Legends configuration path.
+	 * @returns A promise that resolves to the validated configuration path.
+	 * @throws {Error} If the League of Legends installation path is not set, the folder does not exist, or the Config folder is missing.
+	 */
+	async validateLolConfigPath(): Promise<string> {
+		if (LolConfigPath == null) {
 			throw new Error('The default League of Legends installation path has not been set or the folder does not exist!');
 		}
 
-		if (!this.ensureFolderExists(config.LolConfigPath)) {
+		if (!this.ensureFolderExists(LolConfigPath)) {
 			throw new Error('The folder given does not exist. Please check your League of Legends installation path.');
 		}
 
-		const foldersNameList = this.getFoldersNameInDirectory(config.LolConfigPath);
+		const foldersNameList = await this.getFoldersNameInDirectory(LolConfigPath);
 
 		if (!foldersNameList.includes('Config')) {
 			throw new Error('The Config folder does not exist. Please check your League of Legends installation path.');
 		}
 
-		return path.join(config.LolConfigPath, 'Config');
+		return path.join(LolConfigPath, 'Config');
 	}
 }
