@@ -1,12 +1,12 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
 
 export function ipcManager(win: BrowserWindow) {
-	// On écoute l'événement 'close-win' depuis la fenêtre de rendu
+	// We listen to the 'close-win' event from the render window
 	ipcMain.on('close-win', () => {
 		app.quit();
 	});
 
-	// On écoute l'événement 'minimize-win' depuis la fenêtre de rendu
+	// We listen to the 'minimize-win' event from the render window
 	ipcMain.on('minimize-win', () => {
 		if (win) {
 			win.minimize();
