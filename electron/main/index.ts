@@ -3,7 +3,6 @@ import { release } from 'node:os';
 import { join } from 'node:path';
 import * as path from 'path';
 import { ipcManager } from './modules/ipc-manager/ipc.manager';
-import { ProfileManager } from './modules/profile-manager/profile.manager';
 import { update } from './modules/update/update';
 // The built directory structure
 //
@@ -30,8 +29,7 @@ const documentsFolderPath =
 			: app.getPath('documents')
 		: path.join(app.getPath('home'), 'Documents');
 const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, 'index.html');
-const profileManager = new ProfileManager(documentsFolderPath); // Initialize profileManager with the documents folder path
+const indexHtml = join(process.env.DIST, 'index.html'); // Initialize profileManager with the documents folder path
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -64,7 +62,7 @@ async function createWindow() {
 		},
 	});
 
-	ipcManager(win); // Initialize the IPCManager
+	ipcManager(win, documentsFolderPath); // Initialize the IPCManager
 
 	if (url) {
 		// electron-vite-vue#298
