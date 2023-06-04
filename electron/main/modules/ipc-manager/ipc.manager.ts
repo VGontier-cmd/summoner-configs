@@ -1,4 +1,5 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
+import { ProfileNotFoundException } from '../profile-manager/profile.exceptions';
 import { ProfileManager } from '../profile-manager/profile.manager';
 
 export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
@@ -85,5 +86,30 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 		} catch (error: any) {
 			throw new Error(error.message);
 		}
+	});
+
+	/**
+	 * Event: ipcmain-profile-get
+	 * Args:
+	 *   - id: string - The ID of the profile to retrieve.
+	 * @returns {Profile} The profile object with the specified ID.
+	 * @throws {ProfileNotFoundException} If the profile with the specified ID is not found.
+	 */
+	ipcMain.handle('ipcmain-profile-get', (_event, id) => {
+		try {
+			const profile = profileManager.get(id);
+			return profile;
+		} catch (error: any) {
+			throw new Error(error.message);
+		}
+	});
+
+	/**
+	 * Event: ipcmain-profile-get-all
+	 * @returns {Profile[]} An array of all profiles.
+	 */
+	ipcMain.handle('ipcmain-profile-get-all', () => {
+		const profiles = profileManager.getAll();
+		return profiles;
 	});
 }
