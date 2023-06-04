@@ -1,47 +1,54 @@
 import React, { useEffect, useState } from 'react';
 
-import PlusIcon from '@/assets/icons/plus-circle.svg';
-import DotsIcon from '@/assets/icons/dots-vertical.svg';
-import StarIcon from '@/assets/icons/star.svg';
-import StarFillIcon from '@/assets/icons/star-fill.svg';
-import RefreshIcon from '@/assets/icons/refresh.svg';
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Icons } from '@/components/Icons'
 
-function Home() {
-	const nbSettings = 5;
+const Home = () => {
+  const nbProfiles = 5;
 
-	const settings = [];
-	for (let i = 0; i < nbSettings; i++) {
-		settings.push(
-			<div className="setting-item blur" key={i}>
-				<button className="setting-item__favorite">{i == 0 ? <StarFillIcon /> : <StarIcon />}</button>
-				<button className="setting-item__actions">
-					<DotsIcon />
-				</button>
-				<div className="setting-item__logo"></div>
-				<h3 className="setting-item__title">Ma config</h3>
-			</div>,
+	const profiles = [];
+	for (let i = 0; i < nbProfiles; i++) {
+		profiles.push(
+      <Label
+        key={i}
+        htmlFor={`profile-${i}`}
+        className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-primary'
+      >
+        <RadioGroupItem value={`profile-${i}`} id={`profile-${i}`} className='sr-only' />
+        <Icons.paypal className='mb-3 h-6 w-6' />
+        Profile 2
+      </Label>
 		);
 	}
 
-	return (
-		<div className="wrapper">
-			<h1 className="heading-4">Manage your settings</h1>
-			<section id="saved-settings">
-				<div className="buttons-wrapper -to-right">
-					<button className="button -square -rounded blur">
-						<RefreshIcon />
-					</button>
-				</div>
-				<h2 className="heading-6">Saved settings</h2>
-				<div className="grid">
-					{settings}
-					<button className="button setting-item setting-item--add blur">
-						<PlusIcon />
-					</button>
-				</div>
-			</section>
-		</div>
-	);
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Manage your profiles !</CardTitle>
+        <CardDescription>
+          Add a new profile config to your account.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className='grid gap-6'>
+        <RadioGroup defaultValue='card' className='grid grid-cols-3 gap-4'>
+          {profiles}
+        </RadioGroup>
+      </CardContent>
+      <CardFooter>
+        <Button variant='outline' className='w-full'>Export to League of Legends</Button>
+      </CardFooter>
+    </Card>
+  )
 }
 
 export default Home;
