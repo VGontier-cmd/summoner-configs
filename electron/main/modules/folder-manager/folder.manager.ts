@@ -7,11 +7,27 @@ import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
 
+/**
+ * Manages folders and files for profiles in a root folder.
+ */
 export class FolderManager {
+	/**
+	 * The root folder path.
+	 */
 	private readonly rootFolderPath: string;
+	/**
+	 * The folder helper instance.
+	 */
 	private folderHelper: FolderHelper;
+	/**
+	 * The file helper instance.
+	 */
 	private fileHelper: FileHelper;
 
+	/**
+	 * Creates an instance of `FolderManager`.
+	 * @param rootFolderPath The root folder path.
+	 */
 	constructor(rootFolderPath: string) {
 		this.rootFolderPath = path.join(rootFolderPath, DefaultFolderName ?? 'LolSettingsManager');
 
@@ -23,6 +39,12 @@ export class FolderManager {
 		if (!this.folderHelper.ensureFolderExists(this.rootFolderPath)) this.folderHelper.createFolder(this.rootFolderPath);
 	}
 
+	/**
+	 * Retrieves the folder path for the specified profile.
+	 * @param profile The profile.
+	 * @throws {FolderNotFoundException} If the folder for the profile does not exist.
+	 * @returns The profile's folder path.
+	 */
 	async getProfileFolderPath(profile: Profile) {
 		const folderPath = path.join(this.rootFolderPath, `${profile.name}_${profile.id}`);
 
@@ -31,17 +53,31 @@ export class FolderManager {
 		return folderPath;
 	}
 
+	/**
+	 * Deletes the folder associated with the specified profile.
+	 * @param profile The profile.
+	 */
 	async deleteProfileFolder(profile: Profile) {
 		const folderName = `${profile.name}_${profile.id}`;
 		await this.folderHelper.deleteFolder(folderName);
 	}
 
+	/**
+	 * Updates the folder associated with the specified old profile to the new profile.
+	 * @param oldProfile The old profile.
+	 * @param profile The new profile.
+	 */
 	async updateProfileFolder(oldProfile: Profile, profile: Profile) {
 		const oldFolderName = `${oldProfile.name}_${oldProfile.id}`;
 		const newFolderName = `${profile.name}_${profile.id}`;
 		await this.folderHelper.renameFolder(oldFolderName, newFolderName);
 	}
 
+	/**
+	 * Updates the folder associated with the specified old profile to the new profile.
+	 * @param oldProfile The old profile.
+	 * @param profile The new profile.
+	 */
 	async retrieveProfiles(): Promise<Profile[]> {
 		const profilesList: Profile[] = [];
 		const foldersName = await this.folderHelper.getFoldersNameInDirectory(this.rootFolderPath);
@@ -91,6 +127,11 @@ export class FolderManager {
 		return profilesList;
 	}
 
+	/**
+	 * Updates the folder associated with the specified old profile to the new profile.
+	 * @param oldProfile The old profile.
+	 * @param profile The new profile.
+	 */
 	async importFromClient(profile: Profile) {
 		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 
@@ -113,6 +154,11 @@ export class FolderManager {
 		this.createProfileSettingsFile(profile);
 	}
 
+	/**
+	 * Updates the folder associated with the specified old profile to the new profile.
+	 * @param oldProfile The old profile.
+	 * @param profile The new profile.
+	 */
 	async exportProfileToClient(profile: Profile) {
 		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 		const profileFolderPath = await this.getProfileFolderPath(profile);
@@ -136,10 +182,20 @@ export class FolderManager {
 		});
 	}
 
+	/**
+	 * Updates the folder associated with the specified old profile to the new profile.
+	 * @param oldProfile The old profile.
+	 * @param profile The new profile.
+	 */
 	getDestinationFilePath(profile: Profile, fileName: string): string {
 		return path.join(path.join(this.rootFolderPath, `${profile.name}_${profile.id}`), fileName);
 	}
 
+	/**
+	 * Updates the folder associated with the specified old profile to the new profile.
+	 * @param oldProfile The old profile.
+	 * @param profile The new profile.
+	 */
 	createProfileSettingsFile(profile: Profile) {
 		const jsonContent = JSON.stringify(profile, null, 2);
 		this.fileHelper.createJsonFile(
