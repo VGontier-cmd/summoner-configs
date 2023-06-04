@@ -1,7 +1,6 @@
 import { ipcRenderer } from 'electron';
 
-import CloseIcon from '@/assets/icons/close.svg';
-import MinimizeIcon from '@/assets/icons/minimize.svg';
+import { Icons } from '@/components/Icons'
 
 const Header = () => {
   // On envoie un message à la fenêtre principale pour demander la fermeture de l'application
@@ -17,10 +16,10 @@ const Header = () => {
   return (
     <header className='frame-header'>
       <button onClick={handleMinimizeButtonClick} className='btn-minimize frame-action'>
-        <MinimizeIcon />
+        <Icons.minimize />
       </button>
       <button onClick={handleCloseButtonClick} className='btn-close frame-action'>
-        <CloseIcon />
+        <Icons.close />
       </button>
     </header>
   )
