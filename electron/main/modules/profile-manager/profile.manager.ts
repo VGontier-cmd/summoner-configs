@@ -15,7 +15,7 @@ export class ProfileManager {
 		this.profileList = this.folderManager.retrieveProfiles();
 	}
 
-	create(createProfile: CreateProfileDto) {
+	async create(createProfile: CreateProfileDto) {
 		validate(createProfile)
 			.then((errors) => {
 				if (errors.length > 0) {
@@ -37,11 +37,11 @@ export class ProfileManager {
 			});
 	}
 
-	getAll(): Profile[] {
+	async getAll(): Promise<Profile[]> {
 		return this.profileList;
 	}
 
-	get(id: string): Profile {
+	async get(id: string): Promise<Profile> {
 		const profile = this.profileList.find((profile) => {
 			return profile.id === id;
 		});
@@ -51,7 +51,7 @@ export class ProfileManager {
 		return profile;
 	}
 
-	delete(id: string) {
+	async delete(id: string) {
 		const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
 
 		if (profileIndex === -1) {
@@ -62,19 +62,29 @@ export class ProfileManager {
 		this.profileList.splice(profileIndex, 1);
 	}
 
-	update(id: string, updateProfileDto: UpdateProfileDto) {
-		const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
+	async update(id: string, updateProfileDto: UpdateProfileDto) {
+		validate(updateProfileDto)
+			.then((errors) => {
+				if (errors.length > 0) {
+					console.log('Validation errors:', errors);
+				} else {
+					const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
 
-		if (profileIndex === -1) {
-			throw new ProfileNotFoundException(`Profile not found with ID: ${id}`);
-		}
+					if (profileIndex === -1) {
+						throw new ProfileNotFoundException(`Profile not found with ID: ${id}`);
+					}
 
-		const updatedProfile: Profile = {
-			...this.profileList[profileIndex],
-			...updateProfileDto,
-		};
+					const updatedProfile: Profile = {
+						...this.profileList[profileIndex],
+						...updateProfileDto,
+					};
 
-		this.folderManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile); // Update the folder and the config file
-		this.profileList[profileIndex] = updatedProfile; // Update the profile list accordingly with the updated profile
+					this.folderManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile); // Update the folder and the config file
+					this.profileList[profileIndex] = updatedProfile; // Update the profile list accordingly with the updated profile
+				}
+			})
+			.catch((error) => {
+				console.log('Validation error:', error);
+			});
 	}
 }
