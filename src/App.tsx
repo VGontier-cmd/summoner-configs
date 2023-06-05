@@ -3,18 +3,19 @@ import { useEffect, useState } from 'react';
 
 import Home from './pages/Home';
 
-const { exec } = require('child_process');
+import { exec } from 'child_process';
 
 function App() {
   const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
   const time = 5000;
   const execApp = 'LeagueClientUx.exe';
+  const execCommand = `tasklist /fi "imagename eq ${execApp}"`
 
   useEffect(() => {
     // On met à jour l'état d'ouverture de l'application 'League of Legends'
     const checkLeagueOfLegendsStatus = () => {
       return new Promise<void>((resolve, reject) => {
-        exec(`tasklist /fi "imagename eq ${execApp}"`, (error: Error | null, stdout: string, stderr: string) => {
+        exec(execCommand, (error: Error | null, stdout: string, stderr: string) => {
           if (error) {
             reject(error);
             return;

@@ -22,12 +22,7 @@ let win: BrowserWindow | null = null;
 // Here, you can also use other preload
 const preload = join(__dirname, '../preload/preload.js');
 const userProfile = process.env.USERPROFILE;
-const documentsFolderPath =
-	process.platform === 'win32'
-		? userProfile
-			? userProfile
-			: app.getPath('documents')
-		: path.join(app.getPath('home'), 'Documents');
+const documentsFolderPath = path.join(app.getPath('home'), 'Documents');
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, 'index.html'); // Initialize profileManager with the documents folder path
 
