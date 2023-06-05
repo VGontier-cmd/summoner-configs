@@ -6,6 +6,8 @@
 | This file contains all application-wide Sass variables.
 */
 
+@import 'cal-sans';
+
 /// Background opacity
 /// @type Number
 $bg-opacity: 1;
@@ -21,7 +23,7 @@ $frame-radius: 1rem;
 */
 /// Regular font family
 /// @type List
-$text-font: Century Gothic, sans-serif !default;
+$text-font: "Cal Sans", sans-serif !default;
 
 /*
 |--------------------------------------------------------------------------

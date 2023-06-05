@@ -10,8 +10,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 // Configuration and helpers
 @import
   'helpers/variables',
@@ -26,7 +24,7 @@
 
 // Components
 @import
-  //'components/button',
+  'components/button',
   'components/loader',
   'components/settings';
 
