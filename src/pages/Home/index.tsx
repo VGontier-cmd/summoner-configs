@@ -51,7 +51,7 @@ import {
 
 
 const Home = () => {
-  const nbProfiles = 5;
+  const nbProfiles = 15;
 
   const profiles = [];
   for (let i = 0; i < nbProfiles; i++) {
@@ -134,76 +134,81 @@ const Home = () => {
 
   return (
     <>
-      <Card className='font-sans border-0 shadow-none'>
-        <CardHeader>
-          <CardTitle className='main-title'>
-            Manage<br/>your profiles !
-          </CardTitle>
-          <CardDescription>
-            Add a new profile config to your account.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className='grid gap-6'>
-          <div className='flex justify-end gap-3'>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Add Profile</DialogTitle>
-                  <DialogDescription>
-                    Add a name to your new profile.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 pt-4">
-                  <div className="flex flex-col gap-3">
-                    <Label htmlFor="name">
-                      Name
-                    </Label>
-                    <Input id="name" className="col-span-3" />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit">Save</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+      <div className='overflow-y-auto'>
+        <Card className='font-sans border-0 shadow-none'>
+          <CardHeader>
+            <CardTitle className='main-title text-primary'>
+              Manage<br/>your profiles !
+            </CardTitle>
+            <CardDescription>
+              Add a new profile config to your account.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className='grid gap-6 pb-8'>
+            <div className='flex items-end justify-between gap-3'>
+              <span className='text-sm text-muted text-primary'>{nbProfiles} profiles</span>
+              <div className='flex justify-end gap-3'>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Add Profile</DialogTitle>
+                      <DialogDescription>
+                        Add a name to your new profile.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 pt-4">
+                      <div className="flex flex-col gap-3">
+                        <Label htmlFor="name">
+                          Name
+                        </Label>
+                        <Input id="name" className="col-span-3" />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit">Save</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
 
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant='outline'>
-                  <Settings className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Settings</DialogTitle>
-                  <DialogDescription>
-                    Enter your config file path.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 pt-4">
-                  <div className="flex flex-col gap-3">
-                    <Label htmlFor="name">
-                      Path
-                    </Label>
-                    <Input id="name" className="col-span-3" />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit">Save</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <RadioGroup defaultValue='card' className='grid grid-cols-3 gap-3'>
-            {profiles}
-          </RadioGroup>
-        </CardContent>
-      </Card>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant='outline'>
+                      <Settings className="h-4 w-4" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Settings</DialogTitle>
+                      <DialogDescription>
+                        Enter your config file path.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 pt-4">
+                      <div className="flex flex-col gap-3">
+                        <Label htmlFor="name">
+                          Path
+                        </Label>
+                        <Input id="name" className="col-span-3" />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit">Save</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+            <RadioGroup defaultValue='card' className='grid grid-cols-3 gap-3'>
+              {profiles}
+            </RadioGroup>
+          </CardContent>
+        </Card>
+      </div>
       <div className='glass mt-auto p-5 border-t border-gray-200 ctm-shadow'>
         <Button className='w-full'>Export to League of Legends</Button>
       </div>
