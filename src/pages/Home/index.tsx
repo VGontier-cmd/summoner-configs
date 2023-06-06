@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -15,7 +14,6 @@ import { Icons } from '@/components/Icons'
 
 import {
   Plus,
-  PlusCircle,
   Settings,
   Pen,
   Trash,
@@ -30,6 +28,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 import {
   DropdownMenu,
@@ -52,28 +62,47 @@ const Home = () => {
         className='reltive glass cursor-pointer flex flex-col items-center justify-between rounded-md border-muted bg-popover p-4 py-5 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:bg-primary'
       >
         <Dialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className='absolute outline-none p-2 top-0 right-0 flex items-center justify-center'>
-                <Icons.dots className='h-4 w-4' />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuGroup>
-                <DialogTrigger asChild>
-                  <DropdownMenuItem>
-                    <Pen className="mr-2 h-4 w-4" />
-                    <span>Update</span>
-                  </DropdownMenuItem>
-                </DialogTrigger>
-                 
-                <DropdownMenuItem>
-                  <Trash className="mr-2 h-4 w-4" />
-                  <span>Delete</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <AlertDialog>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className='absolute outline-none p-2 top-0 right-0 flex items-center justify-center'>
+                  <Icons.dots className='h-4 w-4' />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuGroup>
+                  <DialogTrigger asChild>
+                    <DropdownMenuItem>
+                      <Pen className="mr-2 h-4 w-4" />
+                      <span>Update</span>
+                    </DropdownMenuItem>
+                  </DialogTrigger>
+                  
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem>
+                      <Trash className="mr-2 h-4 w-4" />
+                      <span>Delete</span>
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete your account
+                  and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
 
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -82,7 +111,7 @@ const Home = () => {
                 Update the profile name.
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <div className="grid gap-4 pt-4">
               <div className="flex flex-col gap-3">
                 <Label htmlFor="name">
                   Name
