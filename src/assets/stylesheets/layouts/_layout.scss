@@ -1,0 +1,22 @@
+.glass {
+    background-color: hsla(var(--glass-background));
+    backdrop-filter: var(--glass-filter);
+}
+
+.ctm-shadow {
+    box-shadow: 0px -5px 20px rgba(0, 0, 0, 0.1);
+}
+
+label:has(button[data-state=checked]) {
+    color: #fff !important;
+    fill: #fff;
+}
+
+.ctm-dropdown {
+    width: auto;
+}
+
+.main-title {
+    color: hsl(var(--primary));
+    font-size: 2.5rem;
+}

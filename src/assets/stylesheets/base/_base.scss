@@ -5,3 +5,11 @@
 |
 | This file contains very basic styles.
 */
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    @include background-image('gradient-bg.webp');
+}
