@@ -91,10 +91,9 @@ const Home = () => {
 
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Are you absolutely sure ?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete your account
-                  and remove your data from our servers.
+                  This action cannot be undone. This will permanently delete your selected profile settings.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -209,8 +208,26 @@ const Home = () => {
           </CardContent>
         </Card>
       </div>
-      <div className='glass mt-auto p-5 border-t border-gray-200 ctm-shadow'>
-        <Button className='w-full'>Export to League of Legends</Button>
+      <div className='footer relative h-[5rem] mt-auto p-5'>
+        <div className='footer__circle'></div>
+        <div className='footer__bg'></div>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className='footer__btn rounded-circle'>Export profile</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure ?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will load your selected profile settings to your League of Legends client.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </>
   )

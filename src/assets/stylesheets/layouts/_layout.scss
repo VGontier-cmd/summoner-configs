@@ -24,6 +24,70 @@ label:has(button[data-state=checked]) {
     color: hsl(var(--primary));
 }
 
+.rounded-circle {
+    border-radius: 1;
+    border-radius: 100vmax;
+}
+
+.load-btn__wrapper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.footer {
+    &__bg {
+        @include square(100%);
+        top: 0;
+        left: 0;
+        //border-top: 1px solid hsl(var(--primary));
+
+        &:after {
+            content: '';
+            background-color: #fff;
+            height: 2px;
+            position: absolute;
+            border-top: 3px solid hsl(var(--primary));
+        }
+    }
+
+    &__circle {
+        z-index: 0;
+    }
+
+    &__btn {
+        @include square(6rem);
+    }
+
+    &__bg:after,
+    &__circle {
+        @include square(7.5rem);
+        border-radius: 100vmax;
+    }
+
+    &__bg,
+    &__circle {
+        background-color: #fff;
+        //box-shadow: 0px -5px 20px rgba(255, 255, 255, .2);
+        box-shadow: 0px -5px 20px rgba(86, 83, 243, .2);
+    }
+
+    &__circle,
+    &__btn,
+    &__bg:after {
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &__bg,
+    &__circle,
+    &__btn {
+        position: absolute;
+    }   
+}
+
 ::-webkit-scrollbar {
     display: none;
 }
