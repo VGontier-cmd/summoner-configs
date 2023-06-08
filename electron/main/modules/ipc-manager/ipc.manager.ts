@@ -42,8 +42,8 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 		try {
 			await profileManager.update(id, updateProfileDto);
 			return `Success updating profile with id: ${id}`;
-		} catch (error: any) {
-			throw new Error(error.message);
+		} catch (error) {
+			throw error;
 		}
 	});
 
@@ -58,8 +58,8 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 		try {
 			await profileManager.create(createProfile);
 			return 'Success creating profile';
-		} catch (error: any) {
-			throw new Error(error.message);
+		} catch (error) {
+			throw error;
 		}
 	});
 
@@ -74,8 +74,8 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 		try {
 			await profileManager.delete(id);
 			return `Success deleting profile with id: ${id}`;
-		} catch (error: any) {
-			throw new Error(error.message);
+		} catch (error) {
+			throw error;
 		}
 	});
 
@@ -90,8 +90,8 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 		try {
 			const profile = profileManager.get(id);
 			return profile;
-		} catch (error: any) {
-			throw new Error(error.message);
+		} catch (error) {
+			throw error;
 		}
 	});
 
