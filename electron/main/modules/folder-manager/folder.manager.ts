@@ -74,9 +74,8 @@ export class FolderManager {
 	}
 
 	/**
-	 * Updates the folder associated with the specified old profile to the new profile.
-	 * @param oldProfile The old profile.
-	 * @param profile The new profile.
+	 * Retrieves profiles from the root folder path.
+	 * @returns A promise that resolves to an array of Profile objects.
 	 */
 	async retrieveProfiles(): Promise<Profile[]> {
 		const profilesList: Profile[] = [];
@@ -128,9 +127,8 @@ export class FolderManager {
 	}
 
 	/**
-	 * Updates the folder associated with the specified old profile to the new profile.
-	 * @param oldProfile The old profile.
-	 * @param profile The new profile.
+	 * Imports the profile from the client by copying the necessary files from the client's configuration folder.
+	 * @param profile - The profile object to be imported.
 	 */
 	async importFromClient(profile: Profile) {
 		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
@@ -155,9 +153,8 @@ export class FolderManager {
 	}
 
 	/**
-	 * Updates the folder associated with the specified old profile to the new profile.
-	 * @param oldProfile The old profile.
-	 * @param profile The new profile.
+	 * Exports the profile to the client by copying the necessary files to the client's configuration folder.
+	 * @param profile - The profile object to be exported.
 	 */
 	async exportProfileToClient(profile: Profile) {
 		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
@@ -183,18 +180,18 @@ export class FolderManager {
 	}
 
 	/**
-	 * Updates the folder associated with the specified old profile to the new profile.
-	 * @param oldProfile The old profile.
-	 * @param profile The new profile.
+	 * Retrieves the destination file path for the given profile and file name.
+	 * @param profile - The profile object containing the details.
+	 * @param fileName - The name of the file.
+	 * @returns The destination file path.
 	 */
 	getDestinationFilePath(profile: Profile, fileName: string): string {
 		return path.join(path.join(this.rootFolderPath, `${profile.name}_${profile.id}`), fileName);
 	}
 
 	/**
-	 * Updates the folder associated with the specified old profile to the new profile.
-	 * @param oldProfile The old profile.
-	 * @param profile The new profile.
+	 * Creates a profile settings file for the given profile.
+	 * @param profile - The profile object containing the details to be saved.
 	 */
 	createProfileSettingsFile(profile: Profile) {
 		const jsonContent = JSON.stringify(profile, null, 2);
