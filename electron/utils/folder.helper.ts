@@ -110,17 +110,19 @@ export class FolderHelper {
 	 */
 	async validateLolConfigPath(): Promise<string> {
 		if (LolConfigPath == null) {
-			throw new Error('The default League of Legends installation path has not been set or the folder does not exist!');
+			throw new Error(`The default League of Legends installation path has not been set or the folder does not exist!`);
 		}
 
 		if (!this.ensureFolderExists(LolConfigPath)) {
-			throw new Error('The folder given does not exist. Please check your League of Legends installation path.');
+			throw new Error(`The folder given does not exist. Please check your League of Legends installation path.`);
 		}
 
 		const foldersNameList = await this.getFoldersNameInDirectory(LolConfigPath);
 
 		if (!foldersNameList.includes('Config')) {
-			throw new Error('The Config folder does not exist. Please check your League of Legends installation path.');
+			throw new Error(
+				`The Config folder does not exist. Please check your League of Legends installation path. Path given : ${LolConfigPath}`,
+			);
 		}
 
 		return path.join(LolConfigPath, 'Config');
