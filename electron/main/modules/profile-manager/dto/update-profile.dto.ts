@@ -27,24 +27,4 @@ export class UpdateProfileDto {
 	@IsNotEmpty()
 	@IsString()
 	name!: string;
-
-	/**
-	 * Updated color of the profile.
-	 * @remarks Must be a non-empty string.
-	 * @remarks Must have a length of 7 characters.
-	 * @example "#FF0000"
-	 */
-	@Length(7)
-	@IsNotEmpty()
-	@IsString()
-	color!: string;
-
-	/**
-	 * Updated flag indicating whether the profile is a favorite.
-	 * @remarks Must be a boolean value.
-	 * @example true
-	 */
-	@IsNotEmpty()
-	@IsBoolean()
-	isFav!: boolean;
 }

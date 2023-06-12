@@ -1,3 +1,6 @@
+import { useRef, useState, useEffect } from 'react';
+import { ipcRenderer } from 'electron';
+import { Profile } from 'electron/main/modules/profile-manager/profile.interface'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -49,87 +52,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import NewProfile from '@/layouts/Profiles/New'
+import ListProfile from '@/layouts/Profiles/List'
 
 const Home = () => {
-  const nbProfiles = 15;
 
-  const profiles = [];
-  for (let i = 0; i < nbProfiles; i++) {
-    profiles.push(
-      <Label
-        key={i}
-        htmlFor={`profile-${i}`}
-        className='reltive glass cursor-pointer flex flex-col items-center justify-between rounded-md border-muted bg-popover p-4 py-5 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:bg-primary'
-      >
-        <Dialog>
-          <AlertDialog>
+  const [profiles, setProfiles] = useState<Profile[]>([]);
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className='absolute outline-none p-2 top-0 right-0 flex items-center justify-center'>
-                  <Icons.dots className='h-4 w-4' />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuGroup>
-                  <DialogTrigger asChild>
-                    <DropdownMenuItem>
-                      <Pen className="mr-2 h-4 w-4" />
-                      <span>Update</span>
-                    </DropdownMenuItem>
-                  </DialogTrigger>
-                  
-                  <AlertDialogTrigger asChild>
-                    <DropdownMenuItem>
-                      <Trash className="mr-2 h-4 w-4" />
-                      <span>Delete</span>
-                    </DropdownMenuItem>
-                  </AlertDialogTrigger>
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure ?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete your selected profile settings.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Update profile</DialogTitle>
-              <DialogDescription>
-                Update the profile name.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 pt-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="name">
-                  Name
-                </Label>
-                <Input id="name" className="col-span-3" />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button type="submit">Save</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-        <RadioGroupItem value={`profile-${i}`} id={`profile-${i}`} className='sr-only' />
-
-        <Icons.lol className='mb-3 h-6 w-6' />
-        Profile {i + 1}
-      </Label>
-    );
-  }
+  useEffect(() => {
+    ipcRenderer.invoke('ipcmain-profile-get-all').then((result) => {
+      setProfiles(result);
+    }).catch((error) => {
+      console.log('Error retrieving profiles:', error);
+    });
+  }, []);
 
   return (
     <>
@@ -145,34 +81,9 @@ const Home = () => {
           </CardHeader>
           <CardContent className='grid gap-6 pb-8'>
             <div className='flex items-end justify-between gap-3'>
-              <span className='text-sm text-muted text-primary'>{nbProfiles} profiles</span>
+              <span className='text-sm text-muted text-primary'>{profiles.length} profiles</span>
               <div className='flex justify-end gap-3'>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button>
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>Add Profile</DialogTitle>
-                      <DialogDescription>
-                        Add a name to your new profile.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 pt-4">
-                      <div className="flex flex-col gap-3">
-                        <Label htmlFor="name">
-                          Name
-                        </Label>
-                        <Input id="name" className="col-span-3" />
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button type="submit">Save</Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <NewProfile />
 
                 <Dialog>
                   <DialogTrigger asChild>
@@ -202,9 +113,7 @@ const Home = () => {
                 </Dialog>
               </div>
             </div>
-            <RadioGroup defaultValue='card' className='grid grid-cols-3 gap-3'>
-              {profiles}
-            </RadioGroup>
+            <ListProfile />
           </CardContent>
         </Card>
       </div>

@@ -46,7 +46,7 @@ function App() {
 
   return (
     <>
-      {isLeagueOfLegendsOpen ? (
+      {!isLeagueOfLegendsOpen ? (
         <Home />
       ) : (
         <Starter />
