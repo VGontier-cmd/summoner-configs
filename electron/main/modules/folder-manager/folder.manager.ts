@@ -105,7 +105,7 @@ export class FolderManager {
 
 			// Load profile details file
 			let profileDetails;
-			const profileFolderPath = path.join(this.rootFolderPath, folderName)
+			const profileFolderPath = path.join(this.rootFolderPath, folderName);
 			fs.readFile(path.join(profileFolderPath, 'profileDetails.json'), 'utf8', (err, data) => {
 				if (err) {
 					logger.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`, err);
@@ -139,12 +139,12 @@ export class FolderManager {
 
 		await this.folderHelper.checkFolderFiles(lolConfigPath, files, expectedFiles.clientConfigFolder);
 
-		this.folderHelper.createFolder(path.join(this.rootFolderPath,this.getProfileFolderName(profile))) // Create profile folder 
+		this.folderHelper.createFolder(path.join(this.rootFolderPath, this.getProfileFolderName(profile))); // Create profile folder
 
 		for (const fileName of expectedFiles.clientConfigFolder) {
 			const sourceFilePath = path.join(lolConfigPath, fileName);
 			const destinationFilePath = this.getDestinationFilePath(profile, fileName);
-		
+
 			try {
 				await fs.promises.copyFile(sourceFilePath, destinationFilePath);
 				logger.info(`Copied file: ${fileName}`);
@@ -198,8 +198,8 @@ export class FolderManager {
 	 * @param profile - The profile object.
 	 * @returns The folder name for the profile.
 	 */
-	private getProfileFolderName(profile : Profile) {
-		return `${profile.name}_${profile.id}`
+	private getProfileFolderName(profile: Profile) {
+		return `${profile.name}_${profile.id}`;
 	}
 
 	/**
@@ -214,6 +214,4 @@ export class FolderManager {
 			jsonContent,
 		);
 	}
-
-	
 }

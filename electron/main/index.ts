@@ -5,7 +5,6 @@ import * as path from 'path';
 import { ipcManager } from './modules/ipc-manager/ipc.manager';
 import { update } from './modules/update/update';
 
-
 // The built directory structure
 //
 // ├─┬ dist-electron
