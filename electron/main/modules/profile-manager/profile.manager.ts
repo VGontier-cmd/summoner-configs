@@ -47,7 +47,7 @@ export class ProfileManager {
 					const newProfile: Profile = {
 						id: uuidv4(),
 						name: createProfile.name,
-						color: createProfile.color ?? '#FFF',
+						color: createProfile.color ?? '#000000',
 						isFav: createProfile.isFav ?? false,
 					};
 
