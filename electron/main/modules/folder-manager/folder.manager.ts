@@ -6,6 +6,7 @@ import { FolderHelper } from '../../../utils/folder.helper';
 import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
+import logger from 'electron/utils/logger';
 
 /**
  * Manages folders and files for profiles in a root folder.
@@ -86,7 +87,7 @@ export class FolderManager {
 			const files = fs.readdirSync(folderPath);
 
 			if (files.length !== expectedFiles.managerFolder.length) {
-				console.error(`Some files are missing or extra in the folder '${folderName}'`);
+				logger.error(`Some files are missing or extra in the folder '${folderName}'`);
 				return;
 			}
 
@@ -98,7 +99,7 @@ export class FolderManager {
 			});
 
 			if (missingFiles.length > 0) {
-				console.error(`The folder '${folderName}' does not contain the file(s) : ${missingFiles.join(', ')}`);
+				logger.error(`The folder '${folderName}' does not contain the file(s) : ${missingFiles.join(', ')}`);
 				return;
 			}
 
@@ -107,7 +108,7 @@ export class FolderManager {
 			const profileFolderPath = path.join(this.rootFolderPath, folderName)
 			fs.readFile(path.join(profileFolderPath, 'profileDetails.json'), 'utf8', (err, data) => {
 				if (err) {
-					console.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`, err);
+					logger.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`, err);
 				} else {
 					profileDetails = JSON.parse(data);
 				}
@@ -146,7 +147,7 @@ export class FolderManager {
 		
 			try {
 				await fs.promises.copyFile(sourceFilePath, destinationFilePath);
-				console.log(`Copied file: ${fileName}`);
+				logger.info(`Copied file: ${fileName}`);
 			} catch (error) {
 				throw new Error(`Error copying files from folder: ${sourceFilePath}, to folder: ${destinationFilePath}`);
 			}
@@ -174,9 +175,9 @@ export class FolderManager {
 
 				try {
 					fs.copyFileSync(sourceFilePath, destinationFilePath);
-					console.log(`Copied file: ${fileName}`);
+					logger.info(`Copied file: ${fileName}`);
 				} catch (error) {
-					console.error(`Error copying file : ${fileName}`, error);
+					logger.error(`Error copying file : ${fileName}`, error);
 				}
 			}
 		});

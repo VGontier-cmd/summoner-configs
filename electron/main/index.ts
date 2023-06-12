@@ -4,6 +4,9 @@ import { join } from 'node:path';
 import * as path from 'path';
 import { ipcManager } from './modules/ipc-manager/ipc.manager';
 import { update } from './modules/update/update';
+import { createLogger, transports, format } from "winston";
+
+
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -21,7 +24,6 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL ? join(process.env.DIST_ELE
 let win: BrowserWindow | null = null;
 // Here, you can also use other preload
 const preload = join(__dirname, '../preload/preload.js');
-const userProfile = process.env.USERPROFILE;
 const documentsFolderPath = path.join(app.getPath('home'), 'Documents');
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, 'index.html'); // Initialize profileManager with the documents folder path

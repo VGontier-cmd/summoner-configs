@@ -5,6 +5,7 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileNotFoundException } from './profile.exceptions';
 import { Profile } from './profile.interface';
+import logger from 'electron/utils/logger';
 
 /**
  * Manages profiles and their operations.
@@ -27,7 +28,9 @@ export class ProfileManager {
 	 * Initializes the profile list by retrieving profiles from the folder manager asynchronously.
 	 */
 	async initializeProfileList(): Promise<void> {
+		logger.info(`Initializing ProfileList ...`);
 		this.profileList = await this.folderManager.retrieveProfiles();
+		logger.info(`Initialization complete.`);
 	}
 
 	/**
@@ -35,6 +38,7 @@ export class ProfileManager {
 	 * @param createProfile - The profile data for creation.
 	 */
 	async create(createProfile: CreateProfileDto): Promise<void> {
+		logger.info(`Creating a new Profile`);
 		/**
 		 * Validates the createProfile object using class-validator library.
 		 * @param errors - An array of validation errors, if any.
@@ -42,7 +46,7 @@ export class ProfileManager {
 		validate(createProfile)
 			.then(async (errors) => {
 				if (errors.length > 0) {
-					console.log('Validation errors:', errors);
+					logger.error('Validation errors:', errors);
 				} else {
 					const newProfile: Profile = {
 						id: uuidv4(),
@@ -55,7 +59,7 @@ export class ProfileManager {
 				}
 			})
 			.catch((error) => {
-				console.log('Validation error:', error);
+				logger.error('Validation error:', error);
 			});
 	}
 
@@ -89,6 +93,7 @@ export class ProfileManager {
 	 * @throws {ProfileNotFoundException} If the profile is not found.
 	 */
 	async delete(id: string): Promise<void> {
+		logger.info(`Deleting profile with id : ${id}`);
 		const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
 
 		if (profileIndex === -1) {
@@ -106,6 +111,7 @@ export class ProfileManager {
 	 * @throws {ProfileNotFoundException} If the profile is not found.
 	 */
 	async update(id: string, updateProfileDto: UpdateProfileDto): Promise<void> {
+		logger.info(`Updating profile with id : ${id}`);
 		/**
 		 * Validates the updateProfileDto object using class-validator library.
 		 * @param errors - An array of validation errors, if any.
@@ -113,7 +119,7 @@ export class ProfileManager {
 		validate(updateProfileDto)
 			.then(async (errors) => {
 				if (errors.length > 0) {
-					console.log('Validation errors:', errors);
+					logger.error('Validation errors:', errors);
 				} else {
 					const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
 
@@ -131,7 +137,7 @@ export class ProfileManager {
 				}
 			})
 			.catch((error) => {
-				console.log('Validation error:', error);
+				logger.error('Validation error:', error);
 			});
 	}
 }

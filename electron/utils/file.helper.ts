@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import path from 'path';
+import logger from './logger';
 
 /**
  * A helper class for file operations.
@@ -12,12 +13,12 @@ export class FileHelper {
 	 * @param jsonContent - The content of the JSON file.
 	 */
 	createJsonFile(folderPath: string, fileName: string, jsonContent: string): void {
-		console.log(path.join(folderPath, fileName))
+		logger.info(`Creating json file ${fileName}`);
 		fs.writeFile(path.join(folderPath, fileName), jsonContent, 'utf8', (error) => {
 			if (error) {
-				console.error('Error writing JSON file:', error);
+				logger.error('Error writing JSON file:', error);
 			} else {
-				console.log('JSON config file created successfully!');
+				logger.info('JSON config file created successfully!');
 			}
 		});
 	}
@@ -30,9 +31,11 @@ export class FileHelper {
 	 * @throws {Error} If an error occurs during the file retrieval process.
 	 */
 	async getFilesInFolder(folderPath: string, expectedFiles: string[]): Promise<string[]> {
+		logger.info(`Retrieving files from folder ${folderPath}`);
 		return new Promise<string[]>((resolve, reject) => {
 			fs.readdir(folderPath, (error, files) => {
 				if (error) {
+					logger.error(`Error retrieving files from folder: ${error}`);
 					reject(new Error(`Error retrieving files from folder: ${error}`));
 				} else {
 					const matchingFiles = files.filter((file) => expectedFiles.includes(file));
@@ -40,5 +43,6 @@ export class FileHelper {
 				}
 			});
 		});
+		
 	}
 }

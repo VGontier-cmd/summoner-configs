@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { LolConfigPath } from './configs';
+import logger from './logger';
 
 /**
  * Helper class for folder-related operations.
@@ -23,9 +24,9 @@ export class FolderHelper {
 	async createFolder(folderPath: string): Promise<void> {
 		fs.mkdir(folderPath, { recursive: true }, (err) => {
 			if (err) {
-				console.error('Error creating folder:', err);
+				logger.error('Error creating folder:', err);
 			} else {
-				console.log('Folder created:', folderPath);
+				logger.info('Folder created:', folderPath);
 			}
 		});
 	}
@@ -37,9 +38,9 @@ export class FolderHelper {
 	async deleteFolder(folderPath: string): Promise<void> {
 		fs.rmdir(folderPath, { recursive: true }, (err) => {
 			if (err) {
-				console.error('Error deleting folder:', err);
+				logger.error('Error deleting folder:', err);
 			} else {
-				console.log('Folder deleted:', folderPath);
+				logger.info('Folder deleted:', folderPath);
 			}
 		});
 	}
@@ -52,9 +53,9 @@ export class FolderHelper {
 	async renameFolder(oldPath: string, newPath: string): Promise<void> {
 		fs.rename(oldPath, newPath, (err) => {
 			if (err) {
-				console.error('Error updating folder:', err);
+				logger.error('Error updating folder:', err);
 			} else {
-				console.log('Folder updated:', oldPath, newPath);
+				logger.info('Folder updated:', oldPath, newPath);
 			}
 		});
 	}
@@ -86,7 +87,7 @@ export class FolderHelper {
 	 */
 	async checkFolderFiles(folderPath: string, files: string[], expectedFiles: string[]): Promise<void> {
 		if (files.length !== expectedFiles.length) {
-			console.error(`Some files are missing or extra in the folder '${folderPath}'`);
+			logger.error(`Some files are missing or extra in the folder '${folderPath}'`);
 			return;
 		}
 
@@ -98,7 +99,7 @@ export class FolderHelper {
 		});
 
 		if (missingFiles.length > 0) {
-			console.error(`The folder '${folderPath}' does not contain the file(s): ${missingFiles.join(', ')}`);
+			logger.error(`The folder '${folderPath}' does not contain the file(s): ${missingFiles.join(', ')}`);
 			return;
 		}
 	}
