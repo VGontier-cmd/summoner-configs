@@ -12,6 +12,7 @@ export class FileHelper {
 	 * @param jsonContent - The content of the JSON file.
 	 */
 	createJsonFile(folderPath: string, fileName: string, jsonContent: string): void {
+		console.log(path.join(folderPath, fileName))
 		fs.writeFile(path.join(folderPath, fileName), jsonContent, 'utf8', (error) => {
 			if (error) {
 				console.error('Error writing JSON file:', error);

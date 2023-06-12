@@ -104,9 +104,10 @@ export class FolderManager {
 
 			// Load profile details file
 			let profileDetails;
-			fs.readFile(path.join(this.rootFolderPath, 'profileDetails.json'), 'utf8', (err, data) => {
+			const profileFolderPath = path.join(this.rootFolderPath, folderName)
+			fs.readFile(path.join(profileFolderPath, 'profileDetails.json'), 'utf8', (err, data) => {
 				if (err) {
-					console.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`);
+					console.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`, err);
 				} else {
 					profileDetails = JSON.parse(data);
 				}
@@ -139,19 +140,19 @@ export class FolderManager {
 
 		this.folderHelper.createFolder(path.join(this.rootFolderPath,this.getProfileFolderName(profile))) // Create profile folder 
 
-		expectedFiles.clientConfigFolder.forEach((fileName) => {
+		for (const fileName of expectedFiles.clientConfigFolder) {
 			const sourceFilePath = path.join(lolConfigPath, fileName);
 			const destinationFilePath = this.getDestinationFilePath(profile, fileName);
-			fs.copyFile(sourceFilePath, destinationFilePath, (error) => {
-				if (error) {
-					new Error(`Error copying files from folder: ${sourceFilePath}, to folder : ${destinationFilePath}`);
-				} else {
-					console.log(`Copied file: ${fileName}`);
-				}
-			});
-		});
+		
+			try {
+				await fs.promises.copyFile(sourceFilePath, destinationFilePath);
+				console.log(`Copied file: ${fileName}`);
+			} catch (error) {
+				throw new Error(`Error copying files from folder: ${sourceFilePath}, to folder: ${destinationFilePath}`);
+			}
+		}
 
-		this.createProfileSettingsFile(profile);
+		await this.createProfileSettingsFile(profile);
 	}
 
 	/**
@@ -204,10 +205,10 @@ export class FolderManager {
 	 * Creates a profile settings file for the given profile.
 	 * @param profile - The profile object containing the details to be saved.
 	 */
-	createProfileSettingsFile(profile: Profile) {
+	async createProfileSettingsFile(profile: Profile) {
 		const jsonContent = JSON.stringify(profile, null, 2);
 		this.fileHelper.createJsonFile(
-			path.join(this.rootFolderPath, `${profile.name}_${profile.id}`),
+			path.join(this.rootFolderPath, this.getProfileFolderName(profile)),
 			'profileDetails.json',
 			jsonContent,
 		);

@@ -20,7 +20,7 @@ export class FolderHelper {
 	 * @param folderPath - The path where the folder should be created.
 	 * @returns A promise that resolves when the folder creation is complete.
 	 */
-	createFolder(folderPath: string): void {
+	async createFolder(folderPath: string): Promise<void> {
 		fs.mkdir(folderPath, { recursive: true }, (err) => {
 			if (err) {
 				console.error('Error creating folder:', err);
