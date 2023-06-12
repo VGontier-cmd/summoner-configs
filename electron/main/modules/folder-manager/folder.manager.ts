@@ -6,7 +6,7 @@ import { FolderHelper } from '../../../utils/folder.helper';
 import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
-import logger from 'electron/utils/logger';
+import logger from '../../../utils/logger';
 
 /**
  * Manages folders and files for profiles in a root folder.

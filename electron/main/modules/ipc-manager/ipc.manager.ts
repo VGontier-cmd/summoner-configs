@@ -1,5 +1,4 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
-import { ProfileNotFoundException } from '../profile-manager/profile.exceptions';
 import { ProfileManager } from '../profile-manager/profile.manager';
 
 /**

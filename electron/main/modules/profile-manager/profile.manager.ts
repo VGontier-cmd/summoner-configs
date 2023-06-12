@@ -5,7 +5,7 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileNotFoundException } from './profile.exceptions';
 import { Profile } from './profile.interface';
-import logger from 'electron/utils/logger';
+import logger from '../../../utils/logger';
 
 /**
  * Manages profiles and their operations.

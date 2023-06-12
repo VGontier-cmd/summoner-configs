@@ -4,7 +4,6 @@ import { join } from 'node:path';
 import * as path from 'path';
 import { ipcManager } from './modules/ipc-manager/ipc.manager';
 import { update } from './modules/update/update';
-import { createLogger, transports, format } from "winston";
 
 
 // The built directory structure
