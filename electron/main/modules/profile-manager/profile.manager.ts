@@ -50,7 +50,6 @@ export class ProfileManager {
 						color: createProfile.color ?? '#000000',
 						isFav: createProfile.isFav ?? false,
 					};
-
 					await this.folderManager.importFromClient(newProfile); // Import settings files from the League of Legends client
 					this.profileList.push(newProfile); // Push the new profile if no error occurred during the file import
 				}

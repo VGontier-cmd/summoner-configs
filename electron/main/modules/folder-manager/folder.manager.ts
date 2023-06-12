@@ -58,7 +58,7 @@ export class FolderManager {
 	 * @param profile The profile.
 	 */
 	async deleteProfileFolder(profile: Profile) {
-		const folderName = `${profile.name}_${profile.id}`;
+		const folderName = this.getProfileFolderName(profile);
 		await this.folderHelper.deleteFolder(folderName);
 	}
 
@@ -68,8 +68,8 @@ export class FolderManager {
 	 * @param profile The new profile.
 	 */
 	async updateProfileFolder(oldProfile: Profile, profile: Profile) {
-		const oldFolderName = `${oldProfile.name}_${oldProfile.id}`;
-		const newFolderName = `${profile.name}_${profile.id}`;
+		const oldFolderName = this.getProfileFolderName(oldProfile);
+		const newFolderName = this.getProfileFolderName(profile);
 		await this.folderHelper.renameFolder(oldFolderName, newFolderName);
 	}
 
@@ -137,6 +137,8 @@ export class FolderManager {
 
 		await this.folderHelper.checkFolderFiles(lolConfigPath, files, expectedFiles.clientConfigFolder);
 
+		this.folderHelper.createFolder(path.join(this.rootFolderPath,this.getProfileFolderName(profile))) // Create profile folder 
+
 		expectedFiles.clientConfigFolder.forEach((fileName) => {
 			const sourceFilePath = path.join(lolConfigPath, fileName);
 			const destinationFilePath = this.getDestinationFilePath(profile, fileName);
@@ -186,7 +188,16 @@ export class FolderManager {
 	 * @returns The destination file path.
 	 */
 	getDestinationFilePath(profile: Profile, fileName: string): string {
-		return path.join(path.join(this.rootFolderPath, `${profile.name}_${profile.id}`), fileName);
+		return path.join(path.join(this.rootFolderPath, this.getProfileFolderName(profile)), fileName);
+	}
+
+	/**
+	 * Generates the folder name for the given profile.
+	 * @param profile - The profile object.
+	 * @returns The folder name for the profile.
+	 */
+	private getProfileFolderName(profile : Profile) {
+		return `${profile.name}_${profile.id}`
 	}
 
 	/**
@@ -201,4 +212,6 @@ export class FolderManager {
 			jsonContent,
 		);
 	}
+
+	
 }
