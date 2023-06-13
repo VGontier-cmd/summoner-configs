@@ -14,11 +14,11 @@ export class FileHelper {
 	 */
 	createJsonFile(folderPath: string, fileName: string, jsonContent: string): void {
 		logger.info(`Creating json file ${fileName}`);
-		fs.writeFile(path.join(folderPath, fileName), jsonContent, 'utf8', (error) => {
+		fs.writeFile(path.join(folderPath, fileName), jsonContent, { flag: 'w', encoding: 'utf8' }, (error) => {
 			if (error) {
 				logger.error('Error writing JSON file:', error);
 			} else {
-				logger.info('JSON config file created successfully!');
+				logger.info('JSON config file updated/created successfully!');
 			}
 		});
 	}

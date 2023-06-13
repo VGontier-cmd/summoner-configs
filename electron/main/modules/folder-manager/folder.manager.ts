@@ -60,8 +60,8 @@ export class FolderManager {
 	 * @param profile The profile.
 	 */
 	async deleteProfileFolder(profile: Profile) {
-		const folderName = this.getProfileFolderName(profile);
-		await this.folderHelper.deleteFolder(path.join(this.rootFolderPath, folderName));
+		const folderPath = path.join(this.rootFolderPath, this.getProfileFolderName(profile));
+		await this.folderHelper.deleteFolder(folderPath);
 	}
 
 	/**
@@ -70,8 +70,8 @@ export class FolderManager {
 	 * @param profile The new profile.
 	 */
 	async updateProfileFolder(oldProfile: Profile, profile: Profile) {
-		const oldFolderName = this.getProfileFolderName(oldProfile);
-		const newFolderName = this.getProfileFolderName(profile);
+		const oldFolderName = path.join(this.rootFolderPath, this.getProfileFolderName(oldProfile));
+		const newFolderName = path.join(this.rootFolderPath, this.getProfileFolderName(profile));
 		await this.folderHelper.renameFolder(oldFolderName, newFolderName);
 	}
 

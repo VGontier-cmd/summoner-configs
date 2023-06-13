@@ -134,6 +134,7 @@ export class ProfileManager {
 
 					await this.folderManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile); // Update the folder and the config file
 					this.profileList[profileIndex] = updatedProfile; // Update the profile list accordingly with the updated profile
+					this.folderManager.createProfileSettingsFile(updatedProfile); // Edit the config json file accordingly
 				}
 			})
 			.catch((error) => {
