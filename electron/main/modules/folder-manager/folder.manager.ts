@@ -174,6 +174,12 @@ export class FolderManager {
 				const destinationFilePath = path.join(lolConfigPath, fileName);
 
 				try {
+					// Delete the file id it's existing in the destination folder to force the override
+					if (fs.existsSync(destinationFilePath)) {
+						// Delete the destination file
+						fs.unlinkSync(destinationFilePath);
+					}
+
 					fs.copyFileSync(sourceFilePath, destinationFilePath);
 					logger.info(`Copied file: ${fileName}`);
 				} catch (error) {
