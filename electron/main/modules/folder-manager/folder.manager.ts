@@ -7,6 +7,7 @@ import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
 import logger from '../../../utils/logger';
+import { profile } from 'console';
 
 /**
  * Manages folders and files for profiles in a root folder.
@@ -99,17 +100,17 @@ export class FolderManager {
 			}
 
 			// Load profile details file
-			let profileDetails;
+			let profileDetails: { id: string; name: string; color: string; isFav: boolean } | undefined;
 			const profileFolderPath = path.join(this.rootFolderPath, folderName);
-			fs.readFile(path.join(profileFolderPath, 'profileDetails.json'), 'utf8', (err, data) => {
-				if (err) {
-					logger.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`, err);
-				} else {
-					profileDetails = JSON.parse(data);
-				}
-			});
+			try {
+				const data = fs.readFileSync(path.join(profileFolderPath, 'profileDetails.json'), 'utf8');
+				profileDetails = JSON.parse(data);
+			} catch (err) {
+				logger.error(`Error while trying to get the profile details for folder ${this.rootFolderPath}`, err);
+			}
 
 			if (profileDetails) {
+				logger.info(`Loading profileDetails for profile ${profileDetails.name}`);
 				const { id, name, color, isFav } = profileDetails;
 				profilesList.push({
 					id: id,
@@ -119,7 +120,6 @@ export class FolderManager {
 				});
 			}
 		});
-
 		return profilesList;
 	}
 
