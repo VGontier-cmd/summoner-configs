@@ -7,7 +7,6 @@ import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
 import logger from '../../../utils/logger';
-import { profile } from 'console';
 
 /**
  * Manages folders and files for profiles in a root folder.
