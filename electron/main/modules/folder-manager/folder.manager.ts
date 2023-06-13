@@ -60,7 +60,7 @@ export class FolderManager {
 	 */
 	async deleteProfileFolder(profile: Profile) {
 		const folderName = this.getProfileFolderName(profile);
-		await this.folderHelper.deleteFolder(folderName);
+		await this.folderHelper.deleteFolder(path.join(this.rootFolderPath, folderName));
 	}
 
 	/**
