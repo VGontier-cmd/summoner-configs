@@ -86,13 +86,8 @@ export class FolderManager {
 			const folderPath = path.join(this.rootFolderPath, folderName);
 			const files = fs.readdirSync(folderPath);
 
-			if (files.length !== expectedFiles.managerFolder.length) {
-				logger.error(`Some files are missing or extra in the folder '${folderName}'`);
-				return;
-			}
-
 			const missingFiles: string[] = [];
-			expectedFiles.managerFolder.forEach((expectedFile) => {
+			expectedFiles.managerFolderFiles.forEach((expectedFile) => {
 				if (!files.includes(expectedFile)) {
 					missingFiles.push(expectedFile);
 				}
@@ -135,17 +130,21 @@ export class FolderManager {
 	async importFromClient(profile: Profile) {
 		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 
-		const files = await this.fileHelper.getFilesInFolder(lolConfigPath, expectedFiles.clientConfigFolder);
+		const files = await this.fileHelper.getFilesInFolder(lolConfigPath, expectedFiles.clientConfigRequiredFiles);
 
-		await this.folderHelper.checkFolderFiles(lolConfigPath, files, expectedFiles.clientConfigFolder);
+		await this.folderHelper.checkFolderFiles(lolConfigPath, files, expectedFiles.clientConfigRequiredFiles);
 
 		this.folderHelper.createFolder(path.join(this.rootFolderPath, this.getProfileFolderName(profile))); // Create profile folder
 
-		for (const fileName of expectedFiles.clientConfigFolder) {
+		for (const fileName of [...expectedFiles.clientConfigRequiredFiles, ...expectedFiles.clientConfigOptionalFiles]) {
 			const sourceFilePath = path.join(lolConfigPath, fileName);
 			const destinationFilePath = this.getDestinationFilePath(profile, fileName);
 
 			try {
+				if (!fs.existsSync(sourceFilePath)) {
+					console.info(`The file '${fileName}' does not exist in the Config folder`);
+					return;
+				}
 				await fs.promises.copyFile(sourceFilePath, destinationFilePath);
 				logger.info(`Copied file: ${fileName}`);
 			} catch (error) {
@@ -164,11 +163,11 @@ export class FolderManager {
 		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 		const profileFolderPath = await this.getProfileFolderPath(profile);
 
-		const files = await this.fileHelper.getFilesInFolder(profileFolderPath, expectedFiles.managerFolder);
+		const files = await this.fileHelper.getFilesInFolder(profileFolderPath, expectedFiles.managerFolderFiles);
 
-		await this.folderHelper.checkFolderFiles(profileFolderPath, files, expectedFiles.managerFolder);
+		await this.folderHelper.checkFolderFiles(profileFolderPath, files, expectedFiles.managerFolderFiles);
 
-		expectedFiles.clientConfigFolder.forEach(async (fileName) => {
+		files.forEach(async (fileName) => {
 			if (fileName !== 'profileDetails.json') {
 				const sourceFilePath = path.join(profileFolderPath, fileName);
 				const destinationFilePath = path.join(lolConfigPath, fileName);
