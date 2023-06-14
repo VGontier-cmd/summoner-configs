@@ -57,7 +57,8 @@ async function createWindow() {
 		},
 	});
 
-	ipcManager(win, documentsFolderPath); // Initialize the IPCManager
+	// Initialize the IPCManager
+	ipcManager.setup(win, documentsFolderPath);
 
 	if (url) {
 		// electron-vite-vue#298

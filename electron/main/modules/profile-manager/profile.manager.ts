@@ -57,6 +57,7 @@ export class ProfileManager {
 					};
 					await this.folderManager.importFromClient(newProfile); // Import settings files from the League of Legends client
 					this.profileList.push(newProfile); // Push the new profile if no error occurred during the file import
+					console.log(this.profileList);
 				}
 			})
 			.catch((error) => {

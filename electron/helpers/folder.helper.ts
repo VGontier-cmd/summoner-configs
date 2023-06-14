@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { LolConfigPath } from './configs';
-import logger from './logger';
+import { LolConfigPath } from '../utils/configs';
+import logger from '../utils/logger';
 import { exec } from 'child_process';
 
 /**

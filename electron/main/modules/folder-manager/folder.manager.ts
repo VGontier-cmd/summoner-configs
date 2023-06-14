@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DefaultFolderName } from '../../../utils/configs';
-import { FileHelper } from '../../../utils/file.helper';
-import { FolderHelper } from '../../../utils/folder.helper';
+import { FileHelper } from '../../../helpers/file.helper';
+import { FolderHelper } from '../../../helpers/folder.helper';
 import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
