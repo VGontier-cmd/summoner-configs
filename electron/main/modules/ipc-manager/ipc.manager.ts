@@ -138,11 +138,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-config-path-get', () => {
 			try {
-				electronStore.get('userConfigPath');
-				return true;
+				return electronStore.get('userConfigPath');
 			} catch (err) {
 				logger.error(err);
-				return false;
+				return null;
 			}
 		});
 
