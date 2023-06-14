@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { LolConfigPath } from './configs';
 import logger from './logger';
+import { exec } from 'child_process';
 
 /**
  * Helper class for folder-related operations.
@@ -102,6 +103,20 @@ export class FolderHelper {
 			logger.error(`The folder '${folderPath}' does not contain the file(s): ${missingFiles.join(', ')}`);
 			return;
 		}
+	}
+
+	/**
+	 * Opens a folder in the default file explorer.
+	 * @param folderPath - The path of the folder to open.
+	 * @throws {Error} If the command execution fails.
+	 */
+	openFolderInExplorer(folderPath: string): void {
+		let command = `start "" "${folderPath}"`;
+		exec(command, (error) => {
+			if (error) {
+				throw new Error(`Failed to open folder: ${error.message}`);
+			}
+		});
 	}
 
 	/**

@@ -1,5 +1,6 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
 import { ProfileManager } from '../profile-manager/profile.manager';
+import { UUID } from 'node:crypto';
 
 /**
  * Sets up the IPC event handlers for communication between the main process and the renderer process.
@@ -101,5 +102,14 @@ export function ipcManager(win: BrowserWindow, rootFolderPath: string) {
 	ipcMain.handle('ipcmain-profile-get-all', () => {
 		const profiles = profileManager.getAll();
 		return profiles;
+	});
+
+	/**
+	 * Event: ipcmain-profile-open-folder-in-file-explorer
+	 * @param {Event}_event -The IPC event object.
+	 * @param {string} id - The id of the profile to open the folder for.
+	 */
+	ipcMain.on('ipcmain-profile-open-folder-in-file-explorer', (_event, id: UUID) => {
+		profileManager.openProfileFolderInFileExplorer(id);
 	});
 }

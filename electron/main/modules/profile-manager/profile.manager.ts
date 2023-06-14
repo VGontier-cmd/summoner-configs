@@ -6,6 +6,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileNotFoundException } from './profile.exceptions';
 import { Profile } from './profile.interface';
 import logger from '../../../utils/logger';
+import { UUID } from 'node:crypto';
 
 /**
  * Manages profiles and their operations.
@@ -77,7 +78,7 @@ export class ProfileManager {
 	 * @returns The retrieved profile.
 	 * @throws {ProfileNotFoundException} If the profile is not found.
 	 */
-	async get(id: string): Promise<Profile> {
+	async get(id: UUID): Promise<Profile> {
 		const profile = this.profileList.find((profile) => {
 			return profile.id === id;
 		});
@@ -140,5 +141,10 @@ export class ProfileManager {
 			.catch((error) => {
 				logger.error('Validation error:', error);
 			});
+	}
+
+	async openProfileFolderInFileExplorer(profileId: UUID) {
+		const profile = this.get(profileId);
+		this.folderManager.openProfileFolderInFileExplorer(await profile);
 	}
 }
