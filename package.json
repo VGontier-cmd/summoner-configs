@@ -1,9 +1,9 @@
 {
-  "name": "lol-settings-manager",
+  "name": "lol-config-manager",
   "version": "2.2.0",
   "main": "dist-electron/main/index.js",
-  "description": "Electron Vite React boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "Electron Vite React application",
+  "author": "VGontier-cmd, TCarel-dev",
   "license": "MIT",
   "private": true,
   "debug": {

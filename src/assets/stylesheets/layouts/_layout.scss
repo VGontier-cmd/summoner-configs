@@ -85,7 +85,62 @@ label:has(button[data-state=checked]) {
     &__circle,
     &__btn {
         position: absolute;
-    }   
+    }
+
+    &__shape {
+        position: absolute;
+        bottom: 0;
+        background-color: hsl(var(--primary));
+        height: 3rem;
+        
+        &:before {
+          background-color: hsl(var(--primary));
+        }
+
+        &:after {
+          background-color: #fff;
+        }
+
+        &:before, &:after {
+          position: absolute;
+          content: " ";
+          width: 2rem;
+          height: 1.8rem;
+          bottom: 0;
+      }
+
+      &.corner-right {
+        left: 0;
+        border-top-right-radius: 2rem;
+
+        &:after {
+          border-bottom-left-radius: 100%;
+        }
+        &:before, &:after {
+          right: 1px;
+          transform: translateX(100%);
+        }
+      }
+
+      &.corner-left {
+        right: 0;
+        border-top-left-radius: 2rem;
+
+        &:after {
+          border-bottom-right-radius: 100%;
+        }
+        &:before, &:after {
+          left: 1px;
+          transform: translateX(-100%);
+        }
+      }
+    }
+}
+
+.footer-btn {
+  padding: 1rem 1.5rem;
+  color: #fff;
+  border-bottom-right-radius: 0;
 }
 
 ::-webkit-scrollbar {

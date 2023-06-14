@@ -1,79 +1,65 @@
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
-import { Profile } from 'electron/main/modules/profile-manager/profile.interface'
+import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
-import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Icons } from '@/components/Icons'
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Icons } from '@/components/Icons';
 
-import {
-  Pen,
-  Trash,
-} from "lucide-react"
+import { Pen, Trash, Folder } from 'lucide-react';
 
-import {
-  Dialog,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
-import UpdateProfile from './Edit'
+import UpdateProfile from './Edit';
 
-const List = () => {
-	const [profiles, setProfiles] = useState<Profile[]>([]);
+const List = ({ profiles }: { profiles: Profile[] }) => {
+	const handleDeleteProfile = (profileId: string) => {
+		if (profileId) {
+			ipcRenderer
+				.invoke('ipcmain-profile-delete', profileId)
+				.then((result) => {
+					window.location.reload();
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+	};
 
-	useEffect(() => {
-		loadProfiles()
-	}, []);
+	const handleOpenProfileInFileExplorer = (profileId: string) => {
+		if (profileId) {
+			ipcRenderer
+				.invoke('ipcmain-profile-open-folder-in-file-explorer', profileId)
+				.then((result) => {})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+	};
 
-  const loadProfiles = () => {
-    ipcRenderer
-      .invoke('ipcmain-profile-get-all')
-      .then((result) => {
-        setProfiles(result);
-        console.log('PORFILES ' + profiles.length)
-      })
-      .catch((error) => {
-        console.log('Error retrieving profiles:', error);
-      });
-  };
-
-  const handleDeleteProfile = (profileId: string) => {
-    if (profileId) {
-      ipcRenderer
-        .invoke('ipcmain-profile-delete', profileId)
-        .then((result) => {
-          console.log(result);
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  };
-  
 	return (
 		<>
-			{profiles ? (
+			{profiles && profiles.length > 0 ? (
 				<RadioGroup defaultValue="card" className="grid grid-cols-3 gap-3">
 					{profiles.map((profile) => (
 						<Label
@@ -97,6 +83,11 @@ const List = () => {
 														<span>Update</span>
 													</DropdownMenuItem>
 												</DialogTrigger>
+
+												<DropdownMenuItem onClick={() => handleOpenProfileInFileExplorer(profile.id)}>
+													<Folder className="mr-2 h-4 w-4" />
+													Open Folder
+												</DropdownMenuItem>
 
 												<AlertDialogTrigger asChild>
 													<DropdownMenuItem>
@@ -122,7 +113,7 @@ const List = () => {
 									</AlertDialogContent>
 								</AlertDialog>
 
-								<UpdateProfile profile={profile}/>
+								<UpdateProfile profile={profile} />
 							</Dialog>
 							<RadioGroupItem value={`profile-${profile.id}`} id={`profile-${profile.id}`} className="sr-only" />
 
@@ -132,7 +123,9 @@ const List = () => {
 					))}
 				</RadioGroup>
 			) : (
-				<p>Aucun profile enregistré...</p>
+				<div className="glass p-4 rounded-md shadow-md">
+					<span className="text-xs text-primary">No profile saved...</span>
+				</div>
 			)}
 		</>
 	);
