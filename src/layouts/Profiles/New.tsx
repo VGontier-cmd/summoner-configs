@@ -31,7 +31,9 @@ const New = () => {
 
 			ipcRenderer
 				.invoke('ipcmain-profile-create', profileDto)
-				.then((result) => {})
+				.then((result) => {
+					window.location.reload();
+				})
 				.catch((error) => {
 					console.error(error);
 				});
@@ -42,9 +44,10 @@ const New = () => {
 		<>
 			<Dialog>
 				<DialogTrigger asChild>
-					<Button>
+					<button className="main-btn gold-gradient-border border-thin flex items-center gap-3">
 						<Plus className="h-4 w-4" />
-					</Button>
+						Import profile
+					</button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
 					<DialogHeader>

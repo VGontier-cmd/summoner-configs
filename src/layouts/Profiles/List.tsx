@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Icons } from '@/components/Icons';
 
 import { Pen, Trash, Folder } from 'lucide-react';
@@ -32,7 +30,13 @@ import {
 
 import UpdateProfile from './Edit';
 
-const List = ({ profiles }: { profiles: Profile[] }) => {
+interface ListProfileProps {
+	profiles: Profile[];
+	selectedProfileIndex: number | null;
+	handleProfileClick: (index: number) => void;
+}
+
+const List = ({ profiles, selectedProfileIndex, handleProfileClick }: ListProfileProps) => {
 	const handleDeleteProfile = (profileId: string) => {
 		if (profileId) {
 			ipcRenderer
@@ -60,12 +64,13 @@ const List = ({ profiles }: { profiles: Profile[] }) => {
 	return (
 		<>
 			{profiles && profiles.length > 0 ? (
-				<RadioGroup defaultValue="card" className="grid grid-cols-3 gap-3">
-					{profiles.map((profile) => (
-						<Label
+				<ul className="grid grid-cols-3 gap-3">
+					{profiles.map((profile, index) => (
+						<li
 							key={profile.id}
-							htmlFor={`profile-${profile.id}`}
-							className="reltive glass cursor-pointer flex flex-col items-center justify-between rounded-md border-muted bg-popover p-4 py-5 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:bg-primary"
+							className="profile-item relative glass cursor-pointer flex flex-col items-center justify-between text-center border-muted bg-popover p-4 py-5"
+							aria-selected={selectedProfileIndex === index ? 'true' : 'false'}
+							onClick={() => handleProfileClick(index)}
 						>
 							<Dialog>
 								<AlertDialog>
@@ -115,16 +120,15 @@ const List = ({ profiles }: { profiles: Profile[] }) => {
 
 								<UpdateProfile profile={profile} />
 							</Dialog>
-							<RadioGroupItem value={`profile-${profile.id}`} id={`profile-${profile.id}`} className="sr-only" />
 
 							<Icons.lol className="mb-3 h-6 w-6" />
-							{profile.name}
-						</Label>
+							<div className="text-sm line-clamp -lc-1">{profile.name}</div>
+						</li>
 					))}
-				</RadioGroup>
+				</ul>
 			) : (
-				<div className="glass p-4 rounded-md shadow-md">
-					<span className="text-xs text-primary">No profile saved...</span>
+				<div className="text-center p-4 shadow-md">
+					<span className="text-sm text-light">No profile saved...</span>
 				</div>
 			)}
 		</>
