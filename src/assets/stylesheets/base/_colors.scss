@@ -1,0 +1,30 @@
+// Blue color palette
+$blue-1: 180 82% 89%;
+$blue-2: 177 100% 44%;
+$blue-3: 187 100% 33%;
+$blue-4: 197 100% 26%;
+$blue-5: 187 90% 20%;
+$blue-6: 188 87% 11%;
+$blue-7: 188 87% 8%;
+
+// Gold color palette
+$gold-1: 45 56% 82%;
+$gold-2: 38 47% 48%;
+$gold-3: 38 47% 48%;
+$gold-4: 38 60% 43%;
+$gold-5: 36 47% 26%;
+$gold-6: 33 56% 13%;
+$gold-7: 20 35% 16%;
+
+// Grey color palette
+$grey-1: 39 8% 58%;
+$grey-1_5: 49 3% 36%;
+$grey-2: 240 3% 23%;
+$grey-3: 200 18% 14%;
+$grey-cool: 199 22% 14%;
+$hexteck-black: 191 100% 1%;
+
+// Gradient color palette
+$dark-blue-gradient: linear-gradient(to right, hsl($blue-6), hsl($blue-7));
+$gold-gradient: linear-gradient(to right, hsl($gold-5), hsl($gold-4));
+$blue-gradient: linear-gradient(to right, hsl($blue-4), hsl($blue-2));
