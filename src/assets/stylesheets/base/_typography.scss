@@ -5,3 +5,87 @@
 |
 | This file contains all basic typography style for copy text
 */
+
+// Beaufort for lol
+@font-face {
+  font-family: 'Beaufort Bold';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Bold-Italic';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-BoldItalic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Heavy';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Heavy.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Heavy-Italic';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-HeavyItalic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Italic';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Italic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Light';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Light.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort light-Italic';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-LightItalic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Medium';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Medium.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Medium-Italic';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-MediumItalic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Beaufort Regular';
+  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Regular.ttf) format('truetype');
+}
+
+// Spiegiel
+@font-face {
+  font-family: 'Spiegel Bold';
+  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Spiegel Bold-Italic';
+  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Bold_Italic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Spiegel Regular';
+  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Spiegel Regular-Italic';
+  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Regular_Italic.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Spiegel Semi-Bold';
+  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_SemiBold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Spiegel Semi-Bold-Italic';
+  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_SemiBold_Italic.ttf) format('truetype');
+}
+
+
