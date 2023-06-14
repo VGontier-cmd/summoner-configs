@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DefaultFolderName } from '../../../utils/configs';
-import { FileHelper } from '../../../utils/file.helper';
-import { FolderHelper } from '../../../utils/folder.helper';
+import { FileHelper } from '../../../helpers/file.helper';
+import { FolderHelper } from '../../../helpers/folder.helper';
 import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './folder.exceptions';
@@ -47,7 +47,7 @@ export class FolderManager {
 	 * @returns The profile's folder path.
 	 */
 	async getProfileFolderPath(profile: Profile) {
-		const folderPath = path.join(this.rootFolderPath, `${profile.name}_${profile.id}`);
+		const folderPath = path.join(this.rootFolderPath, this.getProfileFolderName(profile));
 
 		if (!this.folderHelper.ensureFolderExists(folderPath))
 			throw new FolderNotFoundException(`No folder has been found for the given profile : ${profile.name} `);
@@ -198,15 +198,6 @@ export class FolderManager {
 	}
 
 	/**
-	 * Generates the folder name for the given profile.
-	 * @param profile - The profile object.
-	 * @returns The folder name for the profile.
-	 */
-	private getProfileFolderName(profile: Profile) {
-		return `${profile.name}_${profile.id}`;
-	}
-
-	/**
 	 * Creates a profile settings file for the given profile.
 	 * @param profile - The profile object containing the details to be saved.
 	 */
@@ -217,5 +208,22 @@ export class FolderManager {
 			'profileDetails.json',
 			jsonContent,
 		);
+	}
+
+	/**
+	 * Opens the profile folder in the default file explorer.
+	 * @param profile - A promise that resolves to the Profile object.
+	 */
+	async openProfileFolderInFileExplorer(profile: Profile) {
+		this.folderHelper.openFolderInExplorer(await this.getProfileFolderPath(await profile));
+	}
+
+	/**
+	 * Generates the folder name for the given profile.
+	 * @param profile - The profile object.
+	 * @returns The folder name for the profile.
+	 */
+	private getProfileFolderName(profile: Profile) {
+		return `${profile.name}_${profile.id}`;
 	}
 }

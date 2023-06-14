@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import path from 'path';
-import logger from './logger';
+import logger from '../utils/logger';
 
 /**
  * A helper class for file operations.
