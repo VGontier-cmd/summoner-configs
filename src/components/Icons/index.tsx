@@ -24,6 +24,8 @@ import {
 	Twitter,
 	User,
 	X,
+	Minus,
+	MoreVerticalIcon,
 	type Icon as LucideIcon,
 } from 'lucide-react';
 
@@ -43,6 +45,8 @@ export const Icons = {
 			<circle cx="12" cy="12" r="10"></circle>
 		</svg>
 	),
+	moreVertical: MoreVertical,
+	minus: Minus,
 	close: X,
 	spinner: Loader2,
 	chevronLeft: ChevronLeft,
@@ -154,11 +158,6 @@ export const Icons = {
 			/>
 		</svg>
 	),
-	minimize: (props: LucideProps) => (
-		<svg role="img" viewBox="0 0 24 24" {...props}>
-			<path d="M23,23H1c-.55,0-1-.45-1-1s.45-1,1-1H23c.55,0,1,.45,1,1s-.45,1-1,1Z" fill="currentColor" />
-		</svg>
-	),
 	star: (props: LucideProps) => (
 		<svg role="img" viewBox="0 0 24 24" {...props}>
 			<path
@@ -171,14 +170,6 @@ export const Icons = {
 		<svg role="img" viewBox="0 0 24 24" {...props}>
 			<path
 				d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
-				fill="currentColor"
-			/>
-		</svg>
-	),
-	dots: (props: LucideProps) => (
-		<svg role="img" viewBox="0 0 16 16" {...props}>
-			<path
-				d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
 				fill="currentColor"
 			/>
 		</svg>

@@ -72,7 +72,7 @@ const List = ({ profiles, selectedProfileIndex, handleProfileClick }: ListProfil
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
 											<button className="absolute outline-none p-2 top-0 right-0 flex items-center justify-center">
-												<Icons.dots className="h-4 w-4" />
+												<Icons.moreVertical className="h-4 w-4" />
 											</button>
 										</DropdownMenuTrigger>
 										<DropdownMenuContent className="w-56">
