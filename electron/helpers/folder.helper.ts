@@ -1,13 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { LolConfigPath } from '../utils/configs';
 import logger from '../utils/logger';
 import { exec } from 'child_process';
+import { ElectronStoreHelper } from './electron-store.helper';
 
 /**
  * Helper class for folder-related operations.
  */
 export class FolderHelper {
+	private electronStoreHelper: ElectronStoreHelper = ElectronStoreHelper.getInstance();
 	/**
 	 * Ensures that a folder exists at the specified path.
 	 * @param folderPath - The path of the folder to check.
@@ -91,8 +92,7 @@ export class FolderHelper {
 	 */
 	async checkFolderFiles(folderPath: string, files: string[], expectedFiles: string[]): Promise<void> {
 		if (files.length !== expectedFiles.length) {
-			logger.error(`Some files are missing or extra in the folder '${folderPath}'`);
-			return;
+			logger.warn(`Some files are missing or extra in the folder '${folderPath}'`);
 		}
 
 		const missingFiles: string[] = [];
@@ -103,7 +103,7 @@ export class FolderHelper {
 		});
 
 		if (missingFiles.length > 0) {
-			logger.error(`The folder '${folderPath}' does not contain the file(s): ${missingFiles.join(', ')}`);
+			logger.warn(`The folder '${folderPath}' does not contain the file(s): ${missingFiles.join(', ')}`);
 			return;
 		}
 	}
@@ -127,15 +127,20 @@ export class FolderHelper {
 	 * @returns A promise that resolves to the validated configuration path.
 	 * @throws {Error} If the League of Legends installation path is not set, the folder does not exist, or the Config folder is missing.
 	 */
-	async validateLolConfigPath(): Promise<string> {
-		if (LolConfigPath == null) {
+	validateLolConfigPath(): string {
+		const lolConfigPath = this.electronStoreHelper.get('lolConfigPath');
+		if (lolConfigPath == null) {
 			throw new Error(`The default League of Legends installation path has not been set or the folder does not exist!`);
 		}
 
-		if (!this.ensureFolderExists(LolConfigPath)) {
+		if (!this.ensureFolderExists(lolConfigPath)) {
 			throw new Error(`The folder given does not exist. Please check your League of Legends installation path.`);
 		}
 
-		return LolConfigPath;
+		if (!['League of Legends', 'Config'].every((el) => lolConfigPath.includes(el))) {
+			throw new Error(`The config path seems to be wrong. Be sure that it includes the Config folder.`);
+		}
+
+		return lolConfigPath;
 	}
 }

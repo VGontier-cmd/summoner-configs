@@ -145,7 +145,7 @@ const Home = () => {
 													id="name"
 													className="col-span-3"
 													value={configPath || ''}
-													placeholder="C:\Riot Games\League of Legends\"
+													placeholder="C:\Riot Games\League of Legends\Config"
 													onChange={handleConfigPathChange}
 												/>
 											</div>

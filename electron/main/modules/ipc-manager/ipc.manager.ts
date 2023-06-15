@@ -124,7 +124,7 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-config-path-register', (_event, path: string) => {
 			try {
-				electronStore.set('userConfigPath', path);
+				electronStore.set('lolConfigPath', path);
 				return true;
 			} catch (err) {
 				logger.error(err);
@@ -138,7 +138,7 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-config-path-get', () => {
 			try {
-				return electronStore.get('userConfigPath');
+				return electronStore.get('lolConfigPath');
 			} catch (err) {
 				logger.error(err);
 				return null;
