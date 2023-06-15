@@ -53,12 +53,10 @@ export class ProfileManager {
 
 		validate(validateProfile, { enableDebugMessages: true })
 			.then(async (errors) => {
-				logger.info(errors);
 				if (errors.length > 0) {
-					logger.error('Validation errors:', errors);
+					logger.error(`Validation error(s) ${errors}`);
 					throw new Error('A validation error occured when trying to create the profile');
 				} else {
-					console.log(createProfile);
 					const newProfile: Profile = {
 						id: uuidv4(),
 						name: validateProfile.name,
@@ -67,7 +65,6 @@ export class ProfileManager {
 					};
 					await this.folderManager.importFromClient(newProfile); // Import settings files from the League of Legends client
 					this.profileList.push(newProfile); // Push the new profile if no error occurred during the file import
-					console.log(this.profileList);
 				}
 			})
 			.catch((error) => {
@@ -133,12 +130,10 @@ export class ProfileManager {
 			id: id,
 			name: updateProfileDto.name,
 		});
-		console.log('profile', validateProfile);
 		validate(validateProfile, { enableDebugMessages: true })
 			.then(async (errors) => {
-				logger.info(errors);
 				if (errors.length > 0) {
-					logger.error('Validation errors:', errors);
+					logger.error(`Validation error(s) ${errors}`);
 					throw new Error('A validation error occured when trying to update the profile');
 				} else {
 					const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
