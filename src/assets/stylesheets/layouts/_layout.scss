@@ -20,13 +20,13 @@
 }
 
 .settings-btn {
-  @include square(2rem);
-  @include flex_center(center);
-  border: 2px solid hsl($gold-4);
+	@include square(2rem);
+	@include flex_center(center);
+	border: 2px solid hsl($gold-4);
 
-  svg {
-    fill: hsl($gold-1);
-  }
+	svg {
+		fill: hsl($gold-1);
+	}
 }
 
 .glass {
@@ -40,7 +40,7 @@
 }
 
 .gold-border-top {
-  border-top: 2px solid hsl($gold-3);
+	border-top: 2px solid hsl($gold-3);
 }
 
 .ctm-shadow {
@@ -48,11 +48,11 @@
 }
 
 .gold-gradient-bg {
-  background: $gold-gradient;
+	background: $gold-gradient;
 }
 
 .blue-gradient-bg {
-  background: $blue-gradient;
+	background: $blue-gradient;
 }
 
 .gold-gradient-border {
@@ -68,7 +68,7 @@
 }
 
 .border-thin {
-  border-width: 1px;
+	border-width: 1px;
 }
 
 .gold-gradient-text {
@@ -80,28 +80,32 @@
 }
 
 .text-light {
-  color: hsl($gold-1);
+	color: hsl($gold-1);
 }
 
 .profile-item {
 	color: hsl($gold-1);
 	fill: hsl($gold-1);
-	background: hsl($hexteck-black);
+	background: hsl($grey-cool);
 
-	&[aria-selected=true] {
+	&[aria-selected='true'] {
 		background: $gold-gradient;
+	}
+
+	&:hover {
+		border: 1px solid hsl($gold-1) !important;
 	}
 }
 
 .ctm-dropdown {
 	width: auto;
-  background: hsl($hexteck-black);
+	background: hsl($hexteck-black);
 }
 
 .ctm-dropdown-item {
-  &:hover {
-    background: $gold-gradient;
-  }
+	&:hover {
+		background: $gold-gradient;
+	}
 }
 
 .main-title {
@@ -153,12 +157,12 @@
 }
 
 .footer {
-  height: 6rem;
-  overflow: hidden;
+	height: 6rem;
+	overflow: hidden;
 
 	&__circle {
 		z-index: 0;
-    background: hsl($hexteck-black);
+		background: hsl($hexteck-black);
 	}
 
 	&__bg:after,
@@ -193,11 +197,11 @@
 }
 
 .export-btn {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  @include square(10.5rem);
-  transform: translate(-50%, 50%);
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	@include square(10.5rem);
+	transform: translate(-50%, 50%);
 	background: hsl($hexteck-black-blur);
 	border-top: 2px solid hsl($gold-2);
 
@@ -205,9 +209,9 @@
 		content: '';
 		position: absolute;
 		top: 50%;
-    left: 50%;
+		left: 50%;
 		@include square(calc(100% - 10px));
-    transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
 		border-radius: 100vmax;
 	}
 
@@ -217,40 +221,40 @@
 		cursor: pointer;
 	}
 
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    @include square(100%);
-    object-fit: cover;
-  }
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		@include square(100%);
+		object-fit: cover;
+	}
 
-  button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    text-transform: uppercase;
-    font-size: .8rem;
-    color: hsl($gold-1);
-    @include square(calc(100% - 3.5rem));
-    transform: translate(-50%, -50%);
+	button {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		color: hsl($gold-1);
+		@include square(calc(100% - 3.5rem));
+		transform: translate(-50%, -50%);
 
-    span {
-      display: block;
-      margin-bottom: 3rem;
-    }
-  }
+		span {
+			display: block;
+			margin-bottom: 3rem;
+		}
+	}
 }
 
 .line-clamp {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
 
-  @for $i from 1 through 4 {
-    &.-lc-#{$i} {
-      -webkit-line-clamp: $i;
-    }
-  }
+	@for $i from 1 through 4 {
+		&.-lc-#{$i} {
+			-webkit-line-clamp: $i;
+		}
+	}
 }
