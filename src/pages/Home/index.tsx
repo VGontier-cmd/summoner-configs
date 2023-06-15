@@ -41,7 +41,6 @@ import line from '@/assets/images/decorator-hr.png';
 const Home = () => {
 	const [profiles, setProfiles] = useState<Profile[]>([]);
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
-
 	const [configPath, setConfigPath] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -100,11 +99,9 @@ const Home = () => {
 				.invoke('ipcmain-profile-export', selectedProfileId)
 				.then((result) => {
 					if (result) {
-						// Export successful
 						console.log('Profile exported successfully');
 						window.location.reload();
 					} else {
-						// Export failed
 						console.log('Failed to export profile');
 					}
 				})
