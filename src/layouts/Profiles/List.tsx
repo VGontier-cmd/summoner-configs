@@ -59,7 +59,7 @@ const List = ({ profiles, selectedProfileIndex, handleProfileClick }: ListProfil
 	return (
 		<>
 			{profiles && profiles.length > 0 ? (
-				<ul className="grid grid-cols-3 gap-3">
+				<ul className="grid grid-cols-3 gap-3 px-4 pb-8 pt-5">
 					{profiles.map((profile, index) => (
 						<li
 							key={profile.id}

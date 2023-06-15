@@ -15,15 +15,13 @@
 	}
 }
 
+.header {
+	background: hsl($hexteck-black-blur);
+}
+
 .settings-btn {
-  position: absolute;
-  right: 1rem;
-  top: 2rem;
   @include square(2rem);
-  border-radius: 100vmax;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex_center(center);
   border: 2px solid hsl($gold-4);
 
   svg {
@@ -33,6 +31,11 @@
 
 .glass {
 	background: hsl($blue-5);
+	backdrop-filter: var(--glass-filter);
+}
+
+.bg-glass {
+	background-color: rgba(0, 0, 0, 0.5);
 	backdrop-filter: var(--glass-filter);
 }
 
@@ -138,7 +141,6 @@
 }
 
 .rounded-circle {
-	border-radius: 1;
 	border-radius: 100vmax;
 }
 
@@ -190,11 +192,29 @@
 }
 
 .export-btn {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  bottom: 0;
   left: 50%;
-  @include square(12rem);
-  transform: translateX(-50%);
+  @include square(10.5rem);
+  transform: translate(-50%, 50%);
+	background: hsl($hexteck-black-blur);
+	border-top: 2px solid hsl($gold-2);
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 50%;
+    left: 50%;
+		@include square(calc(100% - 10px));
+    transform: translate(-50%, -50%);
+		border-radius: 100vmax;
+	}
+
+	&:has(button:not(:disabled)):before {
+		background: $blue-gradient;
+		color: hsl($gold-1);
+		cursor: pointer;
+	}
 
   img {
     position: absolute;
@@ -214,15 +234,9 @@
     @include square(calc(100% - 3.5rem));
     transform: translate(-50%, -50%);
 
-    &:not(:disabled) {
-      background: $blue-gradient;
-      color: hsl($gold-1);
-      cursor: pointer;
-    }
-
     span {
       display: block;
-      margin-bottom: 3.4rem;
+      margin-bottom: 3rem;
     }
   }
 }

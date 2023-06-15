@@ -36,6 +36,8 @@ import {
 import NewProfile from '@/layouts/Profiles/New';
 import ListProfile from '@/layouts/Profiles/List';
 
+import line from '@/assets/images/decorator-hr.png';
+
 const Home = () => {
 	const [profiles, setProfiles] = useState<Profile[]>([]);
 	const [selectedProfileIndex, setSelectedProfileIndex] = useState<number | null>(null);
@@ -94,89 +96,91 @@ const Home = () => {
 
 	return (
 		<>
-			<Dialog>
-				<DialogTrigger asChild>
-					<button className="settings-btn">
-						<Settings className="h-4 w-4" />
-					</button>
-				</DialogTrigger>
-				<DialogContent className="sm:max-w-[425px]">
-					<DialogHeader>
-						<DialogTitle>Settings</DialogTitle>
-						<DialogDescription>Enter your config file path.</DialogDescription>
-					</DialogHeader>
-					<form onSubmit={handleConfigPathRegister}>
-						<div className="grid gap-4 py-4">
-							<div className="flex flex-col gap-2">
-								<Label htmlFor="name">Path</Label>
-								<Input
-									id="name"
-									className="col-span-3"
-									value={configPath || ''}
-									placeholder="/path"
-									onChange={handleConfigPathChange}
-								/>
-							</div>
-						</div>
-						<DialogFooter>
-							<Button type="submit">Save</Button>
-						</DialogFooter>
-					</form>
-				</DialogContent>
-			</Dialog>
-
 			<div className="background-video">
 				<video src={backVideo} autoPlay loop playsInline></video>
 			</div>
 
-			<div className="overflow-y-auto">
-				<div className="py-6 px-4">
-					<h1 className="main-title mb-2">
-						Manage
-						<br />
-						your profiles !
-					</h1>
-					<p className="text text-md mb-6">Add a new profile config to your account.</p>
-					<div className="grid gap-6 pb-8">
-						<div className="flex items-end justify-between gap-3 mt-5">
-							<span className="text-sm text-light">{profiles.length} profiles</span>
+			<div className="h-screen flex flex-col">
+				<div>
+					<div className="header sticky top-0 bg-glass shadow-md pt-6 pb-5 px-4 z-[1]">
+						<div className="flex items-center justify-between gap-2">
+							<h1 className="main-title mb-2">
+								Manage
+								<br />
+								your profiles !
+							</h1>
+							<Dialog>
+								<DialogTrigger asChild>
+									<button className="settings-btn rounded-circle">
+										<Settings className="h-4 w-4" />
+									</button>
+								</DialogTrigger>
+								<DialogContent className="sm:max-w-[425px]">
+									<DialogHeader>
+										<DialogTitle>Settings</DialogTitle>
+										<DialogDescription>Enter your config file path.</DialogDescription>
+									</DialogHeader>
+									<form onSubmit={handleConfigPathRegister}>
+										<div className="grid gap-4 py-4">
+											<div className="flex flex-col gap-2">
+												<Label htmlFor="name">Path</Label>
+												<Input
+													id="name"
+													className="col-span-3"
+													value={configPath || ''}
+													placeholder="/path"
+													onChange={handleConfigPathChange}
+												/>
+											</div>
+										</div>
+										<DialogFooter>
+											<Button type="submit">Save</Button>
+										</DialogFooter>
+									</form>
+								</DialogContent>
+							</Dialog>
+						</div>
+						<p className="text text-md mb-6">Add a new profile config to your account.</p>
+						<div className="flex items-end justify-between gap-3">
+							<span className="text-sm text-light leading-[1]">{profiles.length} profiles</span>
 							<div className="flex justify-end gap-3">
 								<NewProfile />
 							</div>
 						</div>
-						<ListProfile
-							profiles={profiles}
-							selectedProfileIndex={selectedProfileIndex}
-							handleProfileClick={handleProfileClick}
-						/>
+						<img src={line} className="absolute left-0 bottom-0 w-full transform translate-y-[100%] px-1" />
 					</div>
+
+					<ListProfile
+						profiles={profiles}
+						selectedProfileIndex={selectedProfileIndex}
+						handleProfileClick={handleProfileClick}
+					/>
 				</div>
 			</div>
-			<div className="footer relative mt-auto">
-				<AlertDialog>
+
+			<AlertDialog>
+				<div className="export-btn rounded-circle">
+					<img src={circleLOL} />
 					<AlertDialogTrigger asChild>
-						<div className="export-btn rounded-circle">
-							<img src={circleLOL} />
-							<button type="button" className="rounded-circle" disabled={selectedProfileIndex === null}>
-								<span>Export profile</span>
-							</button>
-						</div>
+						<button type="button" className="rounded-circle ctm-shadow" disabled={selectedProfileIndex === null}>
+							<span>Export profile</span>
+						</button>
 					</AlertDialogTrigger>
-					<AlertDialogContent>
-						<AlertDialogHeader>
-							<AlertDialogTitle>Are you absolutely sure ?</AlertDialogTitle>
-							<AlertDialogDescription>
-								This action cannot be undone. This will load your selected profile settings to your League of Legends
-								client.
-							</AlertDialogDescription>
-						</AlertDialogHeader>
-						<AlertDialogFooter>
-							<AlertDialogCancel>Cancel</AlertDialogCancel>
-							<AlertDialogAction>Continue</AlertDialogAction>
-						</AlertDialogFooter>
-					</AlertDialogContent>
-				</AlertDialog>
-			</div>
+				</div>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Are you absolutely sure ?</AlertDialogTitle>
+						<AlertDialogDescription>
+							This action cannot be undone. This will load your selected profile settings to your League of Legends
+							client.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction>Continue</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 		</>
 	);
 };
