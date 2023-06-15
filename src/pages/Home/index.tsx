@@ -102,6 +102,7 @@ const Home = () => {
 					if (result) {
 						// Export successful
 						console.log('Profile exported successfully');
+						window.location.reload();
 					} else {
 						// Export failed
 						console.log('Failed to export profile');
