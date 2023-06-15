@@ -146,6 +146,23 @@ export const ipcManager = {
 		});
 
 		/**
+		 * Event: ipcmain-profile-export
+		 * Exports the profile configs with the specified ID to the client.
+		 * @param {Event} event - The IPC event object.
+		 * @param {UUID} id - The ID of the profile to export.
+		 * @returns {boolean} A Promise that resolves to `true` if the export is successful, or `false` otherwise.
+		 */
+		ipcMain.handle('ipcmain-profile-export', async (_event, id: UUID) => {
+			try {
+				await profileManager.exportToClient(id);
+				return true;
+			} catch (err) {
+				logger.error(err);
+				return false;
+			}
+		});
+
+		/**
 		 * Event: ipcmain-profile-open-folder-in-file-explorer
 		 * @param {Event} _event - The IPC event object (unused in the function).
 		 * @param {UUID} id - The ID of the profile to open the folder for.

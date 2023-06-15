@@ -160,8 +160,25 @@ export class ProfileManager {
 			});
 	}
 
+	/**
+	 * Opens the profile folder in the file explorer.
+	 *
+	 * @param {UUID} profileId - The ID of the profile.
+	 * @returns A Promise that resolves when the profile folder is opened in the file explorer.
+	 */
 	async openProfileFolderInFileExplorer(profileId: UUID) {
 		const profile = this.get(profileId);
 		this.folderManager.openProfileFolderInFileExplorer(await profile);
+	}
+
+	/**
+	 * Exports the profile with the specified ID to the client.
+	 *
+	 * @param {UUID} profileId - The ID of the profile to export.
+	 * @returns A Promise that resolves when the export is completed successfully.
+	 */
+	async exportToClient(profileId: UUID) {
+		const profileToExport = await this.get(profileId);
+		this.folderManager.exportProfileToClient(profileToExport);
 	}
 }

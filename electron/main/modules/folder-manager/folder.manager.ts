@@ -181,7 +181,8 @@ export class FolderManager {
 					fs.copyFileSync(sourceFilePath, destinationFilePath);
 					logger.info(`Copied file: ${fileName}`);
 				} catch (error) {
-					logger.error(`Error copying file : ${fileName}`, error);
+					logger.error(error);
+					throw new Error(`Error copying file : ${fileName}`);
 				}
 			}
 		});
