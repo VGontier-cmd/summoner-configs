@@ -4,6 +4,11 @@ import { IsBoolean, IsNotEmpty, IsString, IsUUID, Length } from 'class-validator
  * Data transfer object for updating a profile.
  */
 export class UpdateProfileDto {
+	constructor(profile: UpdateProfileDto) {
+		this.id = profile.id;
+		this.name = profile.name;
+	}
+
 	/**
 	 * ID of the profile to update.
 	 * @remarks Must be a non-empty string.
@@ -15,7 +20,7 @@ export class UpdateProfileDto {
 	@Length(36)
 	@IsString()
 	@IsUUID()
-	id!: string;
+	readonly id!: string;
 
 	/**
 	 * Updated name of the profile.
@@ -26,5 +31,5 @@ export class UpdateProfileDto {
 	@Length(1, 20)
 	@IsNotEmpty()
 	@IsString()
-	name!: string;
+	readonly name!: string;
 }

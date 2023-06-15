@@ -44,16 +44,25 @@ export class ProfileManager {
 		 * Validates the createProfile object using class-validator library.
 		 * @param errors - An array of validation errors, if any.
 		 */
-		validate(createProfile)
+
+		const validateProfile = new CreateProfileDto({
+			name: createProfile.name,
+			color: createProfile.color,
+			isFav: createProfile.isFav,
+		});
+
+		validate(validateProfile, { enableDebugMessages: true })
 			.then(async (errors) => {
+				logger.info(errors);
 				if (errors.length > 0) {
 					logger.error('Validation errors:', errors);
 				} else {
+					console.log(createProfile);
 					const newProfile: Profile = {
 						id: uuidv4(),
-						name: createProfile.name,
-						color: createProfile.color ?? '#000000',
-						isFav: createProfile.isFav ?? false,
+						name: validateProfile.name,
+						color: validateProfile.color,
+						isFav: validateProfile.isFav,
 					};
 					await this.folderManager.importFromClient(newProfile); // Import settings files from the League of Legends client
 					this.profileList.push(newProfile); // Push the new profile if no error occurred during the file import
@@ -112,14 +121,21 @@ export class ProfileManager {
 	 * @param updateProfileDto - The updated profile data.
 	 * @throws {ProfileNotFoundException} If the profile is not found.
 	 */
-	async update(id: string, updateProfileDto: UpdateProfileDto): Promise<void> {
+	async update(id: UUID, updateProfileDto: UpdateProfileDto): Promise<void> {
 		logger.info(`Updating profile with id : ${id}`);
 		/**
 		 * Validates the updateProfileDto object using class-validator library.
 		 * @param errors - An array of validation errors, if any.
 		 */
-		validate(updateProfileDto)
+
+		const validateProfile = new UpdateProfileDto({
+			id: id,
+			name: updateProfileDto.name,
+		});
+		console.log('profile', validateProfile);
+		validate(validateProfile, { enableDebugMessages: true })
 			.then(async (errors) => {
+				logger.info(errors);
 				if (errors.length > 0) {
 					logger.error('Validation errors:', errors);
 				} else {
