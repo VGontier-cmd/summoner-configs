@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import { ipcRenderer } from 'electron';
 
-import { Button } from '@/components/ui/button';
-
 import { Plus } from 'lucide-react';
 
 import {
@@ -44,7 +42,7 @@ const New = () => {
 		<>
 			<Dialog>
 				<DialogTrigger asChild>
-					<button className="main-btn gold-gradient-border border-thin flex items-center gap-3">
+					<button className="main-btn gold-gradient-border flex items-center gap-3">
 						<Plus className="h-4 w-4" />
 						Import profile
 					</button>

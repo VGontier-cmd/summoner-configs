@@ -52,7 +52,7 @@ const List = ({ profiles, selectedProfileIndex, handleProfileClick }: ListProfil
 
 	const handleOpenProfileInFileExplorer = (profileId: string) => {
 		if (profileId) {
-			ipcRenderer.send('ipcmain-profile-open-folder-in-file-explorer', profileId)
+			ipcRenderer.send('ipcmain-profile-open-folder-in-file-explorer', profileId);
 		}
 	};
 
