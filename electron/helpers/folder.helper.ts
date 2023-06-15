@@ -26,6 +26,7 @@ export class FolderHelper {
 		fs.mkdir(folderPath, { recursive: true }, (err) => {
 			if (err) {
 				logger.error('Error creating folder:', err);
+				throw err;
 			} else {
 				logger.info('Folder created:', folderPath);
 			}
@@ -40,6 +41,7 @@ export class FolderHelper {
 		fs.rmdir(folderPath, { recursive: true }, (err) => {
 			if (err) {
 				logger.error('Error deleting folder:', err);
+				throw err;
 			} else {
 				logger.info('Folder deleted:', folderPath);
 			}
@@ -55,6 +57,7 @@ export class FolderHelper {
 		fs.rename(oldPath, newPath, (err) => {
 			if (err) {
 				logger.error('Error updating folder:', err);
+				throw err;
 			} else {
 				logger.info('Folder updated:', oldPath, newPath);
 			}
@@ -133,14 +136,6 @@ export class FolderHelper {
 			throw new Error(`The folder given does not exist. Please check your League of Legends installation path.`);
 		}
 
-		const foldersNameList = await this.getFoldersNameInDirectory(LolConfigPath);
-
-		if (!foldersNameList.includes('Config')) {
-			throw new Error(
-				`The Config folder does not exist. Please check your League of Legends installation path. Path given : ${LolConfigPath}`,
-			);
-		}
-
-		return path.join(LolConfigPath, 'Config');
+		return LolConfigPath;
 	}
 }
