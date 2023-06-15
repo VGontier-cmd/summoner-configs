@@ -56,6 +56,7 @@ export class ProfileManager {
 				logger.info(errors);
 				if (errors.length > 0) {
 					logger.error('Validation errors:', errors);
+					throw new Error('A validation error occured when trying to create the profile');
 				} else {
 					console.log(createProfile);
 					const newProfile: Profile = {
@@ -138,6 +139,7 @@ export class ProfileManager {
 				logger.info(errors);
 				if (errors.length > 0) {
 					logger.error('Validation errors:', errors);
+					throw new Error('A validation error occured when trying to update the profile');
 				} else {
 					const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
 
