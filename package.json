@@ -1,5 +1,5 @@
 {
-  "name": "lol-config-manager",
+  "name": "summoner-configs",
   "version": "2.2.0",
   "main": "dist-electron/main/index.js",
   "description": "Electron Vite React application",
