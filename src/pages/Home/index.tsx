@@ -40,7 +40,7 @@ import line from '@/assets/images/decorator-hr.png';
 
 const Home = () => {
 	const [profiles, setProfiles] = useState<Profile[]>([]);
-	const [selectedProfileIndex, setSelectedProfileIndex] = useState<number | null>(null);
+	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 
 	const [configPath, setConfigPath] = useState<string | null>(null);
 
@@ -60,8 +60,8 @@ const Home = () => {
 			});
 	};
 
-	const handleProfileClick = (index: number | null): void => {
-		setSelectedProfileIndex(selectedProfileIndex === index ? null : index);
+	const handleProfileClick = (profileId: string | null): void => {
+		setSelectedProfileId(selectedProfileId === profileId ? null : profileId);
 	};
 
 	const handleGetConfigPath = () => {
@@ -92,6 +92,25 @@ const Home = () => {
 
 	const handleConfigPathChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setConfigPath(event.target.value);
+	};
+
+	const handleExportSelectedProfile = () => {
+		if (selectedProfileId) {
+			ipcRenderer
+				.invoke('ipcmain-profile-export', selectedProfileId)
+				.then((result) => {
+					if (result) {
+						// Export successful
+						console.log('Profile exported successfully');
+					} else {
+						// Export failed
+						console.log('Failed to export profile');
+					}
+				})
+				.catch((error) => {
+					console.error('Error exporting profile:', error);
+				});
+		}
 	};
 
 	return (
@@ -152,7 +171,7 @@ const Home = () => {
 
 					<ListProfile
 						profiles={profiles}
-						selectedProfileIndex={selectedProfileIndex}
+						selectedProfileId={selectedProfileId}
 						handleProfileClick={handleProfileClick}
 					/>
 				</div>
@@ -162,7 +181,7 @@ const Home = () => {
 				<div className="export-btn rounded-circle">
 					<img src={circleLOL} />
 					<AlertDialogTrigger asChild>
-						<button type="button" className="rounded-circle ctm-shadow" disabled={selectedProfileIndex === null}>
+						<button type="button" className="rounded-circle ctm-shadow" disabled={selectedProfileId === null}>
 							<span>Export profile</span>
 						</button>
 					</AlertDialogTrigger>
@@ -177,7 +196,7 @@ const Home = () => {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction>Continue</AlertDialogAction>
+						<AlertDialogAction onClick={() => handleExportSelectedProfile()}>Continue</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>

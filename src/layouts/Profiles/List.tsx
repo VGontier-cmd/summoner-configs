@@ -32,11 +32,11 @@ import UpdateProfile from './Edit';
 
 interface ListProfileProps {
 	profiles: Profile[];
-	selectedProfileIndex: number | null;
-	handleProfileClick: (index: number) => void;
+	selectedProfileId: string | null;
+	handleProfileClick: (profileId: string) => void;
 }
 
-const List = ({ profiles, selectedProfileIndex, handleProfileClick }: ListProfileProps) => {
+const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfileProps) => {
 	const handleDeleteProfile = (profileId: string) => {
 		if (profileId) {
 			ipcRenderer
@@ -60,12 +60,12 @@ const List = ({ profiles, selectedProfileIndex, handleProfileClick }: ListProfil
 		<>
 			{profiles && profiles.length > 0 ? (
 				<ul className="grid grid-cols-3 gap-3 px-4 pb-8 pt-5">
-					{profiles.map((profile, index) => (
+					{profiles.map((profile) => (
 						<li
 							key={profile.id}
 							className="profile-item relative glass cursor-pointer flex flex-col items-center justify-between text-center border-muted bg-popover p-4 py-5"
-							aria-selected={selectedProfileIndex === index ? 'true' : 'false'}
-							onClick={() => handleProfileClick(index)}
+							aria-selected={selectedProfileId === profile.id ? 'true' : 'false'}
+							onClick={() => handleProfileClick(profile.id)}
 						>
 							<Dialog>
 								<AlertDialog>
