@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ipcRenderer } from 'electron';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
@@ -40,8 +40,11 @@ const Home = () => {
 	const [profiles, setProfiles] = useState<Profile[]>([]);
 	const [selectedProfileIndex, setSelectedProfileIndex] = useState<number | null>(null);
 
+	const [configPath, setConfigPath] = useState<string | null>(null);
+
 	useEffect(() => {
 		loadProfiles();
+		handleGetConfigPath();
 	}, []);
 
 	const loadProfiles = () => {
@@ -59,6 +62,36 @@ const Home = () => {
 		setSelectedProfileIndex(selectedProfileIndex === index ? null : index);
 	};
 
+	const handleGetConfigPath = () => {
+		ipcRenderer
+			.invoke('ipcmain-config-path-get')
+			.then((result) => {
+				setConfigPath(result);
+			})
+			.catch((error) => {
+				console.log('Error retrieving config path:', error);
+			});
+	};
+
+	const handleConfigPathRegister = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if (configPath) {
+			ipcRenderer
+				.invoke('ipcmain-config-path-register', configPath)
+				.then(() => {
+					window.location.reload();
+				})
+				.catch((error) => {
+					console.log('Error registering config path:', error);
+				});
+		}
+	};
+
+	const handleConfigPathChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setConfigPath(event.target.value);
+	};
+
 	return (
 		<>
 			<Dialog>
@@ -72,15 +105,23 @@ const Home = () => {
 						<DialogTitle>Settings</DialogTitle>
 						<DialogDescription>Enter your config file path.</DialogDescription>
 					</DialogHeader>
-					<div className="grid gap-4 pt-4">
-						<div className="flex flex-col gap-2">
-							<Label htmlFor="name">Path</Label>
-							<Input id="name" className="col-span-3" />
+					<form onSubmit={handleConfigPathRegister}>
+						<div className="grid gap-4 py-4">
+							<div className="flex flex-col gap-2">
+								<Label htmlFor="name">Path</Label>
+								<Input
+									id="name"
+									className="col-span-3"
+									value={configPath || ''}
+									placeholder="/path"
+									onChange={handleConfigPathChange}
+								/>
+							</div>
 						</div>
-					</div>
-					<DialogFooter>
-						<Button type="submit">Save</Button>
-					</DialogFooter>
+						<DialogFooter>
+							<Button type="submit">Save</Button>
+						</DialogFooter>
+					</form>
 				</DialogContent>
 			</Dialog>
 
