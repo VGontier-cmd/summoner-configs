@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ipcRenderer } from 'electron';
 
 import { Plus } from 'lucide-react';
@@ -16,12 +16,23 @@ import Form from './Form';
 
 const New = () => {
 	const nameRef = useRef<HTMLInputElement>(null);
+	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const handleNewProfile = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (nameRef.current) {
 			const name = nameRef.current.value;
+
+			if (!name) {
+				setErrorMessage('The profile name cannot be empty...');
+				return;
+			}
+
+			if (name.length > 20) {
+				setErrorMessage('the profile name length cannot exceed 20 characters...');
+				return;
+			}
 
 			const profileDto = {
 				name: name,
@@ -52,7 +63,7 @@ const New = () => {
 						<DialogTitle>Add Profile</DialogTitle>
 						<DialogDescription>Add a name to your new profile.</DialogDescription>
 					</DialogHeader>
-					<Form profile={null} nameRef={nameRef} onSubmit={handleNewProfile} />
+					<Form profile={null} nameRef={nameRef} message={errorMessage} onSubmit={handleNewProfile} />
 				</DialogContent>
 			</Dialog>
 		</>

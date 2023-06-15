@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ipcRenderer } from 'electron';
 
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -12,11 +12,24 @@ interface UpdateProps {
 
 const Edit = ({ profile }: UpdateProps) => {
 	const nameRef = useRef<HTMLInputElement>(null);
+	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const handleUpdateProfile = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (nameRef.current) {
+			const name = nameRef.current.value;
+
+			if (!name) {
+				setErrorMessage('The profile name cannot be empty...');
+				return;
+			}
+
+			if (name.length > 20) {
+				setErrorMessage('the profile name length cannot exceed 20 characters...');
+				return;
+			}
+
 			const profileDto = {
 				name: nameRef.current.value,
 			};
@@ -39,7 +52,7 @@ const Edit = ({ profile }: UpdateProps) => {
 					<DialogTitle>Update profile</DialogTitle>
 					<DialogDescription>Update the profile name.</DialogDescription>
 				</DialogHeader>
-				<Form profile={profile} nameRef={nameRef} onSubmit={handleUpdateProfile} />
+				<Form profile={profile} nameRef={nameRef} message={errorMessage} onSubmit={handleUpdateProfile} />
 			</DialogContent>
 		</>
 	);

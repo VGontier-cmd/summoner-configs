@@ -10,10 +10,11 @@ import { Profile } from 'electron/main/modules/profile-manager/profile.interface
 interface FormProps {
 	profile: Profile | null;
 	nameRef: React.RefObject<HTMLInputElement>;
+	message: string | '';
 	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const Form = ({ profile, nameRef, onSubmit }: FormProps) => {
+const Form = ({ profile, nameRef, message, onSubmit }: FormProps) => {
 	const [name, setName] = useState(profile?.name || '');
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,15 @@ const Form = ({ profile, nameRef, onSubmit }: FormProps) => {
 						<Label htmlFor="name" className="mb-1">
 							Name
 						</Label>
-						<Input id="name" className="col-span-3" value={name} ref={nameRef} onChange={handleNameChange} />
+						<Input
+							id="name"
+							className="col-span-3"
+							value={name}
+							ref={nameRef}
+							onChange={handleNameChange}
+							maxLength={20}
+						/>
+						<p className="text-xs text-light">{message}</p>
 					</div>
 				</div>
 				<DialogFooter>
