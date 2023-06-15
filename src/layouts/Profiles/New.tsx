@@ -30,7 +30,8 @@ const New = () => {
 			ipcRenderer
 				.invoke('ipcmain-profile-create', profileDto)
 				.then((result) => {
-					window.location.reload();
+					console.log(result);
+					//window.location.reload();
 				})
 				.catch((error) => {
 					console.error(error);

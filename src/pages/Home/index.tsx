@@ -147,7 +147,7 @@ const Home = () => {
 													id="name"
 													className="col-span-3"
 													value={configPath || ''}
-													placeholder="/path"
+													placeholder="C:\Riot Games\League of Legends\"
 													onChange={handleConfigPathChange}
 												/>
 											</div>
@@ -161,7 +161,9 @@ const Home = () => {
 						</div>
 						<p className="text text-md mb-6">Add a new profile config to your account.</p>
 						<div className="flex items-end justify-between gap-3">
-							<span className="text-sm text-light leading-[1]">{profiles.length} profiles</span>
+							<span className="text-sm text-light leading-[1]">
+								{profiles.length} {`profile${profiles.length > 1 ? 's' : ''}`}
+							</span>
 							<div className="flex justify-end gap-3">
 								<NewProfile />
 							</div>

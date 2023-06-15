@@ -63,7 +63,7 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 					{profiles.map((profile) => (
 						<li
 							key={profile.id}
-							className="profile-item relative glass cursor-pointer flex flex-col items-center justify-between text-center border-muted bg-popover p-4 py-5"
+							className="profile-item relative gold-gradient-border border-thin cursor-pointer flex flex-col items-center justify-between text-center border-muted bg-popover p-4 py-5"
 							aria-selected={selectedProfileId === profile.id ? 'true' : 'false'}
 							onClick={() => handleProfileClick(profile.id)}
 						>
