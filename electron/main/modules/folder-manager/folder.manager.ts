@@ -127,7 +127,7 @@ export class FolderManager {
 	 * @param profile - The profile object to be imported.
 	 */
 	async importFromClient(profile: Profile) {
-		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
+		const lolConfigPath = this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 
 		const files = await this.fileHelper.getFilesInFolder(lolConfigPath, expectedFiles.clientConfigRequiredFiles);
 
@@ -159,12 +159,18 @@ export class FolderManager {
 	 * @param profile - The profile object to be exported.
 	 */
 	async exportProfileToClient(profile: Profile) {
-		const lolConfigPath = await this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
+		const lolConfigPath = this.folderHelper.validateLolConfigPath(); // Validate lol config path or throw error
 		const profileFolderPath = await this.getProfileFolderPath(profile);
 
-		const files = await this.fileHelper.getFilesInFolder(profileFolderPath, expectedFiles.managerFolderFiles);
+		const files = await this.fileHelper.getFilesInFolder(profileFolderPath, [
+			...expectedFiles.clientConfigRequiredFiles,
+			...expectedFiles.clientConfigOptionalFiles,
+		]);
 
-		await this.folderHelper.checkFolderFiles(profileFolderPath, files, expectedFiles.managerFolderFiles);
+		await this.folderHelper.checkFolderFiles(profileFolderPath, files, [
+			...expectedFiles.clientConfigRequiredFiles,
+			...expectedFiles.clientConfigOptionalFiles,
+		]);
 
 		files.forEach(async (fileName) => {
 			if (fileName !== 'profileDetails.json') {
