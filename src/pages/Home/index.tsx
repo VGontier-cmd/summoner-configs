@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ipcRenderer } from 'electron';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
-import { Settings, RefreshCwIcon } from 'lucide-react';
+import { Settings } from 'lucide-react';
+
+import backVideo from '@/assets/videos/background-video-d-01.mp4';
+import circleLOL from '@/assets/images/decorator-circle.webp';
 
 import {
 	Dialog,
@@ -36,9 +38,13 @@ import ListProfile from '@/layouts/Profiles/List';
 
 const Home = () => {
 	const [profiles, setProfiles] = useState<Profile[]>([]);
+	const [selectedProfileIndex, setSelectedProfileIndex] = useState<number | null>(null);
+
+	const [configPath, setConfigPath] = useState<string | null>(null);
 
 	useEffect(() => {
 		loadProfiles();
+		handleGetConfigPath();
 	}, []);
 
 	const loadProfiles = () => {
@@ -52,63 +58,109 @@ const Home = () => {
 			});
 	};
 
+	const handleProfileClick = (index: number | null): void => {
+		setSelectedProfileIndex(selectedProfileIndex === index ? null : index);
+	};
+
+	const handleGetConfigPath = () => {
+		ipcRenderer
+			.invoke('ipcmain-config-path-get')
+			.then((result) => {
+				setConfigPath(result);
+			})
+			.catch((error) => {
+				console.log('Error retrieving config path:', error);
+			});
+	};
+
+	const handleConfigPathRegister = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if (configPath) {
+			ipcRenderer
+				.invoke('ipcmain-config-path-register', configPath)
+				.then(() => {
+					window.location.reload();
+				})
+				.catch((error) => {
+					console.log('Error registering config path:', error);
+				});
+		}
+	};
+
+	const handleConfigPathChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setConfigPath(event.target.value);
+	};
+
 	return (
 		<>
+			<Dialog>
+				<DialogTrigger asChild>
+					<button className="settings-btn">
+						<Settings className="h-4 w-4" />
+					</button>
+				</DialogTrigger>
+				<DialogContent className="sm:max-w-[425px]">
+					<DialogHeader>
+						<DialogTitle>Settings</DialogTitle>
+						<DialogDescription>Enter your config file path.</DialogDescription>
+					</DialogHeader>
+					<form onSubmit={handleConfigPathRegister}>
+						<div className="grid gap-4 py-4">
+							<div className="flex flex-col gap-2">
+								<Label htmlFor="name">Path</Label>
+								<Input
+									id="name"
+									className="col-span-3"
+									value={configPath || ''}
+									placeholder="/path"
+									onChange={handleConfigPathChange}
+								/>
+							</div>
+						</div>
+						<DialogFooter>
+							<Button type="submit">Save</Button>
+						</DialogFooter>
+					</form>
+				</DialogContent>
+			</Dialog>
+
+			<div className="background-video">
+				<video src={backVideo} autoPlay loop playsInline></video>
+			</div>
+
 			<div className="overflow-y-auto">
-				<Card className="font-sans border-0 shadow-none">
-					<CardHeader>
-						<CardTitle className="main-title text-primary">
-							Manage
-							<br />
-							your profiles !
-						</CardTitle>
-						<CardDescription>Add a new profile config to your account.</CardDescription>
-					</CardHeader>
-					<CardContent className="grid gap-6 pb-8">
-						<div className="flex items-end justify-between gap-3">
-							<span className="text-sm text-muted text-primary">{profiles.length} profiles</span>
+				<div className="py-6 px-4">
+					<h1 className="main-title mb-2">
+						Manage
+						<br />
+						your profiles !
+					</h1>
+					<p className="text text-md mb-6">Add a new profile config to your account.</p>
+					<div className="grid gap-6 pb-8">
+						<div className="flex items-end justify-between gap-3 mt-5">
+							<span className="text-sm text-light">{profiles.length} profiles</span>
 							<div className="flex justify-end gap-3">
 								<NewProfile />
 							</div>
 						</div>
-						<ListProfile profiles={profiles} />
-					</CardContent>
-				</Card>
-			</div>
-			<div className="footer relative h-[5rem] mt-auto p-5">
-				<div className="footer__circle"></div>
-				<div className="footer__bg flex items-end">
-					<div>
-						<div className="footer__shape corner-left">
-							<Dialog>
-								<DialogTrigger asChild>
-									<button className="footer-btn">
-										<Settings className="h-4 w-4" />
-									</button>
-								</DialogTrigger>
-								<DialogContent className="sm:max-w-[425px]">
-									<DialogHeader>
-										<DialogTitle>Settings</DialogTitle>
-										<DialogDescription>Enter your config file path.</DialogDescription>
-									</DialogHeader>
-									<div className="grid gap-4 pt-4">
-										<div className="flex flex-col gap-3">
-											<Label htmlFor="name">Path</Label>
-											<Input id="name" className="col-span-3" />
-										</div>
-									</div>
-									<DialogFooter>
-										<Button type="submit">Save</Button>
-									</DialogFooter>
-								</DialogContent>
-							</Dialog>
-						</div>
+						<ListProfile
+							profiles={profiles}
+							selectedProfileIndex={selectedProfileIndex}
+							handleProfileClick={handleProfileClick}
+						/>
 					</div>
 				</div>
-
+			</div>
+			<div className="footer relative mt-auto">
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
-						<Button className="footer__btn rounded-circle">Export profile</Button>
+						<div className="export-btn rounded-circle">
+							<img src={circleLOL} />
+							<button type="button" className="rounded-circle" disabled={selectedProfileIndex === null}>
+								<span>Export profile</span>
+							</button>
+						</div>
 					</AlertDialogTrigger>
 					<AlertDialogContent>
 						<AlertDialogHeader>

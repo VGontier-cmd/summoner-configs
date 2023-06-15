@@ -44,7 +44,7 @@ function App() {
 		startChecking();
 	}, []);
 
-	return <>{!isLeagueOfLegendsOpen ? <Home /> : <Starter />}</>;
+	return <>{isLeagueOfLegendsOpen ? <Home /> : <Starter />}</>;
 }
 
 export default App;

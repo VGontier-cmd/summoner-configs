@@ -24,8 +24,10 @@ const Form = ({ profile, nameRef, onSubmit }: FormProps) => {
 		<>
 			<form onSubmit={onSubmit}>
 				<div className="grid gap-3 py-4">
-					<div className="flex flex-col gap-3">
-						<Label htmlFor="name">Name</Label>
+					<div className="flex flex-col gap-2">
+						<Label htmlFor="name" className="mb-1">
+							Name
+						</Label>
 						<Input id="name" className="col-span-3" value={name} ref={nameRef} onChange={handleNameChange} />
 					</div>
 				</div>

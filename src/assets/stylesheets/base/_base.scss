@@ -10,10 +10,7 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-
-    @include background-image('gradient-bg.webp');
 }
-
 
 /**
  * Disable highlighting/selecting across the application

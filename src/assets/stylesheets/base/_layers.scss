@@ -1,8 +1,8 @@
 @layer base {
   :root {
-    --font-sans: "Cal Sans";
-    
-    --background: 0 0% 100%;
+    --font-sans: "Spiegel Regular";
+
+    --background: 210 90% 3.92%;
     --foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
@@ -14,14 +14,14 @@
     --card: 0 0% 100%;
     --card-foreground: 222.2 47.4% 11.2%;
 
-    --border: 214.3 31.8% 91.4%;
+    --border: $gold-1;
     --input: 214.3 31.8% 91.4%;
 
     //--primary: 222.2 47.4% 11.2%;
     --primary: 241 87% 64%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
+    --secondary: $hexteck-black;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --glass-background: 0, 0%, 100%, 0.48;
