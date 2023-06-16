@@ -6,11 +6,14 @@ import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/c
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 import Form from './Form';
 
+import { useToast } from '@/components/ui/use-toast';
+
 interface UpdateProps {
 	profile: Profile;
 }
 
 const Edit = ({ profile }: UpdateProps) => {
+	const { toast } = useToast();
 	const nameRef = useRef<HTMLInputElement>(null);
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -38,9 +41,14 @@ const Edit = ({ profile }: UpdateProps) => {
 				.invoke('ipcmain-profile-update', profile.id, profileDto)
 				.then((result) => {
 					window.location.reload();
+					toast({
+						description: 'The profile has been edited successfully !',
+					});
 				})
 				.catch((error) => {
-					console.error(error);
+					toast({
+						description: `Error editing profile: ${error}`,
+					});
 				});
 		}
 	};

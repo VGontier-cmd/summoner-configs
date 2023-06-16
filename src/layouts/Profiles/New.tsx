@@ -12,9 +12,12 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 
+import { useToast } from '@/components/ui/use-toast';
+
 import Form from './Form';
 
 const New = () => {
+	const { toast } = useToast();
 	const nameRef = useRef<HTMLInputElement>(null);
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -42,9 +45,14 @@ const New = () => {
 				.invoke('ipcmain-profile-create', profileDto)
 				.then((result) => {
 					window.location.reload();
+					toast({
+						description: 'The profile has been imported successfully !',
+					});
 				})
 				.catch((error) => {
-					console.error(error);
+					toast({
+						description: `Error creating profile: ${error}`,
+					});
 				});
 		}
 	};
@@ -53,7 +61,7 @@ const New = () => {
 		<>
 			<Dialog>
 				<DialogTrigger asChild>
-					<button className="main-btn gold-gradient-border flex items-center gap-3">
+					<button className="main-btn lol-btn gold-gradient-border py-2 px-5 flex items-center gap-3 text-light uppercase">
 						<Plus className="h-4 w-4" />
 						Import profile
 					</button>

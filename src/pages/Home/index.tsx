@@ -38,7 +38,10 @@ import ListProfile from '@/layouts/Profiles/List';
 
 import line from '@/assets/images/decorator-hr.png';
 
+import { useToast } from '@/components/ui/use-toast';
+
 const Home = () => {
+	const { toast } = useToast();
 	const [profiles, setProfiles] = useState<Profile[]>([]);
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 	const [configPath, setConfigPath] = useState<string | null>(null);
@@ -55,7 +58,9 @@ const Home = () => {
 				setProfiles(result);
 			})
 			.catch((error) => {
-				console.log('Error retrieving profiles:', error);
+				toast({
+					description: `Error retrieving profiles: ${error}`,
+				});
 			});
 	};
 
@@ -70,7 +75,9 @@ const Home = () => {
 				setConfigPath(result);
 			})
 			.catch((error) => {
-				console.log('Error retrieving config path:', error);
+				toast({
+					description: `Error retrieving config path: ${error}`,
+				});
 			});
 	};
 
@@ -82,9 +89,14 @@ const Home = () => {
 				.invoke('ipcmain-config-path-register', configPath)
 				.then(() => {
 					window.location.reload();
+					toast({
+						description: 'Your config path has been set successfully !',
+					});
 				})
 				.catch((error) => {
-					console.log('Error registering config path:', error);
+					toast({
+						description: `Error registering config path: ${error}`,
+					});
 				});
 		}
 	};
@@ -99,14 +111,19 @@ const Home = () => {
 				.invoke('ipcmain-profile-export', selectedProfileId)
 				.then((result) => {
 					if (result) {
-						console.log('Profile exported successfully');
-						window.location.reload();
+						toast({
+							description: 'Profile exported successfully !',
+						});
 					} else {
-						console.log('Failed to export profile');
+						toast({
+							description: 'Failed to export profile !',
+						});
 					}
 				})
 				.catch((error) => {
-					console.error('Error exporting profile:', error);
+					toast({
+						description: `Error exporting profile: ${error}`,
+					});
 				});
 		}
 	};
@@ -128,7 +145,7 @@ const Home = () => {
 							</h1>
 							<Dialog>
 								<DialogTrigger asChild>
-									<button className="settings-btn rounded-circle">
+									<button className="settings-btn lol-btn rounded-circle">
 										<Settings className="h-4 w-4" />
 									</button>
 								</DialogTrigger>

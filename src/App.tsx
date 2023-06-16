@@ -5,6 +5,8 @@ import Home from './pages/Home';
 
 import { exec } from 'child_process';
 
+import { Toaster } from '@/components/ui/toaster';
+
 function App() {
 	const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
 	const time = 5000;
@@ -44,7 +46,14 @@ function App() {
 		startChecking();
 	}, []);
 
-	return <>{isLeagueOfLegendsOpen ? <Home /> : <Starter />}</>;
+	return isLeagueOfLegendsOpen ? (
+		<>
+			<Home />
+			<Toaster />
+		</>
+	) : (
+		<Starter />
+	);
 }
 
 export default App;

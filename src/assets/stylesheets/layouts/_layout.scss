@@ -29,6 +29,44 @@
 	}
 }
 
+.lol-btn {
+	background-color: hsl($hexteck-black);
+	font-size: $text-md;
+
+	&:hover {
+		border: 2px solid hsl($gold-1);
+	}
+}
+
+.toast {
+	&:after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		right: -1px;
+		width: 1.3rem;
+		height: 2.4rem;
+		background: hsl($hexteck-black);
+		transform: translateY(-50%);
+		z-index: 0;
+		border-radius: 100vmax 0 0 100vmax;
+		border: 1px solid hsl($gold-4);
+		border-right: hsl($hexteck-black);
+	}
+}
+
+.toast-close-btn {
+	@include flex_center(center);
+	transform: translate(50%, -50%);
+	border: 2px solid hsl($gold-4);
+	background: hsl($hexteck-black);
+	z-index: 1;
+
+	svg {
+		stroke: hsl($gold-1);
+	}
+}
+
 .glass {
 	background: hsl($blue-5);
 	backdrop-filter: var(--glass-filter);
@@ -114,20 +152,6 @@
 	text-transform: uppercase;
 	color: hsl($gold-1);
 	line-height: 1.2;
-}
-
-.main-btn {
-	font-family: 'Spiegel Regular';
-	padding: 0.5rem 1.5rem;
-	background-color: hsl($hexteck-black);
-	border-radius: 0.5rem;
-	color: hsl($gold-1);
-	font-size: 0.8rem;
-	text-transform: uppercase;
-
-	&:hover {
-		border-color: hsl($gold-4);
-	}
 }
 
 .text {
