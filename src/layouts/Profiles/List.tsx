@@ -30,6 +30,8 @@ import {
 
 import UpdateProfile from './Edit';
 
+import { useToast } from '@/components/ui/use-toast';
+
 interface ListProfileProps {
 	profiles: Profile[];
 	selectedProfileId: string | null;
@@ -37,15 +39,22 @@ interface ListProfileProps {
 }
 
 const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfileProps) => {
+	const { toast } = useToast();
 	const handleDeleteProfile = (profileId: string) => {
 		if (profileId) {
 			ipcRenderer
 				.invoke('ipcmain-profile-delete', profileId)
 				.then((result) => {
 					window.location.reload();
+					toast({
+						description: 'The profile has been deleted successfully !',
+					});
 				})
 				.catch((error) => {
 					console.error(error);
+					toast({
+						description: `Error deleting profile: ${error}`,
+					});
 				});
 		}
 	};
