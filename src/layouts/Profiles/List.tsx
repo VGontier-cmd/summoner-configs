@@ -1,24 +1,10 @@
-import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
 import { Icons } from '@/components/Icons';
-
 import { Pen, Trash, Folder } from 'lucide-react';
-
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 import {
 	DropdownMenu,
@@ -29,8 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import UpdateProfile from './Edit';
-
-import { useToast } from '@/components/ui/use-toast';
+import DeleteProfile from './Delete';
 
 interface ListProfileProps {
 	profiles: Profile[];
@@ -39,26 +24,6 @@ interface ListProfileProps {
 }
 
 const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfileProps) => {
-	const { toast } = useToast();
-	const handleDeleteProfile = (profileId: string) => {
-		if (profileId) {
-			ipcRenderer
-				.invoke('ipcmain-profile-delete', profileId)
-				.then((result) => {
-					window.location.reload();
-					toast({
-						description: 'The profile has been deleted successfully !',
-					});
-				})
-				.catch((error) => {
-					console.error(error);
-					toast({
-						description: `Error deleting profile: ${error}`,
-					});
-				});
-		}
-	};
-
 	const handleOpenProfileInFileExplorer = (profileId: string) => {
 		if (profileId) {
 			ipcRenderer.send('ipcmain-profile-open-folder-in-file-explorer', profileId);
@@ -107,21 +72,8 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 											</DropdownMenuGroup>
 										</DropdownMenuContent>
 									</DropdownMenu>
-
-									<AlertDialogContent>
-										<AlertDialogHeader>
-											<AlertDialogTitle>Are you absolutely sure ?</AlertDialogTitle>
-											<AlertDialogDescription>
-												This action cannot be undone. This will permanently delete your selected profile settings.
-											</AlertDialogDescription>
-										</AlertDialogHeader>
-										<AlertDialogFooter>
-											<AlertDialogCancel>Cancel</AlertDialogCancel>
-											<AlertDialogAction onClick={() => handleDeleteProfile(profile.id)}>Continue</AlertDialogAction>
-										</AlertDialogFooter>
-									</AlertDialogContent>
+									<DeleteProfile profileId={profile.id} />
 								</AlertDialog>
-
 								<UpdateProfile profile={profile} />
 							</Dialog>
 

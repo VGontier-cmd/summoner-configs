@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
-import { Settings } from 'lucide-react';
+import { Settings, Plus } from 'lucide-react';
 
 import backVideo from '@/assets/videos/background-video-d-01.mp4';
 import circleLOL from '@/assets/images/decorator-circle.webp';
@@ -180,7 +180,15 @@ const Home = () => {
 								{profiles.length} {`profile${profiles.length > 1 ? 's' : ''}`}
 							</span>
 							<div className="flex justify-end gap-3">
-								<NewProfile />
+								<Dialog>
+									<DialogTrigger asChild>
+										<button className="main-btn lol-btn gold-gradient-border py-2 px-5 flex items-center gap-3 text-light uppercase">
+											<Plus className="h-4 w-4" />
+											Import profile
+										</button>
+									</DialogTrigger>
+									<NewProfile />
+								</Dialog>
 							</div>
 						</div>
 						<img src={line} className="absolute left-0 bottom-0 w-full transform translate-y-[100%] px-1" />
