@@ -52,8 +52,7 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-update', async (_event, id: UUID, updateProfileDto: UpdateProfileDto) => {
 			try {
-				await profileManager.update(id, updateProfileDto);
-				return `Success updating profile with id: ${id}`;
+				return await profileManager.update(id, updateProfileDto);
 			} catch (error) {
 				throw error;
 			}
@@ -68,8 +67,7 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-create', async (_event, createProfile: CreateProfileDto) => {
 			try {
-				await profileManager.create(createProfile);
-				return 'Success creating profile';
+				return await profileManager.create(createProfile);
 			} catch (error) {
 				throw error;
 			}
@@ -84,8 +82,7 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-delete', async (_event, id: UUID) => {
 			try {
-				await profileManager.delete(id);
-				return `Success deleting profile with id: ${id}`;
+				return await profileManager.delete(id);
 			} catch (error) {
 				throw error;
 			}

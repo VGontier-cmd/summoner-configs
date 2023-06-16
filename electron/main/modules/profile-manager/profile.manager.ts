@@ -38,38 +38,40 @@ export class ProfileManager {
 	 * Creates a new profile.
 	 * @param createProfile - The profile data for creation.
 	 */
-	async create(createProfile: CreateProfileDto): Promise<void> {
-		logger.info(`Creating a new Profile`);
-		/**
-		 * Validates the createProfile object using class-validator library.
-		 * @param errors - An array of validation errors, if any.
-		 */
+	async create(createProfile: CreateProfileDto): Promise<Profile> {
+		return new Promise<Profile>((resolve, reject) => {
+			logger.info(`Creating a new Profile`);
 
-		const validateProfile = new CreateProfileDto({
-			name: createProfile.name,
-			color: createProfile.color,
-			isFav: createProfile.isFav,
-		});
-
-		validate(validateProfile, { enableDebugMessages: true })
-			.then(async (errors) => {
-				if (errors.length > 0) {
-					logger.error(`Validation error(s) ${errors}`);
-					throw new Error('A validation error occured when trying to create the profile');
-				} else {
-					const newProfile: Profile = {
-						id: uuidv4(),
-						name: validateProfile.name,
-						color: validateProfile.color,
-						isFav: validateProfile.isFav,
-					};
-					await this.folderManager.importFromClient(newProfile); // Import settings files from the League of Legends client
-					this.profileList.push(newProfile); // Push the new profile if no error occurred during the file import
-				}
-			})
-			.catch((error) => {
-				logger.error('Validation error:', error);
+			const validateProfile = new CreateProfileDto({
+				name: createProfile.name,
+				color: createProfile.color,
+				isFav: createProfile.isFav,
 			});
+
+			validate(validateProfile, { enableDebugMessages: true })
+				.then(async (errors) => {
+					if (errors.length > 0) {
+						logger.error('Validation error(s):', errors);
+						throw new Error('A validation error occurred when trying to create the profile');
+					} else {
+						const newProfile: Profile = {
+							id: uuidv4(),
+							name: validateProfile.name,
+							color: validateProfile.color,
+							isFav: validateProfile.isFav,
+						};
+
+						await this.folderManager.importFromClient(newProfile);
+						this.profileList.push(newProfile);
+
+						resolve(newProfile); // Resolve the promise with the created profile
+					}
+				})
+				.catch((error) => {
+					logger.error('Validation error:', error);
+					reject(error); // Reject the promise with the validation error
+				});
+		});
 	}
 
 	/**
@@ -101,16 +103,26 @@ export class ProfileManager {
 	 * @param id - The ID of the profile to delete.
 	 * @throws {ProfileNotFoundException} If the profile is not found.
 	 */
-	async delete(id: string): Promise<void> {
-		logger.info(`Deleting profile with id : ${id}`);
-		const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
+	async delete(id: string): Promise<Profile> {
+		return new Promise<Profile>(async (resolve, reject) => {
+			try {
+				logger.info(`Deleting profile with id: ${id}`);
+				const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
 
-		if (profileIndex === -1) {
-			throw new ProfileNotFoundException(`Profile not found with ID: ${id}`);
-		}
+				if (profileIndex === -1) {
+					throw new ProfileNotFoundException(`Profile not found with ID: ${id}`);
+				}
 
-		await this.folderManager.deleteProfileFolder(this.profileList[profileIndex]);
-		this.profileList.splice(profileIndex, 1);
+				const deletedProfile = this.profileList[profileIndex];
+
+				await this.folderManager.deleteProfileFolder(deletedProfile);
+				this.profileList.splice(profileIndex, 1);
+
+				resolve(deletedProfile); // Resolve the promise with the deleted profile
+			} catch (error) {
+				reject(error); // Reject the promise with any errors that occurred
+			}
+		});
 	}
 
 	/**
@@ -119,42 +131,44 @@ export class ProfileManager {
 	 * @param updateProfileDto - The updated profile data.
 	 * @throws {ProfileNotFoundException} If the profile is not found.
 	 */
-	async update(id: UUID, updateProfileDto: UpdateProfileDto): Promise<void> {
-		logger.info(`Updating profile with id : ${id}`);
-		/**
-		 * Validates the updateProfileDto object using class-validator library.
-		 * @param errors - An array of validation errors, if any.
-		 */
+	async update(id: UUID, updateProfileDto: UpdateProfileDto): Promise<Profile> {
+		return new Promise<Profile>((resolve, reject) => {
+			logger.info(`Updating profile with id: ${id}`);
 
-		const validateProfile = new UpdateProfileDto({
-			id: id,
-			name: updateProfileDto.name,
-		});
-		validate(validateProfile, { enableDebugMessages: true })
-			.then(async (errors) => {
-				if (errors.length > 0) {
-					logger.error(`Validation error(s) ${errors}`);
-					throw new Error('A validation error occured when trying to update the profile');
-				} else {
-					const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
-
-					if (profileIndex === -1) {
-						throw new ProfileNotFoundException(`Profile not found with ID: ${id}`);
-					}
-
-					const updatedProfile: Profile = {
-						...this.profileList[profileIndex],
-						...updateProfileDto,
-					};
-
-					await this.folderManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile); // Update the folder and the config file
-					this.profileList[profileIndex] = updatedProfile; // Update the profile list accordingly with the updated profile
-					this.folderManager.createProfileSettingsFile(updatedProfile); // Edit the config json file accordingly
-				}
-			})
-			.catch((error) => {
-				logger.error('Validation error:', error);
+			const validateProfile = new UpdateProfileDto({
+				id: id,
+				name: updateProfileDto.name,
 			});
+
+			validate(validateProfile, { enableDebugMessages: true })
+				.then(async (errors) => {
+					if (errors.length > 0) {
+						logger.error('Validation error(s):', errors);
+						throw new Error('A validation error occurred when trying to update the profile');
+					} else {
+						const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
+
+						if (profileIndex === -1) {
+							throw new ProfileNotFoundException(`Profile not found with ID: ${id}`);
+						}
+
+						const updatedProfile: Profile = {
+							...this.profileList[profileIndex],
+							...updateProfileDto,
+						};
+
+						await this.folderManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile);
+						this.profileList[profileIndex] = updatedProfile;
+						this.folderManager.createProfileSettingsFile(updatedProfile);
+
+						resolve(updatedProfile); // Resolve the promise with the updated profile
+					}
+				})
+				.catch((error) => {
+					logger.error('Validation error:', error);
+					reject(error); // Reject the promise with the validation error
+				});
+		});
 	}
 
 	/**
