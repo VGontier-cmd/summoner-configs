@@ -39,30 +39,17 @@ import ListProfile from '@/layouts/Profiles/List';
 import line from '@/assets/images/decorator-hr.png';
 
 import { useToast } from '@/components/ui/use-toast';
+import { useProfileList } from '@/layouts/Profiles/useProfileList';
 
 const Home = () => {
 	const { toast } = useToast();
-	const [profiles, setProfiles] = useState<Profile[]>([]);
+	const { profiles } = useProfileList();
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 	const [configPath, setConfigPath] = useState<string | null>(null);
 
 	useEffect(() => {
-		loadProfiles();
 		handleGetConfigPath();
 	}, []);
-
-	const loadProfiles = () => {
-		ipcRenderer
-			.invoke('ipcmain-profile-get-all')
-			.then((result) => {
-				setProfiles(result);
-			})
-			.catch((error) => {
-				toast({
-					description: `Error retrieving profiles: ${error}`,
-				});
-			});
-	};
 
 	const handleProfileClick = (profileId: string | null): void => {
 		setSelectedProfileId(selectedProfileId === profileId ? null : profileId);
@@ -84,21 +71,21 @@ const Home = () => {
 	const handleConfigPathRegister = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (configPath) {
-			ipcRenderer
-				.invoke('ipcmain-config-path-register', configPath)
-				.then(() => {
-					window.location.reload();
-					toast({
-						description: 'Your config path has been set successfully !',
-					});
-				})
-				.catch((error) => {
-					toast({
-						description: `Error registering config path: ${error}`,
-					});
+		if (!configPath) return;
+
+		ipcRenderer
+			.invoke('ipcmain-config-path-register', configPath)
+			.then(() => {
+				window.location.reload();
+				toast({
+					description: 'Your config path has been set successfully !',
 				});
-		}
+			})
+			.catch((error) => {
+				toast({
+					description: `Error registering config path: ${error}`,
+				});
+			});
 	};
 
 	const handleConfigPathChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,26 +93,33 @@ const Home = () => {
 	};
 
 	const handleExportSelectedProfile = () => {
-		if (selectedProfileId) {
-			ipcRenderer
-				.invoke('ipcmain-profile-export', selectedProfileId)
-				.then((result) => {
-					if (result) {
-						toast({
-							description: 'Profile exported successfully !',
-						});
-					} else {
-						toast({
-							description: 'Failed to export profile !',
-						});
-					}
-				})
-				.catch((error) => {
-					toast({
-						description: `Error exporting profile: ${error}`,
-					});
-				});
+		if (!selectedProfileId) return;
+
+		if (!configPath) {
+			toast({
+				description: 'You must register the config path in your settings',
+			});
+			return;
 		}
+
+		ipcRenderer
+			.invoke('ipcmain-profile-export', selectedProfileId)
+			.then((result) => {
+				if (result) {
+					toast({
+						description: 'Profile exported successfully !',
+					});
+				} else {
+					toast({
+						description: 'Failed to export profile !',
+					});
+				}
+			})
+			.catch((error) => {
+				toast({
+					description: `Error exporting profile: ${error}`,
+				});
+			});
 	};
 
 	return (
@@ -203,7 +197,7 @@ const Home = () => {
 			</div>
 
 			<AlertDialog>
-				<div className="export-btn rounded-circle">
+				<div className="export-btn lol-btn rounded-circle">
 					<img src={circleLOL} />
 					<AlertDialogTrigger asChild>
 						<button type="button" className="rounded-circle ctm-shadow" disabled={selectedProfileId === null}>
