@@ -33,11 +33,11 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 	return (
 		<>
 			{profiles && profiles.length > 0 ? (
-				<ul className="grid grid-cols-3 gap-3 px-4 pb-8 pt-5">
+				<ul className="grid grid-cols-3 gap-3 px-4 pb-[7rem] pt-5">
 					{profiles.map((profile) => (
 						<li
 							key={profile.id}
-							className="profile-item relative gold-gradient-border border-thin cursor-pointer flex flex-col items-center justify-between text-center border-muted bg-popover p-4 py-5"
+							className="profile-item relative gold-gradient-border border-thin cursor-pointer flex flex-col items-center justify-center text-center border-muted bg-popover p-4 py-5"
 							aria-selected={selectedProfileId === profile.id ? 'true' : 'false'}
 							onClick={() => handleProfileClick(profile.id)}
 						>
