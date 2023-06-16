@@ -39,7 +39,7 @@ export class FolderHelper {
 	 * @param folderPath - The path of the folder to delete.
 	 */
 	async deleteFolder(folderPath: string): Promise<void> {
-		fs.rmdir(folderPath, { recursive: true }, (err) => {
+		fs.rm(folderPath, { recursive: true }, (err) => {
 			if (err) {
 				logger.error('Error deleting folder:', err);
 				throw err;
