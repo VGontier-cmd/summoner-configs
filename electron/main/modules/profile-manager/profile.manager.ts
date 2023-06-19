@@ -1,6 +1,6 @@
 import { validate } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
-import { FolderManager } from '../folder-manager/folder.manager';
+import { FileExplorerManager } from '../folder-manager/file-explorer.manager';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileNotFoundException } from './profile.exceptions';
@@ -13,14 +13,14 @@ import { UUID } from 'node:crypto';
  */
 export class ProfileManager {
 	private profileList: Profile[];
-	private folderManager: FolderManager; // Manages the creation of folders/files on the disk
+	private fileExplorerManager: FileExplorerManager; // Manages the creation of folders/files on the disk
 
 	/**
 	 * Creates an instance of `ProfileManager`.
 	 * @param rootFolderPath - The root folder path for profile management.
 	 */
 	constructor(rootFolderPath: string) {
-		this.folderManager = new FolderManager(rootFolderPath);
+		this.fileExplorerManager = new FileExplorerManager(rootFolderPath);
 		this.profileList = [];
 		this.initializeProfileList();
 	}
@@ -30,7 +30,7 @@ export class ProfileManager {
 	 */
 	async initializeProfileList(): Promise<void> {
 		logger.info(`Initializing ProfileList ...`);
-		this.profileList = await this.folderManager.retrieveProfiles();
+		this.profileList = await this.fileExplorerManager.retrieveProfiles();
 		logger.info(`Initialization complete.`);
 	}
 
@@ -61,7 +61,7 @@ export class ProfileManager {
 							isFav: validateProfile.isFav,
 						};
 
-						await this.folderManager.importFromClient(newProfile);
+						await this.fileExplorerManager.importFromClient(newProfile);
 						this.profileList.push(newProfile);
 
 						resolve(newProfile); // Resolve the promise with the created profile
@@ -115,7 +115,7 @@ export class ProfileManager {
 
 				const deletedProfile = this.profileList[profileIndex];
 
-				await this.folderManager.deleteProfileFolder(deletedProfile);
+				await this.fileExplorerManager.deleteProfileFolder(deletedProfile);
 				this.profileList.splice(profileIndex, 1);
 
 				resolve(deletedProfile); // Resolve the promise with the deleted profile
@@ -157,9 +157,9 @@ export class ProfileManager {
 							...updateProfileDto,
 						};
 
-						await this.folderManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile);
+						await this.fileExplorerManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile);
 						this.profileList[profileIndex] = updatedProfile;
-						this.folderManager.createProfileSettingsFile(updatedProfile);
+						this.fileExplorerManager.createProfileSettingsFile(updatedProfile);
 
 						resolve(updatedProfile); // Resolve the promise with the updated profile
 					}
@@ -179,7 +179,7 @@ export class ProfileManager {
 	 */
 	async openProfileFolderInFileExplorer(profileId: UUID) {
 		const profile = this.get(profileId);
-		this.folderManager.openProfileFolderInFileExplorer(await profile);
+		this.fileExplorerManager.openProfileFolderInFileExplorer(await profile);
 	}
 
 	/**
@@ -190,6 +190,6 @@ export class ProfileManager {
 	 */
 	async exportToClient(profileId: UUID) {
 		const profileToExport = await this.get(profileId);
-		this.folderManager.exportProfileToClient(profileToExport);
+		this.fileExplorerManager.exportProfileToClient(profileToExport);
 	}
 }

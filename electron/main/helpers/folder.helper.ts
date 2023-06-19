@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 import { exec } from 'child_process';
 import { ElectronStoreHelper } from './electron-store.helper';
 

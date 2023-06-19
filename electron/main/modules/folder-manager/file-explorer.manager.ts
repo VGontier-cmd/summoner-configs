@@ -1,17 +1,17 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { DefaultFolderName } from '../../../utils/configs';
-import { FileHelper } from '../../../helpers/file.helper';
-import { FolderHelper } from '../../../helpers/folder.helper';
+import { FileHelper } from '../../helpers/file.helper';
+import { FolderHelper } from '../../helpers/folder.helper';
 import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
-import { FolderNotFoundException } from './folder.exceptions';
+import { FolderNotFoundException } from './file-explorer.exceptions';
 import logger from '../../../utils/logger';
 
 /**
  * Manages folders and files for profiles in a root folder.
  */
-export class FolderManager {
+export class FileExplorerManager {
 	/**
 	 * The root folder path.
 	 */

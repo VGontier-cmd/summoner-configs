@@ -1,7 +1,7 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
 import { ProfileManager } from '../profile-manager/profile.manager';
 import { UUID } from 'node:crypto';
-import { ElectronStoreHelper } from '../../../helpers/electron-store.helper';
+import { ElectronStoreHelper } from '../../helpers/electron-store.helper';
 import { UpdateProfileDto } from '../profile-manager/dto/update-profile.dto';
 import { CreateProfileDto } from '../profile-manager/dto/create-profile.dto';
 import logger from '../../../utils/logger';
