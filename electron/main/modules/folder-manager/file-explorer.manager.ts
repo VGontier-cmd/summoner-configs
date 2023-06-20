@@ -30,7 +30,7 @@ export class FileExplorerManager {
 	 * @param rootFolderPath The root folder path.
 	 */
 	constructor(rootFolderPath: string) {
-		this.rootFolderPath = path.join(rootFolderPath, DefaultFolderName ?? 'LolSettingsManager');
+		this.rootFolderPath = path.join(rootFolderPath, DefaultFolderName || 'LolSettingsManager');
 
 		// Initialize file / folder helpers
 		this.folderHelper = new FolderHelper();
