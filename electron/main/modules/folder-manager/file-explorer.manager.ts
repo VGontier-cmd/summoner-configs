@@ -1,12 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { DefaultFolderName } from '../../../utils/configs';
 import { FileHelper } from '../../helpers/file.helper';
 import { FolderHelper } from '../../helpers/folder.helper';
 import { Profile } from '../profile-manager/profile.interface';
 import * as expectedFiles from '../types/expected-files';
 import { FolderNotFoundException } from './file-explorer.exceptions';
 import logger from '../../../utils/logger';
+import { Config } from '../../../utils/configs';
 
 /**
  * Manages folders and files for profiles in a root folder.
@@ -30,7 +30,7 @@ export class FileExplorerManager {
 	 * @param rootFolderPath The root folder path.
 	 */
 	constructor(rootFolderPath: string) {
-		this.rootFolderPath = path.join(rootFolderPath, DefaultFolderName || 'LolSettingsManager');
+		this.rootFolderPath = path.join(rootFolderPath, Config.DEFAULT_FOLDER_NAME);
 
 		// Initialize file / folder helpers
 		this.folderHelper = new FolderHelper();

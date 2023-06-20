@@ -7,6 +7,7 @@ import { ProfileNotFoundException } from './profile.exceptions';
 import { Profile } from './profile.interface';
 import logger from '../../../utils/logger';
 import { UUID } from 'node:crypto';
+import { Config } from '../../../utils/configs';
 
 /**
  * Manages profiles and their operations.
@@ -39,6 +40,10 @@ export class ProfileManager {
 	 * @param createProfile - The profile data for creation.
 	 */
 	async create(createProfile: CreateProfileDto): Promise<Profile> {
+		// Check if the profile limit is not reach
+		if (this.profileList.length >= Config.PROFILE_CREATION_LIMIT) {
+			throw new Error(`Profiles limit reach: [${Config.PROFILE_CREATION_LIMIT}]`);
+		}
 		return new Promise<Profile>((resolve, reject) => {
 			logger.info(`Creating a new Profile`);
 
