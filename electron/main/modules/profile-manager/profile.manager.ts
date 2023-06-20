@@ -157,9 +157,14 @@ export class ProfileManager {
 							...updateProfileDto,
 						};
 
+						// Update folder name
 						await this.fileExplorerManager.updateProfileFolder(this.profileList[profileIndex], updatedProfile);
+
+						// Update list
 						this.profileList[profileIndex] = updatedProfile;
-						this.fileExplorerManager.createProfileSettingsFile(updatedProfile);
+
+						// Edit profile settings json file
+						await this.fileExplorerManager.createProfileSettingsFile(updatedProfile);
 
 						resolve(updatedProfile); // Resolve the promise with the updated profile
 					}

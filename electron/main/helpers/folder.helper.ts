@@ -54,15 +54,14 @@ export class FolderHelper {
 	 * @param oldPath - The old path of the folder.
 	 * @param newPath - The new path of the folder.
 	 */
-	async renameFolder(oldPath: string, newPath: string): Promise<void> {
-		fs.rename(oldPath, newPath, (err) => {
-			if (err) {
-				logger.error('Error updating folder:', err);
-				throw err;
-			} else {
-				logger.info('Folder updated:', oldPath, newPath);
-			}
-		});
+	renameFolder(oldPath: string, newPath: string): void {
+		try {
+			fs.renameSync(oldPath, newPath);
+			logger.info('Folder updated:', oldPath, newPath);
+		} catch (err) {
+			logger.error('Error updating folder:', err);
+			throw err;
+		}
 	}
 
 	/**

@@ -71,7 +71,8 @@ export class FileExplorerManager {
 	async updateProfileFolder(oldProfile: Profile, profile: Profile) {
 		const oldFolderName = path.join(this.rootFolderPath, this.getProfileFolderName(oldProfile));
 		const newFolderName = path.join(this.rootFolderPath, this.getProfileFolderName(profile));
-		await this.folderHelper.renameFolder(oldFolderName, newFolderName);
+
+		this.folderHelper.renameFolder(oldFolderName, newFolderName);
 	}
 
 	/**
