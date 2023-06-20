@@ -46,7 +46,7 @@ function App() {
 		startChecking();
 	}, []);
 
-	return isLeagueOfLegendsOpen ? (
+	return !isLeagueOfLegendsOpen ? (
 		<>
 			<Home />
 			<Toaster />

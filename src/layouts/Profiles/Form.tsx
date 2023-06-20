@@ -11,6 +11,7 @@ import { DialogFooter } from '@/components/ui/dialog';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
 import { useProfileList } from './useProfileList';
+import { CreateProfileDto } from 'electron/main/modules/profile-manager/dto/create-profile.dto';
 
 interface FormProps {
 	profile: Profile | null;
@@ -20,7 +21,7 @@ interface FormProps {
 const Form = ({ profile, action }: FormProps) => {
 	const { toast } = useToast();
 	const nameRef = useRef<HTMLInputElement>(null);
-	const { profiles, addProfile } = useProfileList();
+	const { addProfile, updateProfile } = useProfileList();
 	const [name, setName] = useState(profile?.name || '');
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -28,9 +29,7 @@ const Form = ({ profile, action }: FormProps) => {
 		setName(event.target.value);
 	};
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
+	const handleSubmit = () => {
 		if (nameRef.current) {
 			const name = nameRef.current.value;
 
@@ -44,19 +43,17 @@ const Form = ({ profile, action }: FormProps) => {
 				return;
 			}
 
-			const profileDto = {
+			const profileDto: CreateProfileDto = {
 				name: name,
+				color: '#000000',
+				isFav: false,
 			};
 
 			if (action == 'create') {
 				ipcRenderer
 					.invoke('ipcmain-profile-create', profileDto)
 					.then((newProfile) => {
-						console.log('NEW: ' + JSON.stringify(newProfile));
-						console.log('LIST: ' + JSON.stringify(profiles));
 						addProfile(newProfile);
-						console.log('LIST: ' + JSON.stringify(profiles));
-
 						toast({
 							description: 'The profile has been imported successfully !',
 						});
@@ -69,10 +66,12 @@ const Form = ({ profile, action }: FormProps) => {
 			}
 
 			if (action == 'update') {
+				if (!profile) return;
+
 				ipcRenderer
-					.invoke('ipcmain-profile-update', profile?.id, profileDto)
+					.invoke('ipcmain-profile-update', profile.id, profileDto)
 					.then((result) => {
-						window.location.reload();
+						updateProfile(profile);
 						toast({
 							description: 'The profile has been edited successfully !',
 						});
@@ -88,7 +87,7 @@ const Form = ({ profile, action }: FormProps) => {
 
 	return (
 		<>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={() => handleSubmit()}>
 				<div className="grid gap-3 py-4">
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="name" className="mb-1">

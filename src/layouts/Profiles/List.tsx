@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { ipcRenderer } from 'electron';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
@@ -14,7 +16,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import UpdateProfile from './Edit';
+import EditProfile from './Edit';
 import DeleteProfile from './Delete';
 
 interface ListProfileProps {
@@ -24,9 +26,19 @@ interface ListProfileProps {
 }
 
 const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfileProps) => {
+	const [editingProfileId, setEditingProfileId] = useState<string | null>();
+
 	const handleOpenProfileInFileExplorer = (profileId: string) => {
 		if (profileId) {
 			ipcRenderer.send('ipcmain-profile-open-folder-in-file-explorer', profileId);
+		}
+	};
+
+	const handleEditDialogOpenChange = (isOpen: boolean, profileId: string) => {
+		if (isOpen) {
+			setEditingProfileId(profileId);
+		} else {
+			setEditingProfileId(null);
 		}
 	};
 
@@ -41,7 +53,10 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 							aria-selected={selectedProfileId === profile.id ? 'true' : 'false'}
 							onClick={() => handleProfileClick(profile.id)}
 						>
-							<Dialog>
+							<Dialog
+								open={editingProfileId === profile.id}
+								onOpenChange={(isOpen) => handleEditDialogOpenChange(isOpen, profile.id)}
+							>
 								<AlertDialog>
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
@@ -74,7 +89,7 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 									</DropdownMenu>
 									<DeleteProfile profileId={profile.id} />
 								</AlertDialog>
-								<UpdateProfile profile={profile} />
+								<EditProfile profile={profile} />
 							</Dialog>
 
 							<Icons.lol className="mb-3 h-6 w-6" />

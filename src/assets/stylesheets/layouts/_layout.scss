@@ -120,10 +120,10 @@
 	border: 2px solid hsl($gold-4);
 	background: hsl($hexteck-black);
 	z-index: 1;
+}
 
-	svg {
-		stroke: hsl($gold-1);
-	}
+.icon-light {
+	stroke: hsl($gold-1);
 }
 
 .glass {
