@@ -93,7 +93,9 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 							</Dialog>
 
 							<Icons.lol className="mb-3 h-6 w-6" />
-							<div className="text-sm line-clamp -lc-1">{profile.name}</div>
+							<div className="line-clamp -lc-1">
+								<p className="text-sm ">{profile.name}</p>
+							</div>
 						</li>
 					))}
 				</ul>
