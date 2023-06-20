@@ -43,9 +43,10 @@ import { useProfileList } from '@/layouts/Profiles/useProfileList';
 
 const Home = () => {
 	const { toast } = useToast();
-	const { profiles } = useProfileList();
+	const { profiles, openNewProfile, setOpenNewProfile } = useProfileList();
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 	const [configPath, setConfigPath] = useState<string | null>(null);
+	const [openSettings, setOpenSettings] = useState(false);
 
 	useEffect(() => {
 		handleGetConfigPath();
@@ -76,7 +77,7 @@ const Home = () => {
 		ipcRenderer
 			.invoke('ipcmain-config-path-register', configPath)
 			.then(() => {
-				window.location.reload();
+				setOpenSettings(false);
 				toast({
 					description: 'Your config path has been set successfully !',
 				});
@@ -137,7 +138,7 @@ const Home = () => {
 								<br />
 								your profiles !
 							</h1>
-							<Dialog>
+							<Dialog open={openSettings} onOpenChange={setOpenSettings}>
 								<DialogTrigger asChild>
 									<button className="settings-btn lol-btn rounded-circle">
 										<Settings className="h-4 w-4" />
@@ -171,10 +172,10 @@ const Home = () => {
 						<p className="text text-md mb-6">Add a new profile config to your account.</p>
 						<div className="flex items-end justify-between gap-3">
 							<span className="text-sm text-light leading-[1]">
-								{profiles.length} {`profile${profiles.length > 1 ? 's' : ''}`}
+								{profiles.length} profile{profiles.length > 1 && 's'}
 							</span>
 							<div className="flex justify-end gap-3">
-								<Dialog>
+								<Dialog open={openNewProfile} onOpenChange={setOpenNewProfile}>
 									<DialogTrigger asChild>
 										<button className="main-btn lol-btn gold-gradient-border py-2 px-5 flex items-center gap-3 text-light uppercase">
 											<Plus className="h-4 w-4" />

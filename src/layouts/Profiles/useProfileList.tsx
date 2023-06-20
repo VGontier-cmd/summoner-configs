@@ -8,6 +8,8 @@ import { useToast } from '@/components/ui/use-toast';
 export const useProfileList = () => {
 	const { toast } = useToast();
 	const [profiles, setProfiles] = useState<Profile[]>([]);
+	const [openNewProfile, setOpenNewProfile] = useState(false);
+	const [openEditProfile, setOpenEditProfile] = useState(false);
 
 	const loadProfiles = () => {
 		ipcRenderer
@@ -23,23 +25,21 @@ export const useProfileList = () => {
 	};
 
 	useEffect(() => {
-		loadProfiles(); // Charger les profils lors du montage du composant
-	}, []);
+		loadProfiles();
+	}, [profiles]);
 
 	const addProfile = (profile: Profile) => {
-		// Ajouter le nouveau profil à la liste des profils
-		setProfiles((prevProfiles) => [...prevProfiles, profile]);
+		setProfiles((profiles) => [...profiles, profile]);
+		setOpenNewProfile(false);
 	};
 
 	const updateProfile = (updatedProfile: Profile) => {
-		// Mettre à jour le profil dans la liste des profils
 		setProfiles((prevProfiles) =>
 			prevProfiles.map((profile) => (profile.id === updatedProfile.id ? updatedProfile : profile)),
 		);
 	};
 
 	const deleteProfile = (profileId: string) => {
-		// Supprimer le profil de la liste des profils
 		setProfiles((prevProfiles) => prevProfiles.filter((profile) => profile.id !== profileId));
 	};
 
@@ -49,5 +49,9 @@ export const useProfileList = () => {
 		addProfile,
 		updateProfile,
 		deleteProfile,
+		openNewProfile,
+		setOpenNewProfile,
+		openEditProfile,
+		setOpenEditProfile,
 	};
 };
