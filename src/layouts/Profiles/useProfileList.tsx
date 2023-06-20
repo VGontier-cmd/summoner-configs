@@ -11,6 +11,10 @@ export const useProfileList = () => {
 	const [openNewProfile, setOpenNewProfile] = useState(false);
 	const [openEditProfile, setOpenEditProfile] = useState(false);
 
+	useEffect(() => {
+		loadProfiles();
+	}, [profiles]);
+
 	const loadProfiles = () => {
 		ipcRenderer
 			.invoke('ipcmain-profile-get-all')
@@ -24,22 +28,21 @@ export const useProfileList = () => {
 			});
 	};
 
-	useEffect(() => {
-		loadProfiles();
-	}, [profiles]);
-
 	const addProfile = (profile: Profile) => {
+		if (!profile) return;
 		setProfiles((profiles) => [...profiles, profile]);
-		setOpenNewProfile(false);
+		setOpenNewProfile(true);
 	};
 
 	const updateProfile = (updatedProfile: Profile) => {
+		if (!updateProfile) return;
 		setProfiles((prevProfiles) =>
 			prevProfiles.map((profile) => (profile.id === updatedProfile.id ? updatedProfile : profile)),
 		);
 	};
 
 	const deleteProfile = (profileId: string) => {
+		if (!profileId) return;
 		setProfiles((prevProfiles) => prevProfiles.filter((profile) => profile.id !== profileId));
 	};
 
