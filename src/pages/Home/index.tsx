@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ipcRenderer } from 'electron';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
-import { Settings, Plus } from 'lucide-react';
+import { Icons } from '@/components/Icons';
+import { Settings, Plus, Pen, Trash, Folder } from 'lucide-react';
 
 import backVideo from '@/assets/videos/background-video-d-01.mp4';
 import circleLOL from '@/assets/images/decorator-circle.webp';
@@ -32,20 +33,31 @@ import {
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-import NewProfile from '@/layouts/Profiles/New';
-import ListProfile from '@/layouts/Profiles/List';
-
 import line from '@/assets/images/decorator-hr.png';
 
 import { useToast } from '@/components/ui/use-toast';
 import { useProfileList } from '@/layouts/Profiles/useProfileList';
+import { CreateProfileDto } from 'electron/main/modules/profile-manager/dto/create-profile.dto';
+
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import DeleteProfile from '@/layouts/Profiles/Delete';
+import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
+import { UpdateProfileDto } from 'electron/main/modules/profile-manager/dto/update-profile.dto';
 
 const Home = () => {
 	const { toast } = useToast();
-	const { profiles, openNewProfile, setOpenNewProfile } = useProfileList();
+	const { profiles } = useProfileList();
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 	const [configPath, setConfigPath] = useState<string | null>(null);
 	const [openSettings, setOpenSettings] = useState(false);
+	const [openNewProfile, setOpenNewProfile] = useState(false);
 
 	useEffect(() => {
 		handleGetConfigPath();
@@ -76,10 +88,10 @@ const Home = () => {
 		ipcRenderer
 			.invoke('ipcmain-config-path-register', configPath)
 			.then(() => {
-				setOpenSettings(false);
 				toast({
 					description: 'Your config path has been set successfully !',
 				});
+				setOpenSettings(false);
 			})
 			.catch((error) => {
 				toast({
@@ -120,6 +132,125 @@ const Home = () => {
 					description: `Error exporting profile: ${error}`,
 				});
 			});
+	};
+
+	const newNameRef = useRef<HTMLInputElement>(null);
+	const editNameRef = useRef<HTMLInputElement>(null);
+	const { addProfile, updateProfile } = useProfileList();
+
+	const handleCreateProfileSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if (newNameRef.current) {
+			const name = newNameRef.current.value;
+
+			if (!name) {
+				toast({
+					description: 'The profile name cannot be empty...',
+				});
+				return;
+			}
+
+			if (name.length > 20) {
+				toast({
+					description: 'The profile name length cannot exceed 20 characters...',
+				});
+				return;
+			}
+
+			const profileDto: CreateProfileDto = {
+				name: name,
+				color: '#000000',
+				isFav: false,
+			};
+
+			ipcRenderer
+				.invoke('ipcmain-profile-create', profileDto)
+				.then((newProfile) => {
+					addProfile(newProfile);
+					toast({
+						description: 'The profile has been imported successfully !',
+					});
+					setOpenNewProfile(false);
+				})
+				.catch((error) => {
+					toast({
+						description: `Error creating profile: ${error}`,
+					});
+				});
+		}
+	};
+
+	const [editingProfile, setEditingProfile] = useState<Profile | null>();
+	const [editingProfileId, setEditingProfileId] = useState<string | null>(null);
+	const [profileName, setProfileName] = useState(editingProfile?.name);
+
+	const handleUpdateProfileSubmit = (event: React.FormEvent<HTMLFormElement>, profile: Profile) => {
+		event.preventDefault();
+
+		console.log('PROFILE:', profile.name);
+
+		if (editNameRef.current) {
+			const name = editNameRef.current.value;
+
+			if (!name) {
+				toast({
+					description: 'The profile name cannot be empty...',
+				});
+				return;
+			}
+
+			if (name.length > 20) {
+				toast({
+					description: 'The profile name length cannot exceed 20 characters...',
+				});
+				return;
+			}
+
+			const profileDto: UpdateProfileDto = {
+				id: profile.id,
+				name: name,
+			};
+
+			if (!profile) return;
+
+			ipcRenderer
+				.invoke('ipcmain-profile-update', profile.id, profileDto)
+				.then((result) => {
+					updateProfile(profile);
+					toast({
+						description: 'The profile has been edited successfully !',
+					});
+					setEditingProfileId(null);
+				})
+				.catch((error) => {
+					toast({
+						description: `Error editing profile: ${error}`,
+					});
+				});
+		}
+	};
+
+	const handleProfileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setProfileName(event.target.value);
+	};
+
+	const handleOpenProfileInFileExplorer = (profileId: string) => {
+		if (profileId) {
+			ipcRenderer.send('ipcmain-profile-open-folder-in-file-explorer', profileId);
+		}
+	};
+
+	const handleEditDialogOpenChange = (isOpen: boolean, profile: Profile) => {
+		if (isOpen) {
+			setEditingProfile(profile);
+			setEditingProfileId(profile.id);
+			setProfileName(profile ? profile.name : '');
+		} else {
+			setEditingProfile(null);
+			setEditingProfileId(null);
+			setProfileName('');
+		}
 	};
 
 	return (
@@ -181,18 +312,116 @@ const Home = () => {
 											Import profile
 										</button>
 									</DialogTrigger>
-									<NewProfile />
+									<DialogContent className="sm:max-w-[425px]">
+										<DialogHeader>
+											<DialogTitle>Add Profile</DialogTitle>
+											<DialogDescription>Add a name to your new profile.</DialogDescription>
+										</DialogHeader>
+										<form onSubmit={handleCreateProfileSubmit}>
+											<div className="grid gap-3 py-4">
+												<div className="flex flex-col gap-2">
+													<Label htmlFor="name" className="mb-1">
+														Name
+													</Label>
+													<Input className="col-span-3" ref={newNameRef} maxLength={20} />
+												</div>
+											</div>
+											<DialogFooter>
+												<Button type="submit">Save</Button>
+											</DialogFooter>
+										</form>
+									</DialogContent>
 								</Dialog>
 							</div>
 						</div>
 						<img src={line} className="absolute left-0 bottom-0 w-full transform translate-y-[100%] px-1" />
 					</div>
 
-					<ListProfile
-						profiles={profiles}
-						selectedProfileId={selectedProfileId}
-						handleProfileClick={handleProfileClick}
-					/>
+					{profiles && profiles.length > 0 ? (
+						<ul className="grid grid-cols-3 gap-3 px-4 pb-[7rem] pt-5">
+							{profiles.map((profile) => (
+								<li
+									key={profile.id}
+									className="profile-item relative gold-gradient-border border-thin cursor-pointer flex flex-col items-center justify-center text-center border-muted bg-popover p-4 py-5"
+									aria-selected={selectedProfileId === profile.id ? 'true' : 'false'}
+									onClick={() => handleProfileClick(profile.id)}
+								>
+									<Dialog
+										open={editingProfileId === profile.id}
+										onOpenChange={(isOpen) => handleEditDialogOpenChange(isOpen, profile)}
+									>
+										<AlertDialog>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<button className="absolute outline-none p-2 top-0 right-0 flex items-center justify-center">
+														<Icons.moreVertical className="h-4 w-4" />
+													</button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent className="w-56">
+													<DropdownMenuGroup>
+														<DialogTrigger asChild>
+															<DropdownMenuItem>
+																<Pen className="mr-2 h-4 w-4" />
+																<span>Update</span>
+															</DropdownMenuItem>
+														</DialogTrigger>
+
+														<DropdownMenuItem onClick={() => handleOpenProfileInFileExplorer(profile.id)}>
+															<Folder className="mr-2 h-4 w-4" />
+															Open Folder
+														</DropdownMenuItem>
+
+														<AlertDialogTrigger asChild>
+															<DropdownMenuItem>
+																<Trash className="mr-2 h-4 w-4" />
+																<span>Delete</span>
+															</DropdownMenuItem>
+														</AlertDialogTrigger>
+													</DropdownMenuGroup>
+												</DropdownMenuContent>
+											</DropdownMenu>
+											<DeleteProfile profileId={profile.id} />
+										</AlertDialog>
+
+										<DialogContent className="sm:max-w-[425px]">
+											<DialogHeader>
+												<DialogTitle>Update profile</DialogTitle>
+												<DialogDescription>Update the profile name.</DialogDescription>
+											</DialogHeader>
+											<form onSubmit={(e) => handleUpdateProfileSubmit(e, profile)}>
+												<div className="grid gap-3 py-4">
+													<div className="flex flex-col gap-2">
+														<Label htmlFor="name" className="mb-1">
+															Name
+														</Label>
+														<Input
+															className="col-span-3"
+															value={profileName}
+															ref={editNameRef}
+															onChange={handleProfileNameChange}
+															maxLength={20}
+														/>
+													</div>
+												</div>
+												<DialogFooter>
+													<Button type="submit">Save</Button>
+												</DialogFooter>
+											</form>
+										</DialogContent>
+									</Dialog>
+
+									<Icons.lol className="mb-3 h-6 w-6" />
+									<div className="line-clamp -lc-1">
+										<p className="text-sm ">{profile.name}</p>
+									</div>
+								</li>
+							))}
+						</ul>
+					) : (
+						<div className="text-center p-4 shadow-md">
+							<span className="text-sm text-light">No profile saved...</span>
+						</div>
+					)}
 				</div>
 			</div>
 

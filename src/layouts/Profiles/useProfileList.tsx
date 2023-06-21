@@ -8,8 +8,6 @@ import { useToast } from '@/components/ui/use-toast';
 export const useProfileList = () => {
 	const { toast } = useToast();
 	const [profiles, setProfiles] = useState<Profile[]>([]);
-	const [openNewProfile, setOpenNewProfile] = useState(false);
-	const [openEditProfile, setOpenEditProfile] = useState(false);
 
 	useEffect(() => {
 		loadProfiles();
@@ -31,7 +29,7 @@ export const useProfileList = () => {
 	const addProfile = (profile: Profile) => {
 		if (!profile) return;
 		setProfiles((profiles) => [...profiles, profile]);
-		setOpenNewProfile(true);
+		console.log('profile added:', profile);
 	};
 
 	const updateProfile = (updatedProfile: Profile) => {
@@ -39,11 +37,13 @@ export const useProfileList = () => {
 		setProfiles((prevProfiles) =>
 			prevProfiles.map((profile) => (profile.id === updatedProfile.id ? updatedProfile : profile)),
 		);
+		console.log('profile updated:', updatedProfile);
 	};
 
 	const deleteProfile = (profileId: string) => {
 		if (!profileId) return;
 		setProfiles((prevProfiles) => prevProfiles.filter((profile) => profile.id !== profileId));
+		console.log('profile deleted:', profileId);
 	};
 
 	return {
@@ -52,9 +52,5 @@ export const useProfileList = () => {
 		addProfile,
 		updateProfile,
 		deleteProfile,
-		openNewProfile,
-		setOpenNewProfile,
-		openEditProfile,
-		setOpenEditProfile,
 	};
 };

@@ -29,7 +29,9 @@ const Form = ({ profile, action }: FormProps) => {
 		setName(event.target.value);
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
 		if (nameRef.current) {
 			const name = nameRef.current.value;
 
@@ -87,7 +89,7 @@ const Form = ({ profile, action }: FormProps) => {
 
 	return (
 		<>
-			<form onSubmit={() => handleSubmit()}>
+			<form onSubmit={handleSubmit}>
 				<div className="grid gap-3 py-4">
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="name" className="mb-1">
