@@ -52,9 +52,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-update', async (_event, id: UUID, updateProfileDto: UpdateProfileDto) => {
 			try {
-				return await profileManager.update(id, updateProfileDto);
-			} catch (error) {
-				throw error;
+				return { success: true, data: await profileManager.update(id, updateProfileDto) };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
 			}
 		});
 
@@ -67,9 +68,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-create', async (_event, createProfile: CreateProfileDto) => {
 			try {
-				return await profileManager.create(createProfile);
-			} catch (error) {
-				throw error;
+				return { success: true, data: await profileManager.create(createProfile) };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
 			}
 		});
 
@@ -82,9 +84,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-delete', async (_event, id: UUID) => {
 			try {
-				return await profileManager.delete(id);
-			} catch (error) {
-				throw error;
+				return { success: true, data: await profileManager.delete(id) };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
 			}
 		});
 
@@ -97,10 +100,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-get', (_event, id: UUID) => {
 			try {
-				const profile = profileManager.get(id);
-				return profile;
-			} catch (error) {
-				throw error;
+				return { success: true, data: profileManager.get(id) };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
 			}
 		});
 
@@ -109,8 +112,12 @@ export const ipcManager = {
 		 * @returns {Profile[]} An array of all profiles.
 		 */
 		ipcMain.handle('ipcmain-profile-get-all', () => {
-			const profiles = profileManager.getAll();
-			return profiles;
+			try {
+				return { success: true, data: profileManager.getAll() };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
+			}
 		});
 
 		/**
@@ -121,11 +128,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-config-path-register', (_event, path: string) => {
 			try {
-				electronStore.set('lolConfigPath', path);
-				return true;
-			} catch (err) {
-				logger.error(err);
-				return false;
+				return { success: true, data: electronStore.set('lolConfigPath', path) };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
 			}
 		});
 
@@ -135,10 +141,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-config-path-get', () => {
 			try {
-				return electronStore.get('lolConfigPath');
-			} catch (err) {
-				logger.error(err);
-				return null;
+				return { success: true, data: electronStore.get('lolConfigPath') };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
 			}
 		});
 
@@ -151,11 +157,10 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-profile-export', async (_event, id: UUID) => {
 			try {
-				await profileManager.exportToClient(id);
-				return true;
-			} catch (err) {
-				logger.error(err);
-				return false;
+				return { success: true, data: await profileManager.exportToClient(id) };
+			} catch (error: any) {
+				logger.error(error);
+				return { success: false, error: error.message };
 			}
 		});
 
