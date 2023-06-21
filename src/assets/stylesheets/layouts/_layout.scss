@@ -48,6 +48,7 @@
 	@include square(10.5rem);
 	transform: translate(-50%, 50%);
 	background: hsl($hexteck-black-blur);
+	backdrop-filter: var(--glass-filter);
 	border-top: 3px solid hsl($gold-2);
 
 	&:before {

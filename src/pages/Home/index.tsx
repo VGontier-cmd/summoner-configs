@@ -9,7 +9,7 @@ import { Icons } from '@/components/Icons';
 import { Settings, Plus, Pen, Trash, Folder } from 'lucide-react';
 
 import backVideo from '@/assets/videos/background-video-d-01.mp4';
-import circleLOL from '@/assets/images/decorator-circle.webp';
+import circleLOL from '@/assets/images/decorator-circle.png';
 
 import {
 	Dialog,
