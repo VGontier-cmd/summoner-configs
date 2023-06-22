@@ -53,7 +53,7 @@ import { UpdateProfileDto } from 'electron/main/modules/profile-manager/dto/upda
 
 const Home = () => {
 	const { toast } = useToast();
-	const { profiles } = useProfileList();
+	const { profiles, addProfile, updateProfile } = useProfileList();
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 	const [configPath, setConfigPath] = useState<string | null>(null);
 	const [openSettings, setOpenSettings] = useState(false);
@@ -128,7 +128,6 @@ const Home = () => {
 
 	const newNameRef = useRef<HTMLInputElement>(null);
 	const editNameRef = useRef<HTMLInputElement>(null);
-	const { addProfile, updateProfile } = useProfileList();
 
 	const handleCreateProfileSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -327,7 +326,7 @@ const Home = () => {
 						<img src={line} className="absolute left-0 bottom-0 w-full transform translate-y-[100%] px-1" />
 					</div>
 
-					{profiles && profiles.length > 0 ? (
+					{profiles?.length > 0  ? (
 						<ul className="grid grid-cols-3 gap-3 px-4 pb-[7rem] pt-5">
 							{profiles.map((profile) => (
 								<li

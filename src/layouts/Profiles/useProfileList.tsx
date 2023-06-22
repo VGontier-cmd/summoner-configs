@@ -11,7 +11,7 @@ export const useProfileList = () => {
 
 	useEffect(() => {
 		loadProfiles();
-	}, [profiles]);
+	}, []);
 
 	const loadProfiles = () => {
 		ipcRenderer.invoke('ipcmain-profile-get-all').then((result) => {
