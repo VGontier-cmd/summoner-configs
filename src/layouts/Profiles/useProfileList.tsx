@@ -14,16 +14,15 @@ export const useProfileList = () => {
 	}, [profiles]);
 
 	const loadProfiles = () => {
-		ipcRenderer
-			.invoke('ipcmain-profile-get-all')
-			.then((result) => {
-				setProfiles(result);
-			})
-			.catch((error) => {
+		ipcRenderer.invoke('ipcmain-profile-get-all').then((result) => {
+			if (result.success) {
+				setProfiles(result.data);
+			} else {
 				toast({
-					description: `Error retrieving profiles: ${error}`,
+					description: `Error: ${result.error}`,
 				});
-			});
+			}
+		});
 	};
 
 	const addProfile = (profile: Profile) => {

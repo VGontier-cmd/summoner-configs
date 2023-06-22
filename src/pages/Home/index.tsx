@@ -68,16 +68,15 @@ const Home = () => {
 	};
 
 	const handleGetConfigPath = () => {
-		ipcRenderer
-			.invoke('ipcmain-config-path-get')
-			.then((result) => {
-				setConfigPath(result);
-			})
-			.catch((error) => {
+		ipcRenderer.invoke('ipcmain-config-path-get').then((result) => {
+			if (result.success) {
+				setConfigPath(result.data);
+			} else {
 				toast({
-					description: `Error retrieving config path: ${error}`,
+					description: `Error: ${result.error}`,
 				});
-			});
+			}
+		});
 	};
 
 	const handleConfigPathRegister = (event: React.FormEvent<HTMLFormElement>) => {
@@ -85,19 +84,16 @@ const Home = () => {
 
 		if (!configPath) return;
 
-		ipcRenderer
-			.invoke('ipcmain-config-path-register', configPath)
-			.then(() => {
-				toast({
-					description: 'Your config path has been set successfully !',
-				});
+		ipcRenderer.invoke('ipcmain-config-path-register', configPath).then((result) => {
+			if (result.success) {
+				toast({ description: 'Your config path has been set successfully !' });
 				setOpenSettings(false);
-			})
-			.catch((error) => {
+			} else {
 				toast({
-					description: `Error registering config path: ${error}`,
+					description: `Error: ${result.error}`,
 				});
-			});
+			}
+		});
 	};
 
 	const handleConfigPathChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,24 +110,17 @@ const Home = () => {
 			return;
 		}
 
-		ipcRenderer
-			.invoke('ipcmain-profile-export', selectedProfileId)
-			.then((result) => {
-				if (result) {
-					toast({
-						description: 'Profile exported successfully !',
-					});
-				} else {
-					toast({
-						description: 'Failed to export profile !',
-					});
-				}
-			})
-			.catch((error) => {
+		ipcRenderer.invoke('ipcmain-profile-export', selectedProfileId).then((result) => {
+			if (result.success) {
 				toast({
-					description: `Error exporting profile: ${error}`,
+					description: 'Profile exported successfully !',
 				});
-			});
+			} else {
+				toast({
+					description: `Error: ${result.error}`,
+				});
+			}
+		});
 	};
 
 	const newNameRef = useRef<HTMLInputElement>(null);
@@ -164,20 +153,19 @@ const Home = () => {
 				isFav: false,
 			};
 
-			ipcRenderer
-				.invoke('ipcmain-profile-create', profileDto)
-				.then((newProfile) => {
-					addProfile(newProfile);
+			ipcRenderer.invoke('ipcmain-profile-create', profileDto).then((result) => {
+				if (result.success) {
+					addProfile(result.data);
 					toast({
 						description: 'The profile has been imported successfully !',
 					});
 					setOpenNewProfile(false);
-				})
-				.catch((error) => {
+				} else {
 					toast({
-						description: `Error creating profile: ${error}`,
+						description: `Error creating profile: ${result.error}`,
 					});
-				});
+				}
+			});
 		}
 	};
 
@@ -187,8 +175,6 @@ const Home = () => {
 
 	const handleUpdateProfileSubmit = (event: React.FormEvent<HTMLFormElement>, profile: Profile) => {
 		event.preventDefault();
-
-		console.log('PROFILE:', profile.name);
 
 		if (editNameRef.current) {
 			const name = editNameRef.current.value;
@@ -214,20 +200,19 @@ const Home = () => {
 
 			if (!profile) return;
 
-			ipcRenderer
-				.invoke('ipcmain-profile-update', profile.id, profileDto)
-				.then((result) => {
-					updateProfile(profile);
+			ipcRenderer.invoke('ipcmain-profile-update', profile.id, profileDto).then((result) => {
+				if (result.successs) {
+					updateProfile(result.data);
 					toast({
 						description: 'The profile has been edited successfully !',
 					});
 					setEditingProfileId(null);
-				})
-				.catch((error) => {
+				} else {
 					toast({
-						description: `Error editing profile: ${error}`,
+						description: `Error: ${result.error}`,
 					});
-				});
+				}
+			});
 		}
 	};
 
