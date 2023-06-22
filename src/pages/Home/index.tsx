@@ -69,11 +69,12 @@ const Home = () => {
 
 	const handleGetConfigPath = () => {
 		ipcRenderer.invoke('ipcmain-config-path-get').then((result) => {
-			if (result.success) {
-				setConfigPath(result.data);
+			const parsedResult = JSON.parse(result)
+			if (parsedResult.success) {
+				setConfigPath(parsedResult.data);
 			} else {
 				toast({
-					description: `Error: ${result.error}`,
+					description: `Error: ${parsedResult.error}`,
 				});
 			}
 		});
@@ -85,12 +86,13 @@ const Home = () => {
 		if (!configPath) return;
 
 		ipcRenderer.invoke('ipcmain-config-path-register', configPath).then((result) => {
-			if (result.success) {
+			const parsedResult = JSON.parse(result)
+			if (parsedResult.success) {
 				toast({ description: 'Your config path has been set successfully !' });
 				setOpenSettings(false);
 			} else {
 				toast({
-					description: `Error: ${result.error}`,
+					description: `Error: ${parsedResult.error}`,
 				});
 			}
 		});
@@ -111,13 +113,14 @@ const Home = () => {
 		}
 
 		ipcRenderer.invoke('ipcmain-profile-export', selectedProfileId).then((result) => {
-			if (result.success) {
+			const parsedResult = JSON.parse(result)
+			if (parsedResult.success) {
 				toast({
 					description: 'Profile exported successfully !',
 				});
 			} else {
 				toast({
-					description: `Error: ${result.error}`,
+					description: `Error: ${parsedResult.error}`,
 				});
 			}
 		});
@@ -154,15 +157,16 @@ const Home = () => {
 			};
 
 			ipcRenderer.invoke('ipcmain-profile-create', profileDto).then((result) => {
-				if (result.success) {
-					addProfile(result.data);
+				const parsedResult = JSON.parse(result)
+				if (parsedResult.success) {
+					addProfile(parsedResult.data);
 					toast({
 						description: 'The profile has been imported successfully !',
 					});
 					setOpenNewProfile(false);
 				} else {
 					toast({
-						description: `Error creating profile: ${result.error}`,
+						description: `Error creating profile: ${parsedResult.error}`,
 					});
 				}
 			});
@@ -201,15 +205,16 @@ const Home = () => {
 			if (!profile) return;
 
 			ipcRenderer.invoke('ipcmain-profile-update', profile.id, profileDto).then((result) => {
-				if (result.successs) {
-					updateProfile(result.data);
+				const parsedResult = JSON.parse(result)
+				if (parsedResult.successs) {
+					updateProfile(parsedResult.data);
 					toast({
 						description: 'The profile has been edited successfully !',
 					});
 					setEditingProfileId(null);
 				} else {
 					toast({
-						description: `Error: ${result.error}`,
+						description: `Error: ${parsedResult.error}`,
 					});
 				}
 			});

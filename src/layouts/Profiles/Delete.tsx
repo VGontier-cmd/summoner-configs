@@ -26,17 +26,15 @@ const Delete = ({ profileId }: DeleteProps) => {
 			ipcRenderer
 				.invoke('ipcmain-profile-delete', profileId)
 				.then((result) => {
-					deleteProfile(profileId);
-					toast({
-						description: 'The profile has been deleted successfully !',
-					});
+					const parsedResult = JSON.parse(result)
+					if(parsedResult.success){
+						deleteProfile(profileId);
+					} else {
+						toast({
+							description:  `Error: ${parsedResult.error}`,
+						});
+					}
 				})
-				.catch((error) => {
-					console.error(error);
-					toast({
-						description: `Error deleting profile: ${error}`,
-					});
-				});
 		}
 	};
 

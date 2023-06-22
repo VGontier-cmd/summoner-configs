@@ -15,11 +15,13 @@ export const useProfileList = () => {
 
 	const loadProfiles = () => {
 		ipcRenderer.invoke('ipcmain-profile-get-all').then((result) => {
-			if (result.success) {
-				setProfiles(result.data);
+			const resultParsed = JSON.parse(result)
+			if (resultParsed.success) {
+				setProfiles(resultParsed.data);
 			} else {
+				console.log('erreur')
 				toast({
-					description: `Error: ${result.error}`,
+					description: `Error: ${resultParsed.error}`,
 				});
 			}
 		});
