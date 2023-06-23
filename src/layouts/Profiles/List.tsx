@@ -18,14 +18,16 @@ import {
 
 import EditProfile from './Edit';
 import DeleteProfile from './Delete';
+import { useProfileContext } from './Context';
 
 interface ListProfileProps {
-	profiles: Profile[];
 	selectedProfileId: string | null;
 	handleProfileClick: (profileId: string) => void;
 }
 
-const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfileProps) => {
+const List = ({ selectedProfileId, handleProfileClick }: ListProfileProps) => {
+	const { profiles } = useProfileContext();
+
 	const [editingProfileId, setEditingProfileId] = useState<string | null>();
 
 	const handleOpenProfileInFileExplorer = (profileId: string) => {
@@ -44,9 +46,9 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 
 	return (
 		<>
-			{profiles && profiles.length > 0 ? (
+			{profiles?.length > 0 ? (
 				<ul className="grid grid-cols-3 gap-3 px-4 pb-[7rem] pt-5">
-					{profiles.map((profile) => (
+					{profiles.map((profile: Profile) => (
 						<li
 							key={profile.id}
 							className="profile-item relative gold-gradient-border border-thin cursor-pointer flex flex-col items-center justify-center text-center border-muted bg-popover p-4 py-5"
@@ -87,7 +89,7 @@ const List = ({ profiles, selectedProfileId, handleProfileClick }: ListProfilePr
 											</DropdownMenuGroup>
 										</DropdownMenuContent>
 									</DropdownMenu>
-									<DeleteProfile profileId={profile.id} />
+									<DeleteProfile profile={profile} />
 								</AlertDialog>
 								<EditProfile profile={profile} />
 							</Dialog>

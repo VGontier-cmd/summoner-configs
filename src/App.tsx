@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import { exec } from 'child_process';
 
 import { Toaster } from '@/components/ui/toaster';
+import { ProfileProvider, useProfileContext } from './layouts/Profiles/Context';
 
 function App() {
 	const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
@@ -47,10 +48,10 @@ function App() {
 	}, []);
 
 	return !isLeagueOfLegendsOpen ? (
-		<>
+		<ProfileProvider>
 			<Home />
 			<Toaster />
-		</>
+		</ProfileProvider>
 	) : (
 		<Starter />
 	);

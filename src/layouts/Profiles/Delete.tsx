@@ -11,31 +11,29 @@ import {
 } from '@/components/ui/alert-dialog';
 
 import { useToast } from '@/components/ui/use-toast';
-import { useProfileList } from './useProfileList';
+import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
+import { useProfileContext } from './Context';
 
 interface DeleteProps {
-	profileId: string;
+	profile: Profile;
 }
 
-const Delete = ({ profileId }: DeleteProps) => {
+const Delete = ({ profile }: DeleteProps) => {
 	const { toast } = useToast();
-	const { deleteProfile } = useProfileList();
+	const { deleteProfile } = useProfileContext();
 
 	const handleDeleteProfile = () => {
-		if (profileId) {
-			ipcRenderer
-				.invoke('ipcmain-profile-delete', profileId)
-				.then((result) => {
-					const parsedResult = JSON.parse(result)
-					if(parsedResult.success){
-						deleteProfile(profileId);
-					} else {
-						toast({
-							description:  `Error: ${parsedResult.error}`,
-						});
-					}
-				})
-		}
+		if (!profile) return;
+		ipcRenderer.invoke('ipcmain-profile-delete', profile.id).then((result) => {
+			const parsedResult = JSON.parse(result);
+			if (parsedResult.success) {
+				deleteProfile(profile);
+			} else {
+				toast({
+					description: `Error: ${parsedResult.error}`,
+				});
+			}
+		});
 	};
 
 	return (

@@ -36,7 +36,6 @@ import {
 import line from '@/assets/images/decorator-hr.png';
 
 import { useToast } from '@/components/ui/use-toast';
-import { useProfileList } from '@/layouts/Profiles/useProfileList';
 import { CreateProfileDto } from 'electron/main/modules/profile-manager/dto/create-profile.dto';
 
 import {
@@ -50,10 +49,12 @@ import {
 import DeleteProfile from '@/layouts/Profiles/Delete';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 import { UpdateProfileDto } from 'electron/main/modules/profile-manager/dto/update-profile.dto';
+import { useProfileContext } from '@/layouts/Profiles/Context';
 
 const Home = () => {
 	const { toast } = useToast();
-	const { profiles, addProfile, updateProfile } = useProfileList();
+	const { profiles, loadProfiles, addProfile, updateProfile } = useProfileContext();
+
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 	const [configPath, setConfigPath] = useState<string | null>(null);
 	const [openSettings, setOpenSettings] = useState(false);
@@ -61,6 +62,8 @@ const Home = () => {
 
 	useEffect(() => {
 		handleGetConfigPath();
+		loadProfiles();
+		console.log(profiles);
 	}, []);
 
 	const handleProfileClick = (profileId: string | null): void => {
@@ -69,7 +72,7 @@ const Home = () => {
 
 	const handleGetConfigPath = () => {
 		ipcRenderer.invoke('ipcmain-config-path-get').then((result) => {
-			const parsedResult = JSON.parse(result)
+			const parsedResult = JSON.parse(result);
 			if (parsedResult.success) {
 				setConfigPath(parsedResult.data);
 			} else {
@@ -86,7 +89,7 @@ const Home = () => {
 		if (!configPath) return;
 
 		ipcRenderer.invoke('ipcmain-config-path-register', configPath).then((result) => {
-			const parsedResult = JSON.parse(result)
+			const parsedResult = JSON.parse(result);
 			if (parsedResult.success) {
 				toast({ description: 'Your config path has been set successfully !' });
 				setOpenSettings(false);
@@ -113,7 +116,7 @@ const Home = () => {
 		}
 
 		ipcRenderer.invoke('ipcmain-profile-export', selectedProfileId).then((result) => {
-			const parsedResult = JSON.parse(result)
+			const parsedResult = JSON.parse(result);
 			if (parsedResult.success) {
 				toast({
 					description: 'Profile exported successfully !',
@@ -156,7 +159,7 @@ const Home = () => {
 			};
 
 			ipcRenderer.invoke('ipcmain-profile-create', profileDto).then((result) => {
-				const parsedResult = JSON.parse(result)
+				const parsedResult = JSON.parse(result);
 				if (parsedResult.success) {
 					addProfile(parsedResult.data);
 					toast({
@@ -204,7 +207,7 @@ const Home = () => {
 			if (!profile) return;
 
 			ipcRenderer.invoke('ipcmain-profile-update', profile.id, profileDto).then((result) => {
-				const parsedResult = JSON.parse(result)
+				const parsedResult = JSON.parse(result);
 				if (parsedResult.successs) {
 					updateProfile(parsedResult.data);
 					toast({
@@ -326,9 +329,9 @@ const Home = () => {
 						<img src={line} className="absolute left-0 bottom-0 w-full transform translate-y-[100%] px-1" />
 					</div>
 
-					{profiles?.length > 0  ? (
+					{profiles?.length > 0 ? (
 						<ul className="grid grid-cols-3 gap-3 px-4 pb-[7rem] pt-5">
-							{profiles.map((profile) => (
+							{profiles.map((profile: Profile) => (
 								<li
 									key={profile.id}
 									className="profile-item relative gold-gradient-border border-thin cursor-pointer flex flex-col items-center justify-center text-center border-muted bg-popover p-4 py-5"
@@ -369,7 +372,7 @@ const Home = () => {
 													</DropdownMenuGroup>
 												</DropdownMenuContent>
 											</DropdownMenu>
-											<DeleteProfile profileId={profile.id} />
+											<DeleteProfile profile={profile} />
 										</AlertDialog>
 
 										<DialogContent className="sm:max-w-[425px]">

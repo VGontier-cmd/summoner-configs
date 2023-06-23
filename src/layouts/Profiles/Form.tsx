@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { DialogFooter } from '@/components/ui/dialog';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
-import { useProfileList } from './useProfileList';
 import { CreateProfileDto } from 'electron/main/modules/profile-manager/dto/create-profile.dto';
 
 interface FormProps {
@@ -21,7 +20,6 @@ interface FormProps {
 const Form = ({ profile, action }: FormProps) => {
 	const { toast } = useToast();
 	const nameRef = useRef<HTMLInputElement>(null);
-	const { addProfile, updateProfile } = useProfileList();
 	const [name, setName] = useState(profile?.name || '');
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -55,7 +53,7 @@ const Form = ({ profile, action }: FormProps) => {
 				ipcRenderer
 					.invoke('ipcmain-profile-create', profileDto)
 					.then((newProfile) => {
-						addProfile(newProfile);
+						//addProfile(newProfile);
 						toast({
 							description: 'The profile has been imported successfully !',
 						});
@@ -73,7 +71,7 @@ const Form = ({ profile, action }: FormProps) => {
 				ipcRenderer
 					.invoke('ipcmain-profile-update', profile.id, profileDto)
 					.then((result) => {
-						updateProfile(profile);
+						//updateProfile(profile);
 						toast({
 							description: 'The profile has been edited successfully !',
 						});
