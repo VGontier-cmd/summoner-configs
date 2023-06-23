@@ -7,7 +7,7 @@ import { useStarterContext } from './StarterContext';
 function StarterIndex() {
 	const { isLeagueOfLegendsOpen } = useStarterContext();
 
-	return !isLeagueOfLegendsOpen ? (
+	return isLeagueOfLegendsOpen ? (
 		<ProfileProvider>
 			<Home />
 			<Toaster />

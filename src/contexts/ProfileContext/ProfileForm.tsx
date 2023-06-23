@@ -78,7 +78,7 @@ const ProfileForm = ({ profile }: FormProps) => {
 
 				ipcRenderer.invoke('ipcmain-profile-update', profile.id, profileDto).then((result) => {
 					const parsedResult = JSON.parse(result);
-					if (parsedResult.successs) {
+					if (parsedResult.success) {
 						updateProfile(parsedResult.data);
 						toast({
 							description: 'The profile has been edited successfully !',
