@@ -12,13 +12,13 @@ import {
 
 import { useToast } from '@/components/ui/use-toast';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
-import { useProfileContext } from './Context';
+import { useProfileContext } from './ProfileContext';
 
 interface DeleteProps {
 	profile: Profile;
 }
 
-const Delete = ({ profile }: DeleteProps) => {
+const ProfileDelete = ({ profile }: DeleteProps) => {
 	const { toast } = useToast();
 	const { deleteProfile } = useProfileContext();
 
@@ -54,4 +54,4 @@ const Delete = ({ profile }: DeleteProps) => {
 	);
 };
 
-export default Delete;
+export default ProfileDelete;

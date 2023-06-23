@@ -16,27 +16,18 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import EditProfile from './Edit';
-import DeleteProfile from './Delete';
-import { useProfileContext } from './Context';
+import EditProfile from './ProfileEdit';
+import DeleteProfile from './ProfileDelete';
+import { useProfileContext } from './ProfileContext';
 
 interface ListProfileProps {
 	selectedProfileId: string | null;
 	handleProfileClick: (profileId: string) => void;
 }
 
-const List = ({ selectedProfileId, handleProfileClick }: ListProfileProps) => {
-	const { profiles, handleOpenProfileInFileExplorer } = useProfileContext();
-
-	const [editingProfileId, setEditingProfileId] = useState<string | null>();
-
-	const handleEditDialogOpenChange = (isOpen: boolean, profileId: string) => {
-		if (isOpen) {
-			setEditingProfileId(profileId);
-		} else {
-			setEditingProfileId(null);
-		}
-	};
+const ProfileList = ({ selectedProfileId, handleProfileClick }: ListProfileProps) => {
+	const { profiles, editingProfileId, handleEditDialogOpenChange, handleOpenProfileInFileExplorer } =
+		useProfileContext();
 
 	return (
 		<>
@@ -104,4 +95,4 @@ const List = ({ selectedProfileId, handleProfileClick }: ListProfileProps) => {
 	);
 };
 
-export default List;
+export default ProfileList;

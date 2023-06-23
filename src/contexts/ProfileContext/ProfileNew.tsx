@@ -1,7 +1,7 @@
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import Form from './Form';
+import Form from './ProfileForm';
 
-const New = () => {
+const ProfileNew = () => {
 	return (
 		<>
 			<DialogContent className="sm:max-w-[425px]">
@@ -15,4 +15,4 @@ const New = () => {
 	);
 };
 
-export default New;
+export default ProfileNew;

@@ -11,16 +11,16 @@ import { DialogFooter } from '@/components/ui/dialog';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
 import { CreateProfileDto } from 'electron/main/modules/profile-manager/dto/create-profile.dto';
-import { useProfileContext } from './Context';
+import { useProfileContext } from './ProfileContext';
 import { UpdateProfileDto } from 'electron/main/modules/profile-manager/dto/update-profile.dto';
 
 interface FormProps {
 	profile: Profile | null;
 }
 
-const Form = ({ profile }: FormProps) => {
+const ProfileForm = ({ profile }: FormProps) => {
 	const { toast } = useToast();
-	const { addProfile, updateProfile, setOpenNewProfile } = useProfileContext();
+	const { addProfile, updateProfile, setOpenNewProfile, setEditingProfileId } = useProfileContext();
 
 	const nameRef = useRef<HTMLInputElement>(null);
 	const [name, setName] = useState(profile?.name || '');
@@ -83,7 +83,7 @@ const Form = ({ profile }: FormProps) => {
 						toast({
 							description: 'The profile has been edited successfully !',
 						});
-						//setEditingProfileId(null);
+						setEditingProfileId(null);
 					} else {
 						toast({
 							description: `Error: ${parsedResult.error}`,
@@ -120,4 +120,4 @@ const Form = ({ profile }: FormProps) => {
 	);
 };
 
-export default Form;
+export default ProfileForm;

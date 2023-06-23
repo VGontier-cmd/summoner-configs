@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
-import { ipcRenderer } from 'electron';
+import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -34,88 +33,32 @@ import {
 
 import line from '@/assets/images/decorator-hr.png';
 
-import { useToast } from '@/components/ui/use-toast';
-import { useProfileContext } from '@/layouts/Profiles/Context';
+import { useProfileContext } from '@/contexts/ProfileContext/ProfileContext';
 
-import NewProfile from '@/layouts/Profiles/New';
-import ListProfiles from '@/layouts/Profiles/List';
+import ProfileNew from '@/contexts/ProfileContext/ProfileNew';
+import ProfileList from '@/contexts/ProfileContext/ProfileList';
 
 const Home = () => {
-	const { toast } = useToast();
-	const { profiles, loadProfiles, openNewProfile, setOpenNewProfile } = useProfileContext();
-
-	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
-	const [configPath, setConfigPath] = useState<string | null>(null);
-	const [openSettings, setOpenSettings] = useState(false);
+	const {
+		profiles,
+		loadProfiles,
+		selectedProfileId,
+		openNewProfile,
+		setOpenNewProfile,
+		openSettings,
+		setOpenSettings,
+		configPath,
+		handleProfileClick,
+		handleConfigPathChange,
+		handleGetConfigPath,
+		handleConfigPathRegister,
+		handleExportSelectedProfile,
+	} = useProfileContext();
 
 	useEffect(() => {
 		handleGetConfigPath();
 		loadProfiles();
-		console.log(profiles);
 	}, []);
-
-	const handleProfileClick = (profileId: string | null): void => {
-		setSelectedProfileId(selectedProfileId === profileId ? null : profileId);
-	};
-
-	const handleGetConfigPath = () => {
-		ipcRenderer.invoke('ipcmain-config-path-get').then((result) => {
-			const parsedResult = JSON.parse(result);
-			if (parsedResult.success) {
-				setConfigPath(parsedResult.data);
-			} else {
-				toast({
-					description: `Error: ${parsedResult.error}`,
-				});
-			}
-		});
-	};
-
-	const handleConfigPathRegister = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
-		if (!configPath) return;
-
-		ipcRenderer.invoke('ipcmain-config-path-register', configPath).then((result) => {
-			const parsedResult = JSON.parse(result);
-			if (parsedResult.success) {
-				toast({ description: 'Your config path has been set successfully !' });
-				setOpenSettings(false);
-			} else {
-				toast({
-					description: `Error: ${parsedResult.error}`,
-				});
-			}
-		});
-	};
-
-	const handleConfigPathChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setConfigPath(event.target.value);
-	};
-
-	const handleExportSelectedProfile = () => {
-		if (!selectedProfileId) return;
-
-		if (!configPath) {
-			toast({
-				description: 'You must register the config path in your settings',
-			});
-			return;
-		}
-
-		ipcRenderer.invoke('ipcmain-profile-export', selectedProfileId).then((result) => {
-			const parsedResult = JSON.parse(result);
-			if (parsedResult.success) {
-				toast({
-					description: 'Profile exported successfully !',
-				});
-			} else {
-				toast({
-					description: `Error: ${parsedResult.error}`,
-				});
-			}
-		});
-	};
 
 	return (
 		<>
@@ -176,14 +119,14 @@ const Home = () => {
 											Import profile
 										</button>
 									</DialogTrigger>
-									<NewProfile />
+									<ProfileNew />
 								</Dialog>
 							</div>
 						</div>
 						<img src={line} className="absolute left-0 bottom-0 w-full transform translate-y-[100%] px-1" />
 					</div>
 
-					<ListProfiles selectedProfileId={selectedProfileId} handleProfileClick={handleProfileClick} />
+					<ProfileList selectedProfileId={selectedProfileId} handleProfileClick={handleProfileClick} />
 				</div>
 			</div>
 

@@ -1,13 +1,13 @@
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
-import Form from './Form';
+import Form from './ProfileForm';
 
 interface UpdateProps {
 	profile: Profile;
 }
 
-const Edit = ({ profile }: UpdateProps) => {
+const ProfileEdit = ({ profile }: UpdateProps) => {
 	return (
 		<>
 			<DialogContent className="sm:max-w-[425px]">
@@ -21,4 +21,4 @@ const Edit = ({ profile }: UpdateProps) => {
 	);
 };
 
-export default Edit;
+export default ProfileEdit;
