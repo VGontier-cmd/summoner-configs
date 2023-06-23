@@ -1,6 +1,6 @@
 {
-  "name": "summoner-configs",
-  "version": "2.2.0",
+  "name": "summoners-config",
+  "version": "0.0.1",
   "main": "dist-electron/main/index.js",
   "description": "Electron Vite React application",
   "author": "VGontier-cmd, TCarel-dev",
@@ -13,7 +13,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder",
+    "build": "tsc && vite build",
+    "package" : "electron-builder",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test"
   },
@@ -66,5 +67,15 @@
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
+  },
+  "build" : {
+    "appId": "com.electron.summoners-config",
+    "productName" : "Summoners Config",
+    "win":{
+      "target":[
+          "nsis",
+          "msi"
+      ]
+    }
   }
 }
