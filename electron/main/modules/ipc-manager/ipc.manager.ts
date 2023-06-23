@@ -5,6 +5,7 @@ import { ElectronStoreHelper } from '../../helpers/electron-store.helper';
 import { UpdateProfileDto } from '../profile-manager/dto/update-profile.dto';
 import { CreateProfileDto } from '../profile-manager/dto/create-profile.dto';
 import logger from '../../../utils/logger';
+import { isLeagueClientOpen } from '../league-client-manager/league-client.manager';
 
 /**
  * Object containing IPC event handlers for communication between the main process and the renderer process.
@@ -161,6 +162,20 @@ export const ipcManager = {
 			} catch (error: any) {
 				logger.error(error);
 				return { success: false, error: error.message };
+			}
+		});
+
+		/**
+		 * Event: ipcmain-profile-open-folder-in-file-explorer
+		 * @param {Event} _event - The IPC event object (unused in the function).
+		 * @param {UUID} id - The ID of the profile to open the folder for.
+		 */
+		ipcMain.handle('ipcmain-league-client-get-status', async (_event) => {
+			try {
+				return await isLeagueClientOpen();
+			} catch (error) {
+				logger.error(error);
+				return false;
 			}
 		});
 
