@@ -13,6 +13,7 @@ const ProfileContext = createContext<any>(null);
 
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) => {
 	const [profiles, setProfiles] = useState<Profile[]>([]);
+	const [openNewProfile, setOpenNewProfile] = useState(false);
 
 	const loadProfiles = () => {
 		ipcRenderer.invoke('ipcmain-profile-get-all').then((result) => {
@@ -47,8 +48,23 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 		console.log('profile deleted:', profile);
 	};
 
+	const handleOpenProfileInFileExplorer = (profile: Profile) => {
+		if (!profile) return;
+		ipcRenderer.send('ipcmain-profile-open-folder-in-file-explorer', profile.id);
+	};
+
 	return (
-		<ProfileContext.Provider value={{ profiles, loadProfiles, addProfile, deleteProfile }}>
+		<ProfileContext.Provider
+			value={{
+				profiles,
+				loadProfiles,
+				addProfile,
+				deleteProfile,
+				openNewProfile,
+				setOpenNewProfile,
+				handleOpenProfileInFileExplorer,
+			}}
+		>
 			{children}
 		</ProfileContext.Provider>
 	);

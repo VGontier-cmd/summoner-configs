@@ -11,17 +11,19 @@ import { DialogFooter } from '@/components/ui/dialog';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 
 import { CreateProfileDto } from 'electron/main/modules/profile-manager/dto/create-profile.dto';
+import { useProfileContext } from './Context';
+import { UpdateProfileDto } from 'electron/main/modules/profile-manager/dto/update-profile.dto';
 
 interface FormProps {
 	profile: Profile | null;
-	action: string;
 }
 
-const Form = ({ profile, action }: FormProps) => {
+const Form = ({ profile }: FormProps) => {
 	const { toast } = useToast();
+	const { addProfile, updateProfile, setOpenNewProfile } = useProfileContext();
+
 	const nameRef = useRef<HTMLInputElement>(null);
 	const [name, setName] = useState(profile?.name || '');
-	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setName(event.target.value);
@@ -34,53 +36,60 @@ const Form = ({ profile, action }: FormProps) => {
 			const name = nameRef.current.value;
 
 			if (!name) {
-				setErrorMessage('The profile name cannot be empty...');
+				toast({
+					description: 'The profile name cannot be empty...',
+				});
 				return;
 			}
 
 			if (name.length > 20) {
-				setErrorMessage('the profile name length cannot exceed 20 characters...');
+				toast({
+					description: 'The profile name length cannot exceed 20 characters...',
+				});
 				return;
 			}
 
-			const profileDto: CreateProfileDto = {
-				name: name,
-				color: '#000000',
-				isFav: false,
-			};
+			if (!profile) {
+				const profileDto: CreateProfileDto = {
+					name: name,
+					color: '#000000',
+					isFav: false,
+				};
 
-			if (action == 'create') {
-				ipcRenderer
-					.invoke('ipcmain-profile-create', profileDto)
-					.then((newProfile) => {
-						//addProfile(newProfile);
+				ipcRenderer.invoke('ipcmain-profile-create', profileDto).then((result) => {
+					const parsedResult = JSON.parse(result);
+					if (parsedResult.success) {
+						addProfile(parsedResult.data);
 						toast({
 							description: 'The profile has been imported successfully !',
 						});
-					})
-					.catch((error) => {
+						setOpenNewProfile(false);
+					} else {
 						toast({
-							description: `Error creating profile: ${error}`,
+							description: `Error creating profile: ${parsedResult.error}`,
 						});
-					});
-			}
+					}
+				});
+			} else {
+				const profileDto: UpdateProfileDto = {
+					id: profile.id,
+					name: name,
+				};
 
-			if (action == 'update') {
-				if (!profile) return;
-
-				ipcRenderer
-					.invoke('ipcmain-profile-update', profile.id, profileDto)
-					.then((result) => {
-						//updateProfile(profile);
+				ipcRenderer.invoke('ipcmain-profile-update', profile.id, profileDto).then((result) => {
+					const parsedResult = JSON.parse(result);
+					if (parsedResult.successs) {
+						updateProfile(parsedResult.data);
 						toast({
 							description: 'The profile has been edited successfully !',
 						});
-					})
-					.catch((error) => {
+						//setEditingProfileId(null);
+					} else {
 						toast({
-							description: `Error editing profile: ${error}`,
+							description: `Error: ${parsedResult.error}`,
 						});
-					});
+					}
+				});
 			}
 		}
 	};
@@ -101,7 +110,6 @@ const Form = ({ profile, action }: FormProps) => {
 							onChange={handleNameChange}
 							maxLength={20}
 						/>
-						{errorMessage && <p className="text-xs text-light">{errorMessage}</p>}
 					</div>
 				</div>
 				<DialogFooter>

@@ -15,7 +15,7 @@ const Edit = ({ profile }: UpdateProps) => {
 					<DialogTitle>Update profile</DialogTitle>
 					<DialogDescription>Update the profile name.</DialogDescription>
 				</DialogHeader>
-				<Form profile={profile} action="update" />
+				<Form profile={profile} />
 			</DialogContent>
 		</>
 	);

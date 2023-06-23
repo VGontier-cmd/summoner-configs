@@ -9,7 +9,7 @@ const New = () => {
 					<DialogTitle>Add Profile</DialogTitle>
 					<DialogDescription>Add a name to your new profile.</DialogDescription>
 				</DialogHeader>
-				<Form profile={null} action="create" />
+				<Form profile={null} />
 			</DialogContent>
 		</>
 	);

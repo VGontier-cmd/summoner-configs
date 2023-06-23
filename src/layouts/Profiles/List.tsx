@@ -26,15 +26,9 @@ interface ListProfileProps {
 }
 
 const List = ({ selectedProfileId, handleProfileClick }: ListProfileProps) => {
-	const { profiles } = useProfileContext();
+	const { profiles, handleOpenProfileInFileExplorer } = useProfileContext();
 
 	const [editingProfileId, setEditingProfileId] = useState<string | null>();
-
-	const handleOpenProfileInFileExplorer = (profileId: string) => {
-		if (profileId) {
-			ipcRenderer.send('ipcmain-profile-open-folder-in-file-explorer', profileId);
-		}
-	};
 
 	const handleEditDialogOpenChange = (isOpen: boolean, profileId: string) => {
 		if (isOpen) {
@@ -75,7 +69,7 @@ const List = ({ selectedProfileId, handleProfileClick }: ListProfileProps) => {
 													</DropdownMenuItem>
 												</DialogTrigger>
 
-												<DropdownMenuItem onClick={() => handleOpenProfileInFileExplorer(profile.id)}>
+												<DropdownMenuItem onClick={() => handleOpenProfileInFileExplorer(profile)}>
 													<Folder className="mr-2 h-4 w-4" />
 													Open Folder
 												</DropdownMenuItem>
