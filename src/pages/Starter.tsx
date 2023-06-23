@@ -11,7 +11,7 @@ function Starter() {
 			<div className="starter-container">
 				<Loader />
 				<div className="starter-message">
-					<p className="text-sm text-light mt-8">En attente de l'ouverture de League of Legends...</p>
+					<p className="text-sm text-light mt-8">Waiting for League of Legends to open...</p>
 				</div>
 			</div>
 		</>
