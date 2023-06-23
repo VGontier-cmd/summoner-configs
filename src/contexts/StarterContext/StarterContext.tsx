@@ -1,4 +1,5 @@
-import { exec } from 'child_process';
+import { useToast } from '@/components/ui/use-toast';
+import { ipcRenderer } from 'electron';
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
 export const StarterContext = createContext<any>(null);
@@ -8,41 +9,43 @@ interface StarterProviderProps {
 }
 
 export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) => {
+	const { toast } = useToast();
 	const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
-	const time = 5000;
-	const execApp = 'LeagueClientUx.exe';
-	const execCommand = `tasklist /fi "imagename eq ${execApp}"`;
+	const timer = 5000;
 
 	useEffect(() => {
-		const checkLeagueOfLegendsStatus = () => {
-			return new Promise<void>((resolve, reject) => {
-				exec(execCommand, (error: Error | null, stdout: string, stderr: string) => {
-					if (error) {
-						reject(error);
-						return;
-					}
-
-					const isOpen = stdout.includes(execApp);
-					setIsLeagueOfLegendsOpen(isOpen);
-					resolve();
-				});
-			});
-		};
-
-		const startChecking = async () => {
-			while (true) {
-				try {
-					await checkLeagueOfLegendsStatus();
-				} catch (error) {
-					console.error(error);
-				}
-
-				await new Promise<void>((resolve) => setTimeout(resolve, time));
-			}
-		};
-
 		startChecking();
 	}, []);
+
+	const handleLeagueOfLegendsGetStatus = () => {
+		ipcRenderer.invoke('ipcmain-league-client-get-status').then((result) => {
+			const parsedResult = JSON.parse(result);
+			if (parsedResult.success) {
+				setIsLeagueOfLegendsOpen(parsedResult.isOpen);
+				console.log(`League of Legends client is open: ${parsedResult.isOpen}`);
+			} else {
+				toast({
+					description: `Error: ${parsedResult.error}`,
+				});
+				console.error('Error:', parsedResult.error);
+			}
+		});
+	};
+
+	const startChecking = async () => {
+		while (true) {
+			try {
+				await handleLeagueOfLegendsGetStatus();
+			} catch (error) {
+				toast({
+					description: `Error: ${error}`,
+				});
+				console.error(error);
+			}
+
+			await new Promise<void>((resolve) => setTimeout(resolve, timer));
+		}
+	};
 
 	return <StarterContext.Provider value={{ isLeagueOfLegendsOpen }}>{children}</StarterContext.Provider>;
 };
