@@ -172,7 +172,7 @@ export const ipcManager = {
 		 */
 		ipcMain.handle('ipcmain-league-client-get-status', async (_event) => {
 			try {
-				return JSON.stringify({ success: await isLeagueClientOpen() });
+				return JSON.stringify({ success: true, isOpen: await isLeagueClientOpen() });
 			} catch (error: any) {
 				logger.error(error);
 				return { success: false, error: error.message };
