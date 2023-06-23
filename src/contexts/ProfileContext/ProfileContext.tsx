@@ -49,7 +49,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 	};
 
 	const updateProfile = (updatedProfile: Profile) => {
-		if (!updateProfile) return;
+		if (!updatedProfile) return;
 		setProfiles((prevProfiles) =>
 			prevProfiles.map((profile) => (profile.id === updatedProfile.id ? updatedProfile : profile)),
 		);
@@ -123,6 +123,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 				loadProfiles,
 				addProfile,
 				deleteProfile,
+				updateProfile,
 				setOpenNewProfile,
 				setOpenSettings,
 				handleProfileClick,
