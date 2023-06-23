@@ -12,12 +12,13 @@ export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) =>
 	const { toast } = useToast();
 	const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
 	const timer = 5000;
+	console.log('tessssssss');
 
 	useEffect(() => {
-		startChecking();
-	}, []);
+		handleLeagueClientCheckStatus();
+	}, [isLeagueOfLegendsOpen]);
 
-	const handleLeagueOfLegendsGetStatus = () => {
+	const handleLeagueClientGetStatus = () => {
 		ipcRenderer.invoke('ipcmain-league-client-get-status').then((result) => {
 			const parsedResult = JSON.parse(result);
 			if (parsedResult.success) {
@@ -32,10 +33,10 @@ export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) =>
 		});
 	};
 
-	const startChecking = async () => {
+	const handleLeagueClientCheckStatus = async () => {
 		while (true) {
 			try {
-				await handleLeagueOfLegendsGetStatus();
+				handleLeagueClientGetStatus();
 			} catch (error) {
 				toast({
 					description: `Error: ${error}`,
