@@ -11,6 +11,8 @@ interface StarterProviderProps {
 export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) => {
 	const { toast } = useToast();
 	const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
+	const [configPath, setConfigPath] = useState<string | null>(null);
+	const [openSettings, setOpenSettings] = useState(false);
 	const timer = 5000;
 
 	useEffect(() => {
@@ -46,7 +48,58 @@ export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) =>
 		}
 	};
 
-	return <StarterContext.Provider value={{ isLeagueOfLegendsOpen }}>{children}</StarterContext.Provider>;
+	const handleGetConfigPath = () => {
+		ipcRenderer.invoke('ipcmain-config-path-get').then((result) => {
+			const parsedResult = JSON.parse(result);
+			if (parsedResult.success) {
+				setConfigPath(parsedResult.data);
+			} else {
+				toast({
+					description: `Error: ${parsedResult.error}`,
+				});
+				console.error('Error:', parsedResult.error);
+			}
+		});
+	};
+
+	const handleConfigPathRegister = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if (!configPath) return;
+		ipcRenderer.invoke('ipcmain-config-path-register', configPath).then((result) => {
+			const parsedResult = JSON.parse(result);
+			if (parsedResult.success) {
+				parsedResult.data;
+				toast({ description: 'Your config path has been set successfully !' });
+				setOpenSettings(false);
+			} else {
+				toast({
+					description: `Error: ${parsedResult.error}`,
+				});
+				console.error('Error:', parsedResult.error);
+			}
+		});
+	};
+
+	const handleConfigPathChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setConfigPath(event.target.value);
+	};
+
+	return (
+		<StarterContext.Provider
+			value={{
+				isLeagueOfLegendsOpen,
+				configPath,
+				openSettings,
+				setOpenSettings,
+				handleGetConfigPath,
+				handleConfigPathRegister,
+				handleConfigPathChange,
+			}}
+		>
+			{children}
+		</StarterContext.Provider>
+	);
 };
 
 export const useStarterContext = () => {

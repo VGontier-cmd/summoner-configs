@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -37,6 +37,7 @@ import { useProfileContext } from '@/contexts/ProfileContext/ProfileContext';
 
 import ProfileNew from '@/contexts/ProfileContext/ProfileNew';
 import ProfileList from '@/contexts/ProfileContext/ProfileList';
+import { useStarterContext } from '@/contexts/StarterContext/StarterContext';
 
 const Home = () => {
 	const {
@@ -45,15 +46,18 @@ const Home = () => {
 		selectedProfileId,
 		openNewProfile,
 		setOpenNewProfile,
-		openSettings,
-		setOpenSettings,
-		configPath,
 		handleProfileClick,
-		handleConfigPathChange,
-		handleGetConfigPath,
-		handleConfigPathRegister,
 		handleExportSelectedProfile,
 	} = useProfileContext();
+
+	const {
+		configPath,
+		handleGetConfigPath,
+		handleConfigPathRegister,
+		handleConfigPathChange,
+		openSettings,
+		setOpenSettings,
+	} = useStarterContext();
 
 	useEffect(() => {
 		handleGetConfigPath();
@@ -91,7 +95,6 @@ const Home = () => {
 											<div className="flex flex-col gap-2">
 												<Label htmlFor="name">Path</Label>
 												<Input
-													id="name"
 													className="col-span-3"
 													value={configPath || ''}
 													placeholder="C:\Riot Games\League of Legends\Config"
