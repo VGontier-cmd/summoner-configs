@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -37,7 +37,7 @@ import { useProfileContext } from '@/contexts/ProfileContext/ProfileContext';
 
 import ProfileNew from '@/contexts/ProfileContext/ProfileNew';
 import ProfileList from '@/contexts/ProfileContext/ProfileList';
-import { useStarterContext } from '@/contexts/StarterContext/StarterContext';
+import { useLeagueContext } from '@/contexts/LeagueContext/LeagueContext';
 
 const Home = () => {
 	const {
@@ -57,7 +57,7 @@ const Home = () => {
 		handleConfigPathChange,
 		openSettings,
 		setOpenSettings,
-	} = useStarterContext();
+	} = useLeagueContext();
 
 	useEffect(() => {
 		handleGetConfigPath();

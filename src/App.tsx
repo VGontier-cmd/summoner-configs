@@ -1,11 +1,11 @@
-import { StarterProvider } from './contexts/StarterContext/StarterContext';
-import StarterIndex from './contexts/StarterContext/StarterIndex';
+import { LeagueProvider } from './contexts/LeagueContext/LeagueContext';
+import LeagueIndex from './contexts/LeagueContext/LeagueIndex';
 
 function App() {
 	return (
-		<StarterProvider>
-			<StarterIndex />
-		</StarterProvider>
+		<LeagueProvider>
+			<LeagueIndex />
+		</LeagueProvider>
 	);
 }
 

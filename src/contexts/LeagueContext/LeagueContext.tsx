@@ -2,13 +2,13 @@ import { useToast } from '@/components/ui/use-toast';
 import { ipcRenderer } from 'electron';
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
-export const StarterContext = createContext<any>(null);
+export const LeagueContext = createContext<any>(null);
 
-interface StarterProviderProps {
+interface LeagueProviderProps {
 	children: ReactNode;
 }
 
-export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) => {
+export const LeagueProvider: React.FC<LeagueProviderProps> = ({ children }) => {
 	const { toast } = useToast();
 	const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
 	const [configPath, setConfigPath] = useState<string | null>(null);
@@ -86,7 +86,7 @@ export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) =>
 	};
 
 	return (
-		<StarterContext.Provider
+		<LeagueContext.Provider
 			value={{
 				isLeagueOfLegendsOpen,
 				configPath,
@@ -98,10 +98,10 @@ export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) =>
 			}}
 		>
 			{children}
-		</StarterContext.Provider>
+		</LeagueContext.Provider>
 	);
 };
 
-export const useStarterContext = () => {
-	return useContext(StarterContext);
+export const useLeagueContext = () => {
+	return useContext(LeagueContext);
 };

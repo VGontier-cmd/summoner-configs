@@ -2,10 +2,10 @@ import Starter from '@/pages/Starter';
 import { Toaster } from '@/components/ui/toaster';
 import { ProfileProvider } from '../ProfileContext/ProfileContext';
 import Home from '@/pages/Home';
-import { useStarterContext } from './StarterContext';
+import { useLeagueContext } from './LeagueContext';
 
-function StarterIndex() {
-	const { isLeagueOfLegendsOpen } = useStarterContext();
+function LeagueIndex() {
+	const { isLeagueOfLegendsOpen } = useLeagueContext();
 
 	return (
 		<>
@@ -21,4 +21,4 @@ function StarterIndex() {
 	);
 }
 
-export default StarterIndex;
+export default LeagueIndex;

@@ -2,7 +2,7 @@ import { toast } from '@/components/ui/use-toast';
 import { ipcRenderer } from 'electron';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 import React, { ReactNode, createContext, useContext, useState } from 'react';
-import { useStarterContext } from '../StarterContext/StarterContext';
+import { useLeagueContext } from '../LeagueContext/LeagueContext';
 
 interface ProfileProviderProps {
 	children: ReactNode;
@@ -11,7 +11,7 @@ interface ProfileProviderProps {
 const ProfileContext = createContext<any>(null);
 
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) => {
-	const { configPath } = useStarterContext();
+	const { configPath } = useLeagueContext();
 	const [profiles, setProfiles] = useState<Profile[]>([]);
 	const [selectedProfileId, setSelectedProfileId] = useState<string | null>(null);
 	const [editingProfileId, setEditingProfileId] = useState<string | null>();
