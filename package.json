@@ -12,11 +12,11 @@
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "package" : "electron-builder",
-    "preview": "vite preview",
-    "pree2e": "vite build --mode=test"
+    "dev": "pnpm i && vite",
+    "build": "pnpm i && tsc && vite build",
+    "package": "pnpm i && electron-builder",
+    "preview": "pnpm i && vite preview",
+    "pree2e": "pnpm i && vite build --mode=test"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.4",
@@ -68,14 +68,33 @@
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
   },
-  "build" : {
+  "build": {
     "appId": "com.electron.summoners-config",
-    "productName" : "Summoners Config",
-    "win":{
-      "target":[
-          "nsis",
-          "msi"
-      ]
+    "productName": "Summoners Config",
+    "artifactName" : "${productName}.${ext}",
+    "directories": {
+      "output": "release/${version}"
+    },
+    "files": [
+      "dist-electron",
+      "dist"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
     }
   }
 }
