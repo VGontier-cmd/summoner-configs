@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "pnpm i && vite",
     "build": "pnpm i && tsc && vite build",
+    "run-build": "electron dist-electron/main/index.js",
     "package": "pnpm i && electron-builder",
     "preview": "pnpm i && vite preview",
     "pree2e": "pnpm i && vite build --mode=test"
