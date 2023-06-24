@@ -12,7 +12,6 @@ export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) =>
 	const { toast } = useToast();
 	const [isLeagueOfLegendsOpen, setIsLeagueOfLegendsOpen] = useState(false);
 	const timer = 5000;
-	console.log('tessssssss');
 
 	useEffect(() => {
 		handleLeagueClientCheckStatus();
@@ -23,7 +22,6 @@ export const StarterProvider: React.FC<StarterProviderProps> = ({ children }) =>
 			const parsedResult = JSON.parse(result);
 			if (parsedResult.success) {
 				setIsLeagueOfLegendsOpen(parsedResult.isOpen);
-				console.log(`League of Legends client is open: ${parsedResult.isOpen}`);
 			} else {
 				toast({
 					description: `Error: ${parsedResult.error}`,
