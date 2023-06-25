@@ -1,4 +1,4 @@
-import { validate } from 'class-validator';
+import { ValidationError, validate } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
 import { FileExplorerManager } from '../folder-manager/file-explorer.manager';
 import { CreateProfileDto } from './dto/create-profile.dto';
@@ -53,11 +53,12 @@ export class ProfileManager {
 				isFav: createProfile.isFav,
 			});
 
-			validate(validateProfile, { enableDebugMessages: true })
+			validate(validateProfile)
 				.then(async (errors) => {
 					if (errors.length > 0) {
-						logger.error('Validation error(s):', errors);
-						throw new Error('A validation error occurred when trying to create the profile');
+						const errorMessage = this._buildValidationErrorMessage(errors);
+						logger.error(`Validation error(s): ${errorMessage}`);
+						throw new Error(errorMessage);
 					} else {
 						const newProfile: Profile = {
 							id: uuidv4(),
@@ -148,8 +149,9 @@ export class ProfileManager {
 			validate(validateProfile, { enableDebugMessages: true })
 				.then(async (errors) => {
 					if (errors.length > 0) {
-						logger.error('Validation error(s):', errors);
-						throw new Error('A validation error occurred when trying to update the profile');
+						const errorMessage = this._buildValidationErrorMessage(errors);
+						logger.error(`Validation error(s): ${errorMessage}`);
+						throw new Error(errorMessage);
 					} else {
 						const profileIndex = this.profileList.findIndex((profile) => profile.id === id);
 
@@ -201,5 +203,17 @@ export class ProfileManager {
 	async exportToClient(profileId: UUID) {
 		const profileToExport = await this.get(profileId);
 		this.fileExplorerManager.exportProfileToClient(profileToExport);
+	}
+
+	private _buildValidationErrorMessage(errors: ValidationError[]) {
+		return errors
+			.map((error) => {
+				if (!error.constraints) {
+					return;
+				}
+				const constraintsArray = Object.keys(error.constraints).map((key) => [key, error.constraints?.[key]]);
+				return constraintsArray.map(([key, value]) => value).join(', ');
+			})
+			.join('');
 	}
 }
