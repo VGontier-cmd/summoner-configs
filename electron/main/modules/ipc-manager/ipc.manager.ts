@@ -56,7 +56,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: await profileManager.update(id, updateProfileDto) });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -72,7 +72,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: await profileManager.create(createProfile) });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -88,7 +88,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: await profileManager.delete(id) });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -104,7 +104,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: await profileManager.get(id) });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -117,7 +117,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: await profileManager.getAll() });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -132,7 +132,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: electronStore.set('lolConfigPath', path) });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -145,7 +145,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: electronStore.get('lolConfigPath') });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -161,7 +161,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, data: await profileManager.exportToClient(id) });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
@@ -175,7 +175,7 @@ export const ipcManager = {
 				return JSON.stringify({ success: true, isOpen: await isLeagueClientOpen() });
 			} catch (error: any) {
 				logger.error(error);
-				return { success: false, error: error.message };
+				return JSON.stringify({ success: false, error: error.message });
 			}
 		});
 
