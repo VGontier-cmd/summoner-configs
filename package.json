@@ -72,7 +72,7 @@
   "build": {
     "appId": "com.electron.summoners-config",
     "productName": "Summoners Config",
-    "artifactName" : "${productName}.${ext}",
+    "artifactName": "${productName}.${ext}",
     "directories": {
       "output": "release/${version}"
     },
