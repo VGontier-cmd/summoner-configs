@@ -205,11 +205,17 @@ export class ProfileManager {
 		this.fileExplorerManager.exportProfileToClient(profileToExport);
 	}
 
+	/**
+	 * Builds the validation error message from an array of ValidationErrors.
+	 *
+	 * @param {ValidationError[]} errors - The array of ValidationErrors.
+	 * @returns {string} - The built validation error message.
+	 */
 	private _buildValidationErrorMessage(errors: ValidationError[]) {
 		return errors
 			.map((error) => {
 				if (!error.constraints) {
-					return;
+					return '';
 				}
 				const constraintsArray = Object.keys(error.constraints).map((key) => [key, error.constraints?.[key]]);
 				return constraintsArray.map(([key, value]) => value).join(', ');
