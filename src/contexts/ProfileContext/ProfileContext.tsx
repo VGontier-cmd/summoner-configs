@@ -96,11 +96,15 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 
 	const validateProfile = (profile: CreateProfileDto | UpdateProfileDto) => {
 		if (!profile.name) {
-			throw new Error('The profile name cannot be empty...');
+			toast({
+				description: 'The profile name cannot be empty...',
+			});
 		}
 
 		if (profile.name.length > 20) {
-			throw new Error('The profile name length cannot exceed 20 characters...');
+			toast({
+				description: 'The profile name length cannot exceed 20 characters...',
+			});
 		}
 	};
 
