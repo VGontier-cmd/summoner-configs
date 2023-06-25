@@ -42,7 +42,7 @@ const ProfileForm = ({ profile }: FormProps) => {
 					isFav: false,
 				};
 
-				validateProfile(profileDto);
+				if (!validateProfile(profileDto)) return;
 
 				ipcRenderer.invoke('ipcmain-profile-create', profileDto).then((result) => {
 					const parsedResult = JSON.parse(result);
@@ -65,7 +65,7 @@ const ProfileForm = ({ profile }: FormProps) => {
 					name: name,
 				};
 
-				validateProfile(profileDto);
+				if (!validateProfile(profileDto)) return;
 
 				ipcRenderer.invoke('ipcmain-profile-update', profile.id, profileDto).then((result) => {
 					const parsedResult = JSON.parse(result);

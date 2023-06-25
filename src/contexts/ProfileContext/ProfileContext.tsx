@@ -94,18 +94,21 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 		});
 	};
 
-	const validateProfile = (profile: CreateProfileDto | UpdateProfileDto) => {
+	const validateProfile = (profile: CreateProfileDto | UpdateProfileDto): boolean => {
 		if (!profile.name) {
 			toast({
 				description: 'The profile name cannot be empty...',
 			});
+			return false;
 		}
 
 		if (profile.name.length > 20) {
 			toast({
 				description: 'The profile name length cannot exceed 20 characters...',
 			});
+			return false;
 		}
+		return true;
 	};
 
 	return (
