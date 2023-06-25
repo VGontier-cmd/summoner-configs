@@ -65,7 +65,6 @@ export const LeagueProvider: React.FC<LeagueProviderProps> = ({ children }) => {
 	const handleConfigPathRegister = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (!configPath) return;
 		ipcRenderer.invoke('ipcmain-config-path-register', configPath).then((result) => {
 			const parsedResult = JSON.parse(result);
 			if (parsedResult.success) {
