@@ -3,6 +3,8 @@ import { ipcRenderer } from 'electron';
 import { Profile } from 'electron/main/modules/profile-manager/profile.interface';
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 import { useLeagueContext } from '../LeagueContext/LeagueContext';
+import { CreateProfileDto } from 'electron/main/modules/profile-manager/dto/create-profile.dto';
+import { UpdateProfileDto } from 'electron/main/modules/profile-manager/dto/update-profile.dto';
 
 interface ProfileProviderProps {
 	children: ReactNode;
@@ -92,6 +94,16 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 		});
 	};
 
+	const validateProfile = (profile: CreateProfileDto | UpdateProfileDto) => {
+		if (!profile.name) {
+			throw new Error('The profile name cannot be empty...');
+		}
+
+		if (profile.name.length > 20) {
+			throw new Error('The profile name length cannot exceed 20 characters...');
+		}
+	};
+
 	return (
 		<ProfileContext.Provider
 			value={{
@@ -110,6 +122,7 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({ children }) =>
 				handleEditDialogOpenChange,
 				handleExportSelectedProfile,
 				handleOpenProfileInFileExplorer,
+				validateProfile,
 			}}
 		>
 			{children}

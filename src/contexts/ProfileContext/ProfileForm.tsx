@@ -20,7 +20,7 @@ interface FormProps {
 
 const ProfileForm = ({ profile }: FormProps) => {
 	const { toast } = useToast();
-	const { addProfile, updateProfile, setOpenNewProfile, setEditingProfileId } = useProfileContext();
+	const { addProfile, updateProfile, setOpenNewProfile, setEditingProfileId, validateProfile } = useProfileContext();
 
 	const nameRef = useRef<HTMLInputElement>(null);
 	const [name, setName] = useState(profile?.name || '');
@@ -35,20 +35,6 @@ const ProfileForm = ({ profile }: FormProps) => {
 		if (nameRef.current) {
 			const name = nameRef.current.value;
 
-			if (!name) {
-				toast({
-					description: 'The profile name cannot be empty...',
-				});
-				return;
-			}
-
-			if (name.length > 20) {
-				toast({
-					description: 'The profile name length cannot exceed 20 characters...',
-				});
-				return;
-			}
-
 			if (!profile) {
 				const profileDto: CreateProfileDto = {
 					name: name,
@@ -56,8 +42,11 @@ const ProfileForm = ({ profile }: FormProps) => {
 					isFav: false,
 				};
 
+				validateProfile(profileDto);
+
 				ipcRenderer.invoke('ipcmain-profile-create', profileDto).then((result) => {
 					const parsedResult = JSON.parse(result);
+					console.log(parsedResult);
 					if (parsedResult.success) {
 						addProfile(parsedResult.data);
 						toast({
@@ -75,6 +64,8 @@ const ProfileForm = ({ profile }: FormProps) => {
 					id: profile.id,
 					name: name,
 				};
+
+				validateProfile(profileDto);
 
 				ipcRenderer.invoke('ipcmain-profile-update', profile.id, profileDto).then((result) => {
 					const parsedResult = JSON.parse(result);
