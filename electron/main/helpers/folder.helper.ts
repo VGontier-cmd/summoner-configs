@@ -128,16 +128,18 @@ export class FolderHelper {
 	 */
 	validateLolConfigPath(): string {
 		const lolConfigPath = this.electronStoreHelper.get('lolConfigPath');
+		// Check if the param isn't null
 		if (lolConfigPath == null) {
 			throw new Error(`The default League of Legends installation path has not been set or the folder does not exist!`);
 		}
 
-		if (!this.ensureFolderExists(lolConfigPath)) {
-			throw new Error(`The folder given does not exist. Please check your League of Legends installation path.`);
+		if (!/^[a-zA-Z]:[\\\/](?:[a-zA-Z0-9]+[\\\/])*[a-zA-Z0-9]*$/.test(lolConfigPath)) {
+			throw new Error(`The config path seems to be wrong. Be sure that it includes the Config folder.`);
 		}
 
-		if (!['League of Legends', 'Config'].every((el) => lolConfigPath.includes(el))) {
-			throw new Error(`The config path seems to be wrong. Be sure that it includes the Config folder.`);
+		// Check if the folder exist
+		if (!this.ensureFolderExists(lolConfigPath)) {
+			throw new Error(`The folder given does not exist. Please check your League of Legends installation path.`);
 		}
 
 		return lolConfigPath;
