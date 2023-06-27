@@ -6,7 +6,7 @@ const ProfileNew = () => {
 		<>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Add Profile</DialogTitle>
+					<DialogTitle>Import Profile</DialogTitle>
 					<DialogDescription>Add a name to your new profile.</DialogDescription>
 				</DialogHeader>
 				<Form profile={null} />

@@ -9,7 +9,7 @@ function LeagueIndex() {
 
 	return (
 		<>
-			{isLeagueOfLegendsOpen ? (
+			{!isLeagueOfLegendsOpen ? (
 				<ProfileProvider>
 					<Home />
 				</ProfileProvider>
