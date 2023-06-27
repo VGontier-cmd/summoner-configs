@@ -202,7 +202,7 @@ export class ProfileManager {
 	 */
 	async exportToClient(profileId: UUID) {
 		const profileToExport = await this.get(profileId);
-		this.fileExplorerManager.exportProfileToClient(profileToExport);
+		await this.fileExplorerManager.exportProfileToClient(profileToExport);
 	}
 
 	/**
