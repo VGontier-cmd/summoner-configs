@@ -146,7 +146,7 @@ export class ProfileManager {
 				name: updateProfileDto.name,
 			});
 
-			validate(validateProfile, { enableDebugMessages: true })
+			validate(validateProfile)
 				.then(async (errors) => {
 					if (errors.length > 0) {
 						const errorMessage = this._buildValidationErrorMessage(errors);

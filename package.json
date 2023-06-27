@@ -29,7 +29,6 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.4",
     "@radix-ui/react-tooltip": "^1.0.6",
-    "@types/node": "^20.2.5",
     "cal-sans": "^1.0.1",
     "child_process": "^1.0.2",
     "class-transformer": "^0.5.1",
@@ -72,7 +71,7 @@
   "build": {
     "appId": "com.electron.summoners-config",
     "productName": "Summoners Config",
-    "artifactName" : "${productName}.${ext}",
+    "artifactName": "${productName}.${ext}",
     "directories": {
       "output": "release/${version}"
     },
