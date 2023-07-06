@@ -133,7 +133,7 @@ export class FolderHelper {
 			throw new Error(`The default League of Legends installation path has not been set or the folder does not exist!`);
 		}
 
-		if (!/^[a-zA-Z]:[\\\/](?:[a-zA-Z0-9]+[\\\/])*[a-zA-Z0-9]*$/.test(lolConfigPath)) {
+		if (!/^[a-zA-Z]:[\\\/](?:[\w\ ]+[\\\/])*[\w\ ]*$/.test(lolConfigPath)) {
 			throw new Error(`The config path seems to be wrong. Be sure that it includes the Config folder.`);
 		}
 

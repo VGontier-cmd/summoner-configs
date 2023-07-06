@@ -16,6 +16,7 @@
     "build": "pnpm i && tsc && vite build",
     "run-build": "electron dist-electron/main/index.js",
     "package": "pnpm i && electron-builder",
+    "publish": "pnpm i && electron-builder -p always",
     "preview": "pnpm i && vite preview",
     "pree2e": "pnpm i && vite build --mode=test"
   },
@@ -96,6 +97,13 @@
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
       "deleteAppDataOnUninstall": false
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "VGontier-cmd",
+        "repo": "summoner-configs"
+      }
+    ]
   }
 }
