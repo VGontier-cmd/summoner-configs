@@ -99,16 +99,6 @@ app.on('second-instance', () => {
 	}
 });
 
-// Darwin specific
-app.on('activate', () => {
-	const allWindows = BrowserWindow.getAllWindows();
-	if (allWindows.length) {
-		allWindows[0].focus();
-	} else {
-		createWindow();
-	}
-});
-
 // New window example arg: new windows url
 ipcMain.handle('open-win', (_, arg) => {
 	const childWindow = new BrowserWindow({
