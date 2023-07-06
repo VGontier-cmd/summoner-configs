@@ -1,6 +1,6 @@
 {
   "name": "summoners-config",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist-electron/main/index.js",
   "description": "Electron Vite React application",
   "author": "VGontier-cmd, TCarel-dev",
@@ -97,10 +97,12 @@
       "allowToChangeInstallationDirectory": true,
       "deleteAppDataOnUninstall": false
     },
-    "publish": [{
-      "provider": "github",
-      "owner": "VGontier-cmd",
-      "repo": "summoner-configs"
-    }]
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "VGontier-cmd",
+        "repo": "summoner-configs"
+      }
+    ]
   }
 }
