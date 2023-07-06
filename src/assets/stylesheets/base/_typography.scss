@@ -6,86 +6,110 @@
 | This file contains all basic typography style for copy text
 */
 
-// Beaufort for lol
+/* Poppins Regular */
 @font-face {
-  font-family: 'Beaufort Bold';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Bold.ttf) format('truetype');
+	font-family: 'Poppins Regular';
+	src: url(@/assets/fonts/Poppins/Poppins-Regular.ttf) format('truetype');
 }
 
+/* Poppins Thin */
 @font-face {
-  font-family: 'Beaufort Bold-Italic';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-BoldItalic.ttf) format('truetype');
+	font-family: 'Poppins Thin';
+	src: url(@/assets/fonts/Poppins/Poppins-Thin.ttf) format('truetype');
 }
 
+/* Poppins ExtraLight */
 @font-face {
-  font-family: 'Beaufort Heavy';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Heavy.ttf) format('truetype');
+	font-family: 'Poppins ExtraLight';
+	src: url(@/assets/fonts/Poppins/Poppins-ExtraLight.ttf) format('truetype');
 }
 
+/* Poppins Light */
 @font-face {
-  font-family: 'Beaufort Heavy-Italic';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-HeavyItalic.ttf) format('truetype');
+	font-family: 'Poppins Light';
+	src: url(@/assets/fonts/Poppins/Poppins-Light.ttf) format('truetype');
 }
 
+/* Poppins Medium */
 @font-face {
-  font-family: 'Beaufort Italic';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Italic.ttf) format('truetype');
+	font-family: 'Poppins Medium';
+	src: url(@/assets/fonts/Poppins/Poppins-Medium.ttf) format('truetype');
 }
 
+/* Poppins SemiBold */
 @font-face {
-  font-family: 'Beaufort Light';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Light.ttf) format('truetype');
+	font-family: 'Poppins SemiBold';
+	src: url(@/assets/fonts/Poppins/Poppins-SemiBold.ttf) format('truetype');
 }
 
+/* Poppins Bold */
 @font-face {
-  font-family: 'Beaufort light-Italic';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-LightItalic.ttf) format('truetype');
+	font-family: 'Poppins Bold';
+	src: url(@/assets/fonts/Poppins/Poppins-Bold.ttf) format('truetype');
 }
 
+/* Poppins ExtraBold */
 @font-face {
-  font-family: 'Beaufort Medium';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Medium.ttf) format('truetype');
+	font-family: 'Poppins ExtraBold';
+	src: url(@/assets/fonts/Poppins/Poppins-ExtraBold.ttf) format('truetype');
 }
 
+/* Poppins Black */
 @font-face {
-  font-family: 'Beaufort Medium-Italic';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-MediumItalic.ttf) format('truetype');
+	font-family: 'Poppins Black';
+	src: url(@/assets/fonts/Poppins/Poppins-Black.ttf) format('truetype');
 }
 
+/* Poppins Italic */
 @font-face {
-  font-family: 'Beaufort Regular';
-  src: url(@/assets/fonts/BeaufortForLoL-TTF/BeaufortforLOL-Regular.ttf) format('truetype');
+	font-family: 'Poppins Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-Italic.ttf) format('truetype');
 }
 
-// Spiegiel
+/* Poppins Thin Italic */
 @font-face {
-  font-family: 'Spiegel Bold';
-  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Bold.ttf) format('truetype');
+	font-family: 'Poppins Thin Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-ThinItalic.ttf) format('truetype');
 }
 
+/* Poppins ExtraLight Italic */
 @font-face {
-  font-family: 'Spiegel Bold-Italic';
-  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Bold_Italic.ttf) format('truetype');
+	font-family: 'Poppins ExtraLight Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf) format('truetype');
 }
 
+/* Poppins Light Italic */
 @font-face {
-  font-family: 'Spiegel Regular';
-  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Regular.ttf) format('truetype');
+	font-family: 'Poppins Light Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-LightItalic.ttf) format('truetype');
 }
 
+/* Poppins Medium Italic */
 @font-face {
-  font-family: 'Spiegel Regular-Italic';
-  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_Regular_Italic.ttf) format('truetype');
+	font-family: 'Poppins Medium Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-MediumItalic.ttf) format('truetype');
 }
 
+/* Poppins SemiBold Italic */
 @font-face {
-  font-family: 'Spiegel Semi-Bold';
-  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_SemiBold.ttf) format('truetype');
+	font-family: 'Poppins SemiBold Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf) format('truetype');
 }
 
+/* Poppins Bold Italic */
 @font-face {
-  font-family: 'Spiegel Semi-Bold-Italic';
-  src: url(@/assets/fonts/Spiegel-TTF/Spiegel_TT_SemiBold_Italic.ttf) format('truetype');
+	font-family: 'Poppins Bold Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-BoldItalic.ttf) format('truetype');
 }
 
+/* Poppins ExtraBold Italic */
+@font-face {
+	font-family: 'Poppins ExtraBold Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf) format('truetype');
+}
 
+/* Poppins Black Italic */
+@font-face {
+	font-family: 'Poppins Black Italic';
+	src: url(@/assets/fonts/Poppins/Poppins-BlackItalic.ttf) format('truetype');
+}

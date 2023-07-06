@@ -15,7 +15,7 @@ $yTransforms: -#{$loader-half-width}, 0, #{$loader-half-width}, 0;
 
 	.cube {
 		position: absolute;
-		background: hsl($gold-1);
+		background: #fff;
 		outline: 1px solid transparent;
 		@include square($loader-cube-width);
 

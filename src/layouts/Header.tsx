@@ -15,10 +15,10 @@ const Header = () => {
 
 	return (
 		<header className="frame-header">
-			<button onClick={handleMinimizeButtonClick} className="btn-minimize frame-action">
+			<button onClick={handleMinimizeButtonClick} className="btn-minimize text-primary-foreground frame-action">
 				<Icons.minus />
 			</button>
-			<button onClick={handleCloseButtonClick} className="btn-close frame-action">
+			<button onClick={handleCloseButtonClick} className="btn-close text-primary-foreground frame-action">
 				<Icons.close />
 			</button>
 		</header>

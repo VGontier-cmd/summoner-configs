@@ -90,7 +90,7 @@ const ProfileForm = ({ profile }: FormProps) => {
 			<form onSubmit={handleSubmit}>
 				<div className="grid gap-3 py-4">
 					<div className="flex flex-col gap-2">
-						<Label htmlFor="name" className="mb-1">
+						<Label htmlFor="name" className="text-primary-foreground mb-1">
 							Name
 						</Label>
 						<Input
@@ -104,7 +104,9 @@ const ProfileForm = ({ profile }: FormProps) => {
 					</div>
 				</div>
 				<DialogFooter>
-					<Button type="submit">Save</Button>
+					<Button type="submit" variant={'main'}>
+						Save
+					</Button>
 				</DialogFooter>
 			</form>
 		</>

@@ -27,7 +27,7 @@ $header-height: 1.6rem;
 */
 /// Regular font family
 /// @type List
-$text-font: "Cal Sans", sans-serif !default;
+$text-font: 'Cal Sans', sans-serif !default;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,19 +36,19 @@ $text-font: "Cal Sans", sans-serif !default;
 */
 /// Extra-small text size
 /// @type Length
-$text-xs: .7rem;
+$text-xs: 0.7rem;
 
 /// Small text size
 /// @type Length
-$text-sm: .75rem;
+$text-sm: 0.75rem;
 
 /// Medium text size
 /// @type Length
-$text-md: .8rem;
+$text-md: 0.8rem;
 
 /// Default text size
 /// @type Length
-$text-df: .9rem;
+$text-df: 0.9rem;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ $text-df: .9rem;
 */
 /// Primary color
 /// @type Color
-$primary-color: #614AD3;
+$primary-color: #614ad3;
 
 /// Secondary color
 /// @type Color

@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 
 import { Settings, Plus } from 'lucide-react';
 
-import backVideo from '@/assets/videos/background-video-d-01.mp4';
 import circleLOL from '@/assets/images/decorator-circle.png';
 
 import {
@@ -31,13 +30,12 @@ import {
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-import line from '@/assets/images/decorator-hr.png';
-
 import { useProfileContext } from '@/contexts/ProfileContext/ProfileContext';
 
 import ProfileNew from '@/contexts/ProfileContext/ProfileNew';
 import ProfileList from '@/contexts/ProfileContext/ProfileList';
 import { useLeagueContext } from '@/contexts/LeagueContext/LeagueContext';
+import { FadeTransition } from '@/transitions/AnimatedPage';
 
 const Home = () => {
 	const {
@@ -65,25 +63,17 @@ const Home = () => {
 	}, []);
 
 	return (
-		<>
-			<div className="background-video">
-				<video src={backVideo} autoPlay loop playsInline></video>
-			</div>
-
+		<FadeTransition>
 			<div className="h-screen flex flex-col">
 				<div>
-					<div className="header sticky top-0 bg-glass shadow-md pt-6 pb-5 px-4 z-[1]">
+					<div className="header sticky top-0 pt-6 pb-5 px-4 z-[1]">
 						<div className="flex items-center justify-between gap-2">
-							<h1 className="main-title mb-2">
-								Manage
-								<br />
-								your profiles !
-							</h1>
+							<h1 className="main-title mb-2">Manage your profiles !</h1>
 							<Dialog open={openSettings} onOpenChange={setOpenSettings}>
 								<DialogTrigger asChild>
-									<button className="settings-btn lol-btn rounded-circle">
+									<Button variant={'icon'}>
 										<Settings className="h-4 w-4" />
-									</button>
+									</Button>
 								</DialogTrigger>
 								<DialogContent className="sm:max-w-[425px]">
 									<DialogHeader>
@@ -93,7 +83,9 @@ const Home = () => {
 									<form onSubmit={handleConfigPathRegister}>
 										<div className="grid gap-4 py-4">
 											<div className="flex flex-col gap-2">
-												<Label htmlFor="name">Path</Label>
+												<Label htmlFor="name" className="text-primary-foreground">
+													Path
+												</Label>
 												<Input
 													className="col-span-3"
 													value={configPath || ''}
@@ -103,21 +95,23 @@ const Home = () => {
 											</div>
 										</div>
 										<DialogFooter>
-											<Button type="submit">Save</Button>
+											<Button type="submit" variant={'main'}>
+												Save
+											</Button>
 										</DialogFooter>
 									</form>
 								</DialogContent>
 							</Dialog>
 						</div>
-						<p className="text text-md mb-6">Add a new profile config to your account.</p>
+						<p className="text-light text-md mb-6">Add a new profile config to your account.</p>
 						<div className="flex items-end justify-between gap-3">
-							<span className="text-sm text-light leading-[1]">
+							<span className="text-sm text-primary-foreground leading-[1]">
 								{profiles.length} profile{profiles.length > 1 && 's'}
 							</span>
 							<div className="flex justify-end gap-3">
 								<Dialog open={openNewProfile} onOpenChange={setOpenNewProfile}>
 									<DialogTrigger asChild>
-										<button className="main-btn lol-btn gold-gradient-border py-2 px-5 flex items-center gap-3 text-light uppercase">
+										<button className="main-btn text-sm rounded-[8px] py-2 px-5 flex items-center gap-3">
 											<Plus className="h-4 w-4" />
 											Import profile
 										</button>
@@ -126,7 +120,6 @@ const Home = () => {
 								</Dialog>
 							</div>
 						</div>
-						<img src={line} className="absolute left-0 bottom-0 w-full transform translate-y-[100%] px-1" />
 					</div>
 
 					<ProfileList selectedProfileId={selectedProfileId} handleProfileClick={handleProfileClick} />
@@ -137,7 +130,11 @@ const Home = () => {
 				<div className="export-btn lol-btn rounded-circle">
 					<img src={circleLOL} />
 					<AlertDialogTrigger asChild>
-						<button type="button" className="rounded-circle ctm-shadow" disabled={selectedProfileId === null}>
+						<button
+							type="button"
+							className="text-sm text-primary-foreground rounded-circle ctm-shadow"
+							disabled={selectedProfileId === null}
+						>
 							<span>Export profile</span>
 						</button>
 					</AlertDialogTrigger>
@@ -156,7 +153,7 @@ const Home = () => {
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
-		</>
+		</FadeTransition>
 	);
 };
 
