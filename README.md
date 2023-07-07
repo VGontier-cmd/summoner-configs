@@ -7,8 +7,8 @@
 
 ![Version](https://img.shields.io/github/package-json/v/VGontier-cmd/summoner-configs)
 
-![Downloads](https://img.shields.io/github/downloads/VGontier-cmd/summoner-configs/total
-)
+![Version](https://img.shields.io/badge/Available%20on-Windows-blue)
+
 ## **Description**
 This is an Electron application that provides the League of Legends player the ability to manage the configs of different League accounts and switch between them easily. It is built using an Electron, Vite, React, and Sass boilerplate, all in Typescript.
 
