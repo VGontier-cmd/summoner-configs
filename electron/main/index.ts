@@ -53,6 +53,7 @@ async function createWindow() {
 			// Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
 			nodeIntegration: true,
 			contextIsolation: false,
+			devTools: process.env.NODE_ENV === 'development' ? true : false,
 		},
 	});
 
@@ -62,8 +63,6 @@ async function createWindow() {
 	if (url) {
 		// electron-vite-vue#298
 		win.loadURL(url);
-		// Open devTool if the app is not packaged
-		win.webContents.openDevTools();
 	} else {
 		win.loadFile(indexHtml);
 	}
