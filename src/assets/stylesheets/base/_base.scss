@@ -1,0 +1,30 @@
+/*
+|--------------------------------------------------------------------------
+| base.scss
+|--------------------------------------------------------------------------
+|
+| This file contains very basic styles.
+*/
+
+#root {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+/**
+ * Disable highlighting/selecting across the application
+ * see https://github.com/electron/electron/issues/2538
+ */
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+	-webkit-user-select: none;
+	user-select: none;
+}
+input,
+button,
+textarea,
+:focus {
+	outline: none; // You should add some other style for :focus to help UX/a11y
+}

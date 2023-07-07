@@ -1,0 +1,89 @@
+/*
+|--------------------------------------------------------------------------
+| variables.scss
+|--------------------------------------------------------------------------
+|
+| This file contains all application-wide Sass variables.
+*/
+
+@import 'cal-sans';
+
+/// Background opacity
+/// @type Number
+$bg-opacity: 1;
+
+/// Frame radius
+/// @type Length
+$frame-radius: 1rem;
+
+/// Frame header size
+/// @type Length
+$header-height: 1.6rem;
+
+/*
+|--------------------------------------------------------------------------
+| Font Family
+|--------------------------------------------------------------------------
+*/
+/// Regular font family
+/// @type List
+$text-font: 'Cal Sans', sans-serif !default;
+
+/*
+|--------------------------------------------------------------------------
+| Typography 
+|--------------------------------------------------------------------------
+*/
+/// Extra-small text size
+/// @type Length
+$text-xs: 0.7rem;
+
+/// Small text size
+/// @type Length
+$text-sm: 0.75rem;
+
+/// Medium text size
+/// @type Length
+$text-md: 0.8rem;
+
+/// Default text size
+/// @type Length
+$text-df: 0.9rem;
+
+/*
+|--------------------------------------------------------------------------
+| Colors
+|--------------------------------------------------------------------------
+*/
+/// Primary color
+/// @type Color
+$primary-color: #614ad3;
+
+/// Secondary color
+/// @type Color
+$secondary-color: rgba(126, 231, 238, $bg-opacity);
+
+/// Dark color
+/// @type Color
+$dark-color: #292929;
+
+/// Pink color
+/// @type Color
+$pink-color: rgba(224, 188, 243, $bg-opacity);
+
+/// Background gradient color
+/// @type Color
+$bg-color: linear-gradient(90deg, #{$secondary-color} 0%, #{$pink-color} 100%);
+
+/// Font color
+/// @type Color
+$ft-color: rgba(255, 255, 255, 0.87);
+
+/*
+|--------------------------------------------------------------------------
+| Layouts
+|--------------------------------------------------------------------------
+*/
+/// Horizontal page spacing
+/// @type Length
+$page-space-x: 6vw;

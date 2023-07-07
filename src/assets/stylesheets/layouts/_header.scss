@@ -1,0 +1,41 @@
+.frame-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: $header-height;
+
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	z-index: 49;
+
+	-webkit-app-region: drag;
+}
+
+.frame-action {
+	height: 100%;
+	background: transparent;
+	padding-inline: 0.4rem;
+	border: none;
+	transition: all 0.2s ease-in-out;
+	-webkit-app-region: no-drag;
+
+	svg {
+		display: block;
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+}
+
+.btn-close {
+	&:hover {
+		background-color: hsl($red-1);
+	}
+}
+
+.btn-minimize {
+	&:hover {
+		background-color: hsl($grey-2);
+	}
+}

@@ -1,0 +1,40 @@
+/*
+|--------------------------------------------------------------------------
+| index.scss
+|--------------------------------------------------------------------------
+|
+| Style principal de l'application
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Configuration and helpers
+@import
+  'helpers/variables',
+  'helpers/functions',
+  'helpers/mixins';
+
+// Base stuff
+@import
+  'base/colors',
+  'base/layers',
+  'base/base',
+  'base/typography';
+
+// Components
+@import
+  'components/button',
+  'components/loader',
+  'components/settings';
+
+// Layouts
+@import
+  'layouts/layout',
+  'layouts/header';
+
+// Pages
+@import
+  'pages/home',
+  'pages/starter';

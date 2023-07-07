@@ -1,0 +1,51 @@
+.setting-item,
+.setting-item--add {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: #292929;
+  text-align: center;
+}
+
+.setting-item {
+  &__favorite,
+  &__actions {
+    position: absolute;
+    top: 0.5rem;
+  }
+
+  &__favorite {
+    left: 0.5rem;
+
+    .star-fill-icon {
+      fill: $primary-color;
+    }
+  }
+
+  &__actions {
+    right: 0.5rem;
+  }
+
+  &__logo {
+    @include square(2.5rem);
+    border-radius: 100vmax;
+    margin-inline: auto;
+    margin-bottom: 0.5rem;
+    background-color: $primary-color;
+  }
+
+  &__title {
+    font-size: 0.85rem;
+    font-weight: bold;
+  }
+}
+
+.setting-item--add {
+  align-items: center;
+  svg {
+    @include square(2rem);
+  }
+}
