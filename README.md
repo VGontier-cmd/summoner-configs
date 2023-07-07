@@ -1,5 +1,5 @@
 <a href="https://github.com/VGontier-cmd/">
-    <img src="https://github.com/VGontier-cmd/summoner-configs/tree/main/public/logo_zoomed.png" alt="Summoner's Config logo" title="Summoner's Config" align="right" height="60" />
+    <img src="/public/logo_zoomed.png" alt="Summoner's Config logo" title="Summoner's Config" align="right" height="60" />
 </a>
 
 # **Summoners Config**
@@ -20,19 +20,21 @@ This is an Electron application that provides the League of Legends player the a
 ## **How to use**
 1️⃣ - Launch the League of Legends Client and the Summoner's Configs Application
 
-2️⃣ - Import the configs of your accounts by clicking on the import button of our app and choosing a profile name
+2️⃣ - Setup your Lol config path into the app using the gear button 
 
-3️⃣ - Repeat the import for each of your League accounts
+3️⃣ - Import the configs of your accounts by clicking on the import button of our app and choosing a profile name
 
-4️⃣ - Now that you have all your configs profiles, you can switch between them easily by exporting them.
+4️⃣ - Repeat the import for each of your League accounts
+
+5️⃣ - Now that you have all your configs profiles, you can switch between them easily by exporting them.
 
 **Caution**: each time you're importing a profile into the League Client, you'll need to start a game to take them into account (it can be a custom game or anything else).
 
 
 ## **Preview**
 
-![Img1](https://github.com/VGontier-cmd/summoner-configs/tree/main/readme/home.png)&nbsp;&nbsp;&nbsp;
-![Img2](https://github.com/VGontier-cmd/summoner-configs/tree/main/readme/profile%20actions.png)
+![Img1](/readme/home.png)&nbsp;&nbsp;&nbsp;
+![Img2](/readme/profile%20actions.png)
 ## **Releases**
 
 🖥️ Windows:
