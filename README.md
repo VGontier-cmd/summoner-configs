@@ -80,7 +80,7 @@ Go to the GitHub repository you want to contribute to and click on the "Fork" bu
 On your forked repository, click the "Code" button and copy the URL. Open your terminal and run the following command
 
 ```
-git clone summonner-configs
+git clone summoner-configs
 ```
 
 ### Create a new branch
