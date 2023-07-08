@@ -1,8 +1,8 @@
 <a href="https://github.com/VGontier-cmd/">
-    <img src="/public/logo_zoomed.png" alt="Summoner's Config logo" title="Summoner's Config" align="right" height="60" />
+    <img src="/public/logo_zoomed.png" alt="Summoner's Configs logo" title="Summoner's Configs" align="right" height="60" />
 </a>
 
-# **Summoners Config**
+# **Summoner's Configs**
 ⭐ Star us on GitHub if you find the app useful.
 
 ![Version](https://img.shields.io/github/package-json/v/VGontier-cmd/summoner-configs)
@@ -10,25 +10,25 @@
 ![Version](https://img.shields.io/badge/Available%20on-Windows-blue)
 
 ## **Description**
-This is an Electron application that provides the League of Legends player the ability to manage the configs of different League accounts and switch between them easily. It is built using an Electron, Vite, React, and Sass boilerplate, all in Typescript.
+This application enables League of Legends players to manage the configurations of different League accounts and switch between them easily. It is built using an Electron, Vite, React, and Sass boilerplate, all in Typescript.
 
 ## **Features**
-- Manage your different accounts configs
+- Manage your different accounts configurations
 - Import and export them easily
 
 
 ## **How to use**
-1️⃣ - Launch the League of Legends Client and the Summoner's Configs Application
+1️⃣ - Launch the League of Legends client and Summoner's Configs application.
 
-2️⃣ - Setup your Lol config path into the app using the gear button 
+2️⃣ - Configure your Lol configuration path in the application using the "gear" button. 
 
-3️⃣ - Import the configs of your accounts by clicking on the import button of our app and choosing a profile name
+3️⃣ - Import your account configurations by clicking on the import button in our application and choosing a profile name.
 
-4️⃣ - Repeat the import for each of your League accounts
+4️⃣ - Repeat the import for each of your league accounts.
 
-5️⃣ - Now that you have all your configs profiles, you can switch between them easily by exporting them.
+5️⃣ - Now that you have all your configurations, you can easily switch from one to another by exporting them.
 
-**Caution**: each time you're importing a profile into the League Client, you'll need to start a game to take them into account (it can be a custom game or anything else).
+**Please note that each time you import a profile into the League Client, you need to start a game to take it into account (this can be a custom game or anything else).
 
 
 ## **Preview**
@@ -71,7 +71,6 @@ pnpm run dev
 
 ## **Contributing**
 We welcome contributions from the community. To contribute to this project, please follow these steps:
-
 
 ### Fork the repository
 Go to the GitHub repository you want to contribute to and click on the "Fork" button at the top right corner of the page. This will create a copy of the repository under your GitHub account.
