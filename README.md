@@ -18,17 +18,17 @@ This application enables League of Legends players to manage the configurations 
 
 
 ## **How to use**
-1️⃣ - Launch the League of Legends client and Summoner's Configs application.
+1️ - Launch the League of Legends client and Summoner's Configs application.
 
-2️⃣ - Configure your Lol configuration path in the application using the "gear" button. 
+2️ - Configure your Lol configuration path in the application using the "gear" button. 
 
-3️⃣ - Import your account configurations by clicking on the import button in our application and choosing a profile name.
+3️ - Import your account configurations by clicking on the import button in our application and choosing a profile name.
 
-4️⃣ - Repeat the import for each of your league accounts.
+4️ - Repeat the import for each of your league accounts.
 
-5️⃣ - Now that you have all your configurations, you can easily switch from one to another by exporting them.
+5️ - Now that you have all your configurations, you can easily switch from one to another by exporting them.
 
-**Please note that each time you import a profile into the League Client, you need to start a game to take it into account (this can be a custom game or anything else).
+**Please note that each time you import a profile into the League Client, you need to start a game to take it into account (this can be a custom game or anything else).**
 
 
 ## **Preview**
@@ -129,8 +129,10 @@ Authors:
 - [VGontier-cmd](https://github.com/VGontier-cmd)
 - [TCarel-dev](https://github.com/TCarel-dev)
 
-
 ## **Feedback and Support**
 If you have any questions, or suggestions, or encounter any issues, please open an issue on GitHub or contact us directly.
 
 Thank you for using our application! We hope you find it useful.
+
+## **Disclaimer**
+This project isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
